@@ -1,0 +1,63 @@
+import QtQuick
+import Quickshell
+import Quickshell.Io
+import Quickshell.Hyprland
+import qs.core
+import qs.integrations.hyprland
+
+// Keyboard entry points. Every action opens on the focused monitor.
+//
+// Hyprland global shortcuts (bind them in your Hyprland config):
+//   hyprland.conf:  bind = SUPER, C, global, mellow:controlCenter
+//   hyprland.lua:   hl.bind("SUPER + C", hl.dsp.global("mellow:controlCenter"))
+//
+// IPC (scripts, other tools):
+//   qs -c mellow ipc call mellow toggleControlCenter
+Scope {
+    id: root
+
+    function focusedMonitorName() {
+        return HyprlandService.focusedMonitor?.name ?? Quickshell.screens[0]?.name ?? "";
+    }
+
+    GlobalShortcut {
+        appid: "mellow"
+        name: "controlCenter"
+        description: "Toggle the Control Center"
+        onPressed: ShellState.toggleControlCenter(root.focusedMonitorName())
+    }
+
+    GlobalShortcut {
+        appid: "mellow"
+        name: "dock"
+        description: "Open the Dock with keyboard focus"
+        onPressed: ShellState.toggleDock(root.focusedMonitorName())
+    }
+
+    GlobalShortcut {
+        appid: "mellow"
+        name: "closeAll"
+        description: "Close all MELLOW popups"
+        onPressed: ShellState.closeAll()
+    }
+
+    IpcHandler {
+        target: "mellow"
+
+        function toggleControlCenter(): void {
+            ShellState.toggleControlCenter(root.focusedMonitorName());
+        }
+
+        function toggleDock(): void {
+            ShellState.toggleDock(root.focusedMonitorName());
+        }
+
+        function closeAll(): void {
+            ShellState.closeAll();
+        }
+
+        function focusWorkspace(id: int): void {
+            HyprlandService.focusWorkspace(id);
+        }
+    }
+}

@@ -1,15 +1,26 @@
 import QtQuick
 import Quickshell
 import Quickshell.Wayland
+import Quickshell.Hyprland
 import qs.core
 import qs.components
 
 // Left-edge Dock. Hidden, it only accepts input on a thin strip along the
 // screen edge; pointing at that strip slides the pinned apps in.
+// The `mellow:dock` shortcut opens it with keyboard focus: Up/Down/Tab move,
+// Enter/Space launch, Escape or a click elsewhere closes it.
 PanelWindow {
     id: root
 
-    readonly property bool shown: !Config.dock.autoHide || zone.containsMouse || hideTimer.running
+    readonly property bool keyboardOpen: ShellState.dockMonitor === screen?.name
+    readonly property bool shown: !Config.dock.autoHide || keyboardOpen || zone.containsMouse || hideTimer.running
+
+    function closeKeyboard() {
+        if (keyboardOpen)
+            ShellState.dockMonitor = "";
+    }
+
+    onKeyboardOpenChanged: if (keyboardOpen) Qt.callLater(() => column.children[0]?.forceActiveFocus())
 
     // Re-evaluated when the desktop entry database (re)loads.
     readonly property var apps: {
@@ -31,7 +42,13 @@ PanelWindow {
 
     WlrLayershell.namespace: "mellow:dock"
     WlrLayershell.layer: WlrLayer.Top
-    WlrLayershell.keyboardFocus: WlrKeyboardFocus.None
+    WlrLayershell.keyboardFocus: keyboardOpen ? WlrKeyboardFocus.OnDemand : WlrKeyboardFocus.None
+
+    HyprlandFocusGrab {
+        active: root.keyboardOpen
+        windows: [root]
+        onCleared: root.closeKeyboard()
+    }
 
     // The input region is exactly the hover zone. It grows from the edge strip
     // to the whole dock column, so the pointer stays inside it when the dock
@@ -51,6 +68,7 @@ PanelWindow {
         width: root.shown ? root.width : Config.dock.triggerWidth
         height: parent.height
         hoverEnabled: true
+        Keys.onEscapePressed: root.closeKeyboard()
         onContainsMouseChanged: if (!containsMouse && Config.dock.autoHide) hideTimer.restart()
 
         Surface {
@@ -83,7 +101,10 @@ PanelWindow {
                     model: root.apps
 
                     delegate: DockItem {
-                        onLaunched: hideTimer.stop()
+                        onLaunched: {
+                            hideTimer.stop();
+                            root.closeKeyboard();
+                        }
                     }
                 }
             }

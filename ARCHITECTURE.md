@@ -76,6 +76,18 @@ mellow-shell/
 ```
 Modules import each other as `qs.<dir>` (Quickshell resolves these from the shell root).
 
+### Hyprland integration and entry points (M1)
+- `HyprlandService` exposes monitors, workspaces, windows and the active window, all
+  driven by Quickshell's Hyprland event socket (no polling, no `hyprctl`). Actions
+  (`focusWorkspace`, `cycle`, `focusWindow`, `closeWindow`) validate their arguments and
+  dispatch in Lua syntax when `Hyprland.usingLua` is set, classic syntax otherwise.
+  Outside Hyprland every list is empty and actions are no-ops.
+- `core/ShellState` holds cross-surface UI state (which monitor shows the Control Center
+  or keyboard-opened Dock). Pointer, shortcut and IPC paths all go through it.
+- `modules/Shortcuts.qml` registers Hyprland global shortcuts (`mellow:controlCenter`,
+  `mellow:dock`, `mellow:closeAll`) and the IPC target `mellow`
+  (`toggleControlCenter`, `toggleDock`, `closeAll`, `focusWorkspace <id>`).
+
 ### Surfaces (M0)
 | Surface | Layer | Keyboard | Input region | Exclusive zone |
 |---|---|---|---|---|

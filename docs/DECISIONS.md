@@ -18,7 +18,7 @@
 
 ## Panel
 - Full-width top panel.
-- Left (top-left corner): workspace indicator. Revisit if it does not look right.
+- Left (top-left corner): workspace indicator, then the active window's icon and title. Revisit if it does not look right.
 - Center: MELLOW Island.
 - Right: Pixel-inspired Quick Settings / Control Center.
 

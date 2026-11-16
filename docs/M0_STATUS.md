@@ -28,7 +28,8 @@
 - Reserved space becomes `[6, top, 6, 6]` (frame + panel) and returns to ii's values after stopping.
 - Panel zones, workspace strip (per-monitor, focused vs. unfocused styling), Island,
   Control Center popup and frame all render (screenshots taken).
-- The frame received no pointer hover when the cursor was warped onto it (empty input region).
+- (Correction: cursor warps via `hyprctl` deliver no hover events at all, so the earlier
+  "frame received no hover" check proved nothing. Frame click-through relies on the test machine.)
 - `install.sh --dry-run` against temporary XDG directories.
 
 ## Unverified (needs the test machine — see docs/RUNNING.md checklist)

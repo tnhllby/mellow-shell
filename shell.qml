@@ -3,10 +3,13 @@ import Quickshell
 import qs.modules.TopBar
 import qs.modules.Dock
 import qs.modules.Frame
+import qs.modules
 
 // MELLOW entry point: one set of surfaces per connected screen. Variants
 // creates and destroys them as monitors are plugged in or removed.
 ShellRoot {
+    Shortcuts {}
+
     Variants {
         model: Quickshell.screens
 

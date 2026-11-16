@@ -42,6 +42,20 @@ exec-once = qs -c mellow
 hl.on("hyprland.start", function() hl.exec_cmd("qs -c mellow") end)
 ```
 
+## Keybindings (optional, added by you)
+MELLOW registers Hyprland global shortcuts; bind keys to them in your config:
+```
+# hyprland.conf
+bind = SUPER, C, global, mellow:controlCenter
+bind = SUPER, D, global, mellow:dock
+bind = , Escape, global, mellow:closeAll     # optional; Escape already closes focused popups
+-- hyprland.lua
+hl.bind("SUPER + C", hl.dsp.global("mellow:controlCenter"))
+hl.bind("SUPER + D", hl.dsp.global("mellow:dock"))
+```
+`hyprctl globalshortcuts | grep mellow` lists them. The same actions are available over IPC:
+`qs -c mellow ipc call mellow toggleControlCenter` (`qs -c mellow ipc show` lists all).
+
 ## Rollback
 1. `qs kill -c mellow`. All MELLOW surfaces and reserved space disappear immediately.
 2. `./uninstall.sh` removes the config symlink and (after asking) the fonts.
@@ -65,3 +79,12 @@ Run `qs -p ~/mellow-shell` in a terminal and watch for `WARN`/`ERROR` lines.
 - [ ] Typing in a window is never interrupted while the popup is closed.
 - [ ] Plug/unplug a monitor: surfaces appear/disappear without errors.
 - [ ] `qs kill -c mellow` stops cleanly and reserved space returns to zero (`hyprctl monitors`).
+
+## M1 test checklist (test machine)
+- [ ] With the binds above: SUPER+C toggles the Control Center on the focused monitor; Escape closes it.
+- [ ] SUPER+D opens the Dock with the first app focused; Up/Down/Tab move the focus ring, Enter launches and closes the Dock, Escape or a click elsewhere closes it.
+- [ ] `qs -c mellow ipc call mellow focusWorkspace 7` switches to (and creates) workspace 7.
+- [ ] Clicking a workspace pill and scrolling over the strip switch workspaces (classic `hyprland.conf` dispatch path).
+- [ ] The active window's icon and title follow focus, appear only on that window's monitor, and elide on narrow screens.
+- [ ] Opening/closing/moving windows and workspaces updates the strip immediately (no delay, no polling).
+- [ ] `hyprctl reload` and monitor hot-plug leave MELLOW working with no errors in the log.

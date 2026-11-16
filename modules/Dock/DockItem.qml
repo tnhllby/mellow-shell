@@ -25,7 +25,10 @@ Rectangle {
     Accessible.role: Accessible.Button
     Accessible.name: modelData.name
     Keys.onReturnPressed: launch()
+    Keys.onEnterPressed: launch()
     Keys.onSpacePressed: launch()
+    Keys.onUpPressed: nextItemInFocusChain(false).forceActiveFocus()
+    Keys.onDownPressed: nextItemInFocusChain(true).forceActiveFocus()
 
     StateLayer {
         hovered: mouse.containsMouse

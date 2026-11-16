@@ -9,8 +9,7 @@ import qs.integrations.hyprland
 Surface {
     id: root
 
-    required property var screen
-    readonly property var monitor: HyprlandService.monitorFor(screen)
+    required property var monitor
     readonly property var model: HyprlandService.workspacesOn(monitor)
 
     implicitWidth: row.implicitWidth + 2 * Theme.spacing.x1
