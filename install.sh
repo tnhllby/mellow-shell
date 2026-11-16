@@ -96,12 +96,16 @@ preflight() {
 
 install_deps() {
     info "Dependencies"
-    if command -v qs >/dev/null; then
-        info "Quickshell already installed: $(qs --version 2>/dev/null | head -n1)"
+    # matugen generates wallpaper colour schemes in Wallpaper Studio (optional).
+    local missing=()
+    command -v qs >/dev/null || missing+=(quickshell)
+    command -v matugen >/dev/null || missing+=(matugen)
+    if [ ${#missing[@]} -eq 0 ]; then
+        info "Quickshell and matugen already installed"
         return
     fi
-    confirm "Install the 'quickshell' package with sudo pacman?" || { warn "skipped Quickshell"; return; }
-    run sudo pacman -S --needed quickshell
+    confirm "Install ${missing[*]} with sudo pacman?" || { warn "skipped ${missing[*]}"; return; }
+    run sudo pacman -S --needed "${missing[@]}"
 }
 
 install_fonts() {

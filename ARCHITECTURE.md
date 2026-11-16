@@ -99,6 +99,20 @@ Modules import each other as `qs.<dir>` (Quickshell resolves these from the shel
   temperature from the best hwmon sensor (found once at startup). Samples every 3 s
   only while ambient mode is visible; missing sources yield null and are hidden.
 
+### Control Center and theming (M3)
+- `AudioService` (PipeWire default sink/source), `NetworkService` (Quickshell.Networking,
+  NetworkManager backend; scans only while the Wi-Fi page is open), `BluetoothService`
+  (paired devices), `PowerService` (UPower battery, power-profiles-daemon detected via
+  busctl), `BrightnessService` (sysfs read, logind `Session.SetBrightness` write,
+  throttled). Every control is hidden when its source is unavailable.
+- `ThemeState` persists mode and an optional generated scheme (`theme.json`);
+  `Theme.color` is a `ThemeColors` object bound to it, falling back per role to the
+  built-in `ColorScheme`.
+- `WallpaperService` stores wallpapers per monitor plus one revert snapshot
+  (`wallpaper.json`) and runs matugen (`--dry-run --json hex`, empty config, never the
+  user's templates) in a queued Process with a session cache. `ColorUtil.check` reports
+  WCAG contrast for the text role pairs.
+
 ### Surfaces (M0)
 | Surface | Layer | Keyboard | Input region | Exclusive zone |
 |---|---|---|---|---|
@@ -109,6 +123,8 @@ Modules import each other as `qs.<dir>` (Quickshell resolves these from the shel
 | `mellow:dock-edge` | Top | None | fixed edge strip (never changes) | ignored |
 | `mellow:dock` | Top | None (OnDemand when keyboard-opened) | empty while hidden; right of the strip while shown | ignored (auto-hide) / auto (pinned) |
 | Control Center popup | popup of panel | via HyprlandFocusGrab while open | whole card | — |
+| `mellow:wallpaper` | Background | None | whole screen | ignored (only when a wallpaper is set) |
+| `mellow:studio` | Top | OnDemand + HyprlandFocusGrab while open | whole screen (backdrop closes) | ignored |
 
 ## 3. Boundaries
 

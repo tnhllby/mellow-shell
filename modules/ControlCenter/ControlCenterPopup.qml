@@ -3,16 +3,19 @@ import Quickshell
 import Quickshell.Hyprland
 import qs.core
 import qs.components
+import qs.services
 
-// M0 Control Center surface: opens from the panel trigger and closes on
-// Escape, on the trigger, or on a click outside. Real quick settings land in
-// M3; until then it says so instead of showing toggles that do nothing.
+// Control Center: Pixel-inspired quick settings that open from the panel.
+// Closes on Escape (from the main page), the trigger, or a click outside.
+// Only controls backed by an available service are shown.
 PopupWindow {
     id: root
 
     required property var panel
     required property Item anchorItem
     property bool open: false
+    // "main" | "wifi" | "bluetooth"
+    property string page: "main"
     signal dismissed
 
     anchor.window: panel
@@ -22,9 +25,20 @@ PopupWindow {
     anchor.margins.top: Theme.spacing.x2
 
     visible: open
-    implicitWidth: 320
-    implicitHeight: card.implicitHeight
+    implicitWidth: 400
+    implicitHeight: card.height
     color: "transparent"
+
+    onOpenChanged: {
+        page = "main";
+        if (open) {
+            BrightnessService.refresh();
+            // Keyboard opens focus the first control (with its ring); pointer
+            // opens only focus the popup, so Tab starts the ring.
+            Qt.callLater(() => ShellState.controlCenterFromKeyboard ? mainPage.focusFirst() : content.forceActiveFocus());
+        }
+    }
+    onPageChanged: NetworkService.setScanning(open && page === "wifi")
 
     // Keeps keyboard focus in the popup and dismisses it on outside clicks.
     // The panel is included so its trigger can toggle the popup closed.
@@ -36,34 +50,58 @@ PopupWindow {
 
     Surface {
         id: card
-        anchors.fill: parent
-        implicitHeight: column.implicitHeight + 2 * Theme.spacing.x5
+
+        width: parent.width
+        height: content.implicitHeight + 2 * Theme.spacing.x4
         radius: Theme.shape.xl
         topRightRadius: Theme.shape.md
         color: Theme.color.surfaceContainer
         border.width: 1
         border.color: Theme.color.outlineVariant
 
-        focus: true
-        Keys.onEscapePressed: root.dismissed()
+        Behavior on height {
+            NumberAnimation {
+                duration: Motion.card
+                easing.type: Easing.BezierSpline
+                easing.bezierCurve: Motion.standard
+            }
+        }
 
-        Column {
-            id: column
+        FocusScope {
+            id: content
+
             anchors.fill: parent
-            anchors.margins: Theme.spacing.x5
-            spacing: Theme.spacing.x2
+            anchors.margins: Theme.spacing.x4
+            implicitHeight: (root.page === "wifi" ? wifiPage : root.page === "bluetooth" ? btPage : mainPage).implicitHeight
+            focus: true
 
-            MText {
-                role: Typography.titleLarge
-                text: "Control Center"
+            Keys.onEscapePressed: {
+                if (root.page === "main")
+                    root.dismissed();
+                else
+                    root.page = "main";
             }
 
-            MText {
+            MainPage {
+                id: mainPage
                 width: parent.width
-                role: Typography.bodyMedium
-                color: Theme.color.contentSurfaceVariant
-                wrapMode: Text.WordWrap
-                text: "Quick settings for network, audio, Bluetooth and power arrive in milestone M3."
+                visible: root.page === "main"
+                monitorName: root.panel.screen?.name ?? ""
+                onPageRequested: name => root.page = name
+            }
+
+            WifiPage {
+                id: wifiPage
+                width: parent.width
+                visible: root.page === "wifi"
+                onBack: root.page = "main"
+            }
+
+            BluetoothPage {
+                id: btPage
+                width: parent.width
+                visible: root.page === "bluetooth"
+                onBack: root.page = "main"
             }
         }
     }

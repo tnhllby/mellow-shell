@@ -6,8 +6,11 @@ import qs.core
 // Central provider of semantic design tokens. Components read colours,
 // shapes and spacing from here and never hardcode them.
 Singleton {
-    readonly property bool dark: Config.theme.mode !== "light"
-    readonly property QtObject color: dark ? ColorScheme.dark : ColorScheme.light
+    readonly property bool dark: ThemeState.dark
+    readonly property ThemeColors color: ThemeColors {
+        roles: ThemeState.roles
+        fallback: ThemeState.fallbackRoles
+    }
 
     // The continuous chrome shared by the panel and the workspace frame.
     readonly property color chrome: color.surfaceContainer

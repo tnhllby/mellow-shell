@@ -25,7 +25,7 @@ Scope {
         appid: "mellow"
         name: "controlCenter"
         description: "Toggle the Control Center"
-        onPressed: ShellState.toggleControlCenter(root.focusedMonitorName())
+        onPressed: ShellState.toggleControlCenter(root.focusedMonitorName(), true)
     }
 
     GlobalShortcut {
@@ -65,6 +65,13 @@ Scope {
 
     GlobalShortcut {
         appid: "mellow"
+        name: "studio"
+        description: "Open Wallpaper Studio"
+        onPressed: ShellState.openStudio(root.focusedMonitorName())
+    }
+
+    GlobalShortcut {
+        appid: "mellow"
         name: "closeAll"
         description: "Close all MELLOW popups"
         onPressed: ShellState.closeAll()
@@ -74,7 +81,7 @@ Scope {
         target: "mellow"
 
         function toggleControlCenter(): void {
-            ShellState.toggleControlCenter(root.focusedMonitorName());
+            ShellState.toggleControlCenter(root.focusedMonitorName(), true);
         }
 
         function toggleDock(): void {
@@ -95,6 +102,14 @@ Scope {
 
         function mediaPrevious(): void {
             MediaService.previous();
+        }
+
+        function openStudio(): void {
+            ShellState.openStudio(root.focusedMonitorName());
+        }
+
+        function toggleTheme(): void {
+            ThemeState.toggleMode();
         }
 
         function closeAll(): void {

@@ -6,7 +6,7 @@ import Quickshell
 // (~/.config/mellow/config.json) is planned for M6.
 Singleton {
     readonly property QtObject theme: QtObject {
-        // "dark" | "light"
+        // Initial "dark" | "light"; the current choice is persisted by ThemeState.
         readonly property string mode: "dark"
     }
 
@@ -28,6 +28,17 @@ Singleton {
         readonly property int pausedGrace: 120000
         // Ambient system statistics refresh interval (ms).
         readonly property int statsInterval: 3000
+    }
+
+    readonly property QtObject wallpaper: QtObject {
+        // Draw the wallpaper chosen in Wallpaper Studio. Turn off to keep using
+        // another wallpaper tool.
+        readonly property bool draw: true
+        readonly property var folders: ["~/Pictures/Wallpapers", "~/Pictures"]
+        // matugen scheme type for wallpaper-derived colours.
+        readonly property string schemeType: "scheme-tonal-spot"
+        // Seeds offered next to the wallpaper's own colours.
+        readonly property var presetSeeds: ["#5E8C7A", "#4A6FA5", "#8E6CB8", "#C0597A", "#C7774A", "#B59A3A"]
     }
 
     readonly property QtObject frame: QtObject {

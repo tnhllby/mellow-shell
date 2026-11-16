@@ -6,8 +6,15 @@
 - Optional fonts: Google Sans Flex, Roboto Flex, Roboto Mono, Material Symbols Rounded.
   Without them text falls back to Noto Sans; without Material Symbols icons are blank.
 
-No other dependencies. `tools/gen-palette.py` needs `matugen`, but only to regenerate the
-colour scheme during development.
+- Optional: `matugen` (extra) for wallpaper-derived colours in Wallpaper Studio. Without
+  it wallpapers still apply; the colour scheme stays unchanged and the Studio says so.
+- Control Center sources, each optional (controls without a source are hidden):
+  PipeWire (volume, microphone), NetworkManager (Internet), BlueZ (Bluetooth),
+  UPower (battery), power-profiles-daemon (power mode), systemd-logind + a
+  `/sys/class/backlight` device (brightness).
+
+`install.sh --deps` installs Quickshell and matugen. State is kept in
+`~/.local/state/mellow/` (`theme.json`, `wallpaper.json`); delete it to reset.
 
 ## Install on the test machine
 ```sh
@@ -51,6 +58,7 @@ Until the M6 installer sets these up automatically, MELLOW registers Hyprland gl
 bind = SUPER, C, global, mellow:controlCenter
 bind = SUPER, D, global, mellow:dock
 bind = SUPER, M, global, mellow:island
+bind = SUPER, W, global, mellow:studio
 bind = , XF86AudioPlay, global, mellow:mediaPlayPause
 bind = , XF86AudioNext, global, mellow:mediaNext
 bind = , XF86AudioPrev, global, mellow:mediaPrevious
@@ -60,7 +68,12 @@ hl.bind("SUPER + C", hl.dsp.global("mellow:controlCenter"))
 hl.bind("SUPER + D", hl.dsp.global("mellow:dock"))
 ```
 `hyprctl globalshortcuts | grep mellow` lists them. The same actions are available over IPC:
-`qs -c mellow ipc call mellow toggleControlCenter` (`qs -c mellow ipc show` lists all).
+`qs -c mellow ipc call mellow toggleControlCenter` (`qs -c mellow ipc show` lists all;
+`openStudio` and `toggleTheme` are IPC-only extras).
+
+Qt logs a harmless `qt.qpa.wayland.textinput … Trying to disable … but 0x0 is focused`
+warning when a focused popup closes. Hide it with
+`qs -c mellow --log-rules "qt.qpa.wayland.textinput=false"`.
 
 ## Rollback
 1. `qs kill -c mellow`. All MELLOW surfaces and reserved space disappear immediately.
@@ -106,3 +119,25 @@ Run `qs -p ~/mellow-shell` in a terminal and watch for `WARN`/`ERROR` lines.
 - [ ] Track without artwork/artist/album: placeholder art, no empty lines.
 - [ ] Media keys bound to `mellow:media*` control the active player.
 - [ ] Narrow monitor: compact Island never overlaps the side zones; the expanded player fits the screen.
+
+## M3 test checklist (test machine)
+- [ ] `install.sh --deps` offers matugen; MELLOW starts with and without it.
+- [ ] Panel trigger shows network / Bluetooth / mute / battery icons matching reality.
+- [ ] Control Center: brightness and volume sliders move the real values (drag, click,
+      wheel, arrow keys); clicking the volume icon mutes.
+- [ ] Tiles: Internet toggles Wi-Fi; Bluetooth toggles the adapter; Microphone mutes the
+      default source; Power mode cycles (only shown with power-profiles-daemon);
+      Dark theme switches the whole shell and persists across restarts.
+- [ ] Wi-Fi page (chevron or Right arrow): networks listed while open; connect to a saved
+      network; password field for a new WPA network; disconnect; switch in header.
+- [ ] Bluetooth page: paired devices connect/disconnect; battery % where reported.
+- [ ] Keyboard: `mellow:controlCenter` focuses the first control; Tab cycles; Escape goes
+      back from a detail page, then closes. Pointer opens show no focus ring.
+- [ ] Wallpaper & style (from the Control Center or `mellow:studio`): gallery lists
+      `~/Pictures/Wallpapers`; selecting shows a preview with generated colours and a
+      contrast line; seed chips change the colours; Dark/Light preview.
+- [ ] Apply sets the wallpaper (per display or all) and theme; Revert restores the
+      previous wallpaper, scheme and mode. Escape / Close / backdrop click closes.
+- [ ] Note: MELLOW's wallpaper sits on the background layer; stop other wallpaper
+      daemons (hyprpaper, swww) or they may draw on top. `Config.wallpaper.draw: false`
+      turns MELLOW's wallpaper off.

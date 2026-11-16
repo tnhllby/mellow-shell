@@ -4,84 +4,85 @@ pragma Singleton
 import QtQuick
 import Quickshell
 
+// Built-in scheme, used until a wallpaper-derived scheme exists.
 Singleton {
     readonly property string seed: "#5E8C7A"
 
-    readonly property QtObject dark: QtObject {
-        readonly property color primary: "#89d6b9"
-        readonly property color contentPrimary: "#003829"
-        readonly property color primaryContainer: "#00513d"
-        readonly property color contentPrimaryContainer: "#a5f2d4"
-        readonly property color secondary: "#b2ccc0"
-        readonly property color contentSecondary: "#1e352c"
-        readonly property color secondaryContainer: "#344c42"
-        readonly property color contentSecondaryContainer: "#cee9dc"
-        readonly property color tertiary: "#a7cce1"
-        readonly property color contentTertiary: "#0b3445"
-        readonly property color tertiaryContainer: "#264b5d"
-        readonly property color contentTertiaryContainer: "#c3e8fe"
-        readonly property color error: "#ffb4ab"
-        readonly property color contentError: "#690005"
-        readonly property color errorContainer: "#93000a"
-        readonly property color contentErrorContainer: "#ffdad6"
-        readonly property color background: "#0f1512"
-        readonly property color contentBackground: "#dee4df"
-        readonly property color surface: "#0f1512"
-        readonly property color contentSurface: "#dee4df"
-        readonly property color surfaceVariant: "#404944"
-        readonly property color contentSurfaceVariant: "#bfc9c3"
-        readonly property color surfaceDim: "#0f1512"
-        readonly property color surfaceBright: "#343b37"
-        readonly property color surfaceContainerLowest: "#0a0f0d"
-        readonly property color surfaceContainerLow: "#171d1a"
-        readonly property color surfaceContainer: "#1b211e"
-        readonly property color surfaceContainerHigh: "#252b28"
-        readonly property color surfaceContainerHighest: "#303633"
-        readonly property color outline: "#89938d"
-        readonly property color outlineVariant: "#404944"
-        readonly property color inverseSurface: "#dee4df"
-        readonly property color inverseContentSurface: "#2c322f"
-        readonly property color inversePrimary: "#176b53"
-        readonly property color shadow: "#000000"
-        readonly property color scrim: "#000000"
-    }
+    readonly property var dark: ({
+        "primary": "#89d6b9",
+        "contentPrimary": "#003829",
+        "primaryContainer": "#00513d",
+        "contentPrimaryContainer": "#a5f2d4",
+        "secondary": "#b2ccc0",
+        "contentSecondary": "#1e352c",
+        "secondaryContainer": "#344c42",
+        "contentSecondaryContainer": "#cee9dc",
+        "tertiary": "#a7cce1",
+        "contentTertiary": "#0b3445",
+        "tertiaryContainer": "#264b5d",
+        "contentTertiaryContainer": "#c3e8fe",
+        "error": "#ffb4ab",
+        "contentError": "#690005",
+        "errorContainer": "#93000a",
+        "contentErrorContainer": "#ffdad6",
+        "background": "#0f1512",
+        "contentBackground": "#dee4df",
+        "surface": "#0f1512",
+        "contentSurface": "#dee4df",
+        "surfaceVariant": "#404944",
+        "contentSurfaceVariant": "#bfc9c3",
+        "surfaceDim": "#0f1512",
+        "surfaceBright": "#343b37",
+        "surfaceContainerLowest": "#0a0f0d",
+        "surfaceContainerLow": "#171d1a",
+        "surfaceContainer": "#1b211e",
+        "surfaceContainerHigh": "#252b28",
+        "surfaceContainerHighest": "#303633",
+        "outline": "#89938d",
+        "outlineVariant": "#404944",
+        "inverseSurface": "#dee4df",
+        "inverseContentSurface": "#2c322f",
+        "inversePrimary": "#176b53",
+        "shadow": "#000000",
+        "scrim": "#000000",
+    })
 
-    readonly property QtObject light: QtObject {
-        readonly property color primary: "#176b53"
-        readonly property color contentPrimary: "#ffffff"
-        readonly property color primaryContainer: "#a5f2d4"
-        readonly property color contentPrimaryContainer: "#002117"
-        readonly property color secondary: "#4c6359"
-        readonly property color contentSecondary: "#ffffff"
-        readonly property color secondaryContainer: "#cee9dc"
-        readonly property color contentSecondaryContainer: "#082018"
-        readonly property color tertiary: "#3f6375"
-        readonly property color contentTertiary: "#ffffff"
-        readonly property color tertiaryContainer: "#c3e8fe"
-        readonly property color contentTertiaryContainer: "#001e2b"
-        readonly property color error: "#ba1a1a"
-        readonly property color contentError: "#ffffff"
-        readonly property color errorContainer: "#ffdad6"
-        readonly property color contentErrorContainer: "#410002"
-        readonly property color background: "#f5fbf6"
-        readonly property color contentBackground: "#171d1a"
-        readonly property color surface: "#f5fbf6"
-        readonly property color contentSurface: "#171d1a"
-        readonly property color surfaceVariant: "#dbe5de"
-        readonly property color contentSurfaceVariant: "#404944"
-        readonly property color surfaceDim: "#d5dbd7"
-        readonly property color surfaceBright: "#f5fbf6"
-        readonly property color surfaceContainerLowest: "#ffffff"
-        readonly property color surfaceContainerLow: "#eff5f0"
-        readonly property color surfaceContainer: "#e9efea"
-        readonly property color surfaceContainerHigh: "#e4eae5"
-        readonly property color surfaceContainerHighest: "#dee4df"
-        readonly property color outline: "#707974"
-        readonly property color outlineVariant: "#bfc9c3"
-        readonly property color inverseSurface: "#2c322f"
-        readonly property color inverseContentSurface: "#ecf2ed"
-        readonly property color inversePrimary: "#89d6b9"
-        readonly property color shadow: "#000000"
-        readonly property color scrim: "#000000"
-    }
+    readonly property var light: ({
+        "primary": "#176b53",
+        "contentPrimary": "#ffffff",
+        "primaryContainer": "#a5f2d4",
+        "contentPrimaryContainer": "#002117",
+        "secondary": "#4c6359",
+        "contentSecondary": "#ffffff",
+        "secondaryContainer": "#cee9dc",
+        "contentSecondaryContainer": "#082018",
+        "tertiary": "#3f6375",
+        "contentTertiary": "#ffffff",
+        "tertiaryContainer": "#c3e8fe",
+        "contentTertiaryContainer": "#001e2b",
+        "error": "#ba1a1a",
+        "contentError": "#ffffff",
+        "errorContainer": "#ffdad6",
+        "contentErrorContainer": "#410002",
+        "background": "#f5fbf6",
+        "contentBackground": "#171d1a",
+        "surface": "#f5fbf6",
+        "contentSurface": "#171d1a",
+        "surfaceVariant": "#dbe5de",
+        "contentSurfaceVariant": "#404944",
+        "surfaceDim": "#d5dbd7",
+        "surfaceBright": "#f5fbf6",
+        "surfaceContainerLowest": "#ffffff",
+        "surfaceContainerLow": "#eff5f0",
+        "surfaceContainer": "#e9efea",
+        "surfaceContainerHigh": "#e4eae5",
+        "surfaceContainerHighest": "#dee4df",
+        "outline": "#707974",
+        "outlineVariant": "#bfc9c3",
+        "inverseSurface": "#2c322f",
+        "inverseContentSurface": "#ecf2ed",
+        "inversePrimary": "#89d6b9",
+        "shadow": "#000000",
+        "scrim": "#000000",
+    })
 }
