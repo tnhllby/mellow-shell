@@ -35,7 +35,8 @@
   Material Symbols Rounded. Installed per-user by `install.sh`, never bundled.
 
 ## Island
-- Media is the priority state.
+- Media is the priority state (with a short grace period after pausing).
+- The clock lives in the panel's right zone; the Island's ambient state shows CPU, memory and temperature.
 - When no media session is actively playing, show system statistics.
 - Clicking compact Island expands a full player.
 - Expanded player uses an expressive thick seek line with waveform-like styling.

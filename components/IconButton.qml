@@ -22,6 +22,7 @@ Rectangle {
         return toggled ? Theme.color.primary : Theme.color.contentSurfaceVariant;
     }
 
+    opacity: enabled ? 1 : 0.38
     implicitWidth: 40
     implicitHeight: 40
     radius: toggled ? Theme.shape.md : Theme.shape.pill
@@ -33,7 +34,7 @@ Rectangle {
         return "transparent";
     }
 
-    activeFocusOnTab: true
+    activeFocusOnTab: enabled
     Accessible.role: Accessible.Button
     Accessible.name: label || icon
     Keys.onPressed: event => {
@@ -73,6 +74,7 @@ Rectangle {
     MouseArea {
         id: mouse
         anchors.fill: parent
+        enabled: root.enabled
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
         onClicked: root.clicked()

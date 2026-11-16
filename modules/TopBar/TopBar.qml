@@ -4,10 +4,9 @@ import Quickshell.Wayland
 import qs.core
 import qs.integrations.hyprland
 import qs.modules.ControlCenter
-import qs.modules.Island
 
-// Full-width top panel: workspaces and active window (left), Island (centre),
-// system controls (right).
+// Full-width top panel: workspaces and active window (left), clock and system
+// controls (right). The centre belongs to the Island, a separate surface.
 // It never takes keyboard focus; it only receives pointer input inside its own
 // rectangle, which Hyprland keeps clear of windows via the exclusive zone.
 PanelWindow {
@@ -52,18 +51,12 @@ PanelWindow {
         ActiveWindow {
             anchors.verticalCenter: parent.verticalCenter
             monitor: root.monitor
-            // Space left of the Island that the workspace strip does not use.
-            maximumWidth: Math.max(0, root.width / 2 - island.width / 2 - workspaces.width - 3 * Theme.spacing.x4)
+            // Space left of the (widest compact) Island that the workspace strip does not use.
+            maximumWidth: Math.max(0, root.width / 2 - Math.min(Config.island.compactMaxWidth, root.width * 0.34) / 2
+                - workspaces.width - 3 * Theme.spacing.x4)
             visible: Config.panel.showActiveWindow && maximumWidth > 60 && window !== null
                 && window.monitor === monitor && window.title !== ""
         }
-    }
-
-    IslandCompact {
-        id: island
-        anchors.centerIn: parent
-        // Never overlap the side zones on narrow monitors.
-        maximumWidth: Math.max(0, parent.width - 2 * Math.max(workspaces.width, status.width) - 4 * Theme.spacing.x4)
     }
 
     StatusArea {

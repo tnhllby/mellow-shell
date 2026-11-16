@@ -48,6 +48,10 @@ Until the M6 installer sets these up automatically, MELLOW registers Hyprland gl
 # hyprland.conf
 bind = SUPER, C, global, mellow:controlCenter
 bind = SUPER, D, global, mellow:dock
+bind = SUPER, M, global, mellow:island
+bind = , XF86AudioPlay, global, mellow:mediaPlayPause
+bind = , XF86AudioNext, global, mellow:mediaNext
+bind = , XF86AudioPrev, global, mellow:mediaPrevious
 bind = , Escape, global, mellow:closeAll     # optional; Escape already closes focused popups
 -- hyprland.lua
 hl.bind("SUPER + C", hl.dsp.global("mellow:controlCenter"))
@@ -88,3 +92,15 @@ Run `qs -p ~/mellow-shell` in a terminal and watch for `WARN`/`ERROR` lines.
 - [ ] The active window's icon and title follow focus, appear only on that window's monitor, and elide on narrow screens.
 - [ ] Opening/closing/moving windows and workspaces updates the strip immediately (no delay, no polling).
 - [ ] `hyprctl reload` and monitor hot-plug leave MELLOW working with no errors in the log.
+
+## M2 test checklist (test machine)
+- [ ] Start music (browser, mpv, Spotify…): the Island switches to artwork + title + artist with a progress hairline.
+- [ ] Pause: media mode remains ~2 min, then ambient (CPU / RAM / temperature) with a note glyph; clicking it still opens the player.
+- [ ] No player at all: ambient mode, Island not clickable.
+- [ ] Clicking the Island morphs it into the player in one motion; Escape or clicking outside collapses it.
+- [ ] Player: previous/play-pause/next work and grey out when the player cannot do them; the play button's shape morphs.
+- [ ] Wavy seek line moves while playing and is still while paused; clicking/dragging seeks (when the player supports it).
+- [ ] Keyboard (SUPER+M): play button focused with ring; Space/K, Left/Right (±5 s), N/P, Tab, Escape.
+- [ ] Track without artwork/artist/album: placeholder art, no empty lines.
+- [ ] Media keys bound to `mellow:media*` control the active player.
+- [ ] Narrow monitor: compact Island never overlaps the side zones; the expanded player fits the screen.

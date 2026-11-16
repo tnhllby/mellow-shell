@@ -4,6 +4,7 @@ import Quickshell.Io
 import Quickshell.Hyprland
 import qs.core
 import qs.integrations.hyprland
+import qs.services
 
 // Keyboard entry points. Every action opens on the focused monitor.
 //
@@ -36,6 +37,34 @@ Scope {
 
     GlobalShortcut {
         appid: "mellow"
+        name: "island"
+        description: "Expand the Island media player with keyboard focus"
+        onPressed: ShellState.toggleIsland(root.focusedMonitorName(), true)
+    }
+
+    GlobalShortcut {
+        appid: "mellow"
+        name: "mediaPlayPause"
+        description: "Play or pause the active media player"
+        onPressed: MediaService.togglePlaying()
+    }
+
+    GlobalShortcut {
+        appid: "mellow"
+        name: "mediaNext"
+        description: "Next track"
+        onPressed: MediaService.next()
+    }
+
+    GlobalShortcut {
+        appid: "mellow"
+        name: "mediaPrevious"
+        description: "Previous track"
+        onPressed: MediaService.previous()
+    }
+
+    GlobalShortcut {
+        appid: "mellow"
         name: "closeAll"
         description: "Close all MELLOW popups"
         onPressed: ShellState.closeAll()
@@ -50,6 +79,22 @@ Scope {
 
         function toggleDock(): void {
             ShellState.toggleDock(root.focusedMonitorName());
+        }
+
+        function toggleIsland(): void {
+            ShellState.toggleIsland(root.focusedMonitorName(), true);
+        }
+
+        function mediaPlayPause(): void {
+            MediaService.togglePlaying();
+        }
+
+        function mediaNext(): void {
+            MediaService.next();
+        }
+
+        function mediaPrevious(): void {
+            MediaService.previous();
         }
 
         function closeAll(): void {

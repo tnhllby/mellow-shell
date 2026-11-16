@@ -21,6 +21,15 @@ Singleton {
         readonly property bool showActiveWindow: true
     }
 
+    readonly property QtObject island: QtObject {
+        readonly property int compactMaxWidth: 360
+        readonly property int expandedWidth: 440
+        // Media mode lingers this long after playback pauses (ms).
+        readonly property int pausedGrace: 120000
+        // Ambient system statistics refresh interval (ms).
+        readonly property int statsInterval: 3000
+    }
+
     readonly property QtObject frame: QtObject {
         readonly property bool enabled: true
         readonly property int thickness: 4

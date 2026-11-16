@@ -3,6 +3,7 @@ import Quickshell
 import qs.modules.TopBar
 import qs.modules.Dock
 import qs.modules.Frame
+import qs.modules.Island
 import qs.modules
 
 // MELLOW entry point: one set of surfaces per connected screen. Variants
@@ -18,6 +19,10 @@ ShellRoot {
             required property ShellScreen modelData
 
             TopBar {
+                screen: perScreen.modelData
+            }
+
+            Island {
                 screen: perScreen.modelData
             }
 

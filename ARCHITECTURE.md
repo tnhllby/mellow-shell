@@ -67,7 +67,8 @@ mellow-shell/
 ├── integrations/hyprland/     HyprlandService
 ├── components/                Surface, StateLayer, FocusRing, MText, MaterialIcon, IconButton
 ├── modules/TopBar/            TopBar, WorkspaceStrip, StatusArea
-├── modules/Island/            IslandCompact
+├── services/                  MediaService (MPRIS + PipeWire sink), SystemStatsService (/proc, hwmon)
+├── modules/Island/            Island (window), MediaCompact, AmbientCompact, MediaPlayer, Artwork
 ├── modules/ControlCenter/     ControlCenterPopup
 ├── modules/Dock/              Dock, DockItem
 ├── modules/Frame/             WorkspaceFrame, FrameReservation
@@ -87,11 +88,22 @@ Modules import each other as `qs.<dir>` (Quickshell resolves these from the shel
 - `modules/Shortcuts.qml` registers Hyprland global shortcuts (`mellow:controlCenter`,
   `mellow:dock`, `mellow:closeAll`) and the IPC target `mellow`
   (`toggleControlCenter`, `toggleDock`, `closeAll`, `focusWorkspace <id>`).
+  M2 adds `mellow:island`, `mellow:mediaPlayPause`, `mellow:mediaNext`,
+  `mellow:mediaPrevious` and matching IPC functions.
+
+### Services (M2)
+- `MediaService`: active MPRIS player (playing wins; otherwise the last one played),
+  metadata with fallbacks, capabilities, transport/seek actions, PipeWire default sink
+  name. Position is re-read once a second only while playing (MPRIS does not push it).
+- `SystemStatsService`: CPU from `/proc/stat` deltas, memory from `/proc/meminfo`,
+  temperature from the best hwmon sensor (found once at startup). Samples every 3 s
+  only while ambient mode is visible; missing sources yield null and are hidden.
 
 ### Surfaces (M0)
 | Surface | Layer | Keyboard | Input region | Exclusive zone |
 |---|---|---|---|---|
 | `mellow:panel` | Top | None | whole panel | panel height |
+| `mellow:island` | Top (after panel) | OnDemand while expanded (HyprlandFocusGrab) | exactly the Island | ignored |
 | `mellow:frame` | Top | None | empty (click-through) | ignored |
 | `mellow:frame-reserve` ×3 | Top (after panel) | None | empty | frame thickness (left/right/bottom) |
 | `mellow:dock-edge` | Top | None | fixed edge strip (never changes) | ignored |

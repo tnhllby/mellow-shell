@@ -37,7 +37,7 @@ Do not reproduce another project's code, assets, exact layouts or component desi
 MELLOW has a full-width top panel with three zones:
 - **Left:** workspace indicator in the top-left corner, followed by the focused window's icon and title (on the monitor that window is on; can be disabled).
 - **Center:** MELLOW Island.
-- **Right:** system status and Pixel-inspired Quick Settings entry point.
+- **Right:** clock/date, system status and Pixel-inspired Quick Settings entry point.
 
 The usable workspace has a persistent frame around its perimeter. This is a defining MELLOW visual element.
 
@@ -75,7 +75,13 @@ MELLOW Island is the signature element.
 - candidate metrics: CPU load, memory use, temperature when available, or a subtle activity visualization;
 - use stable priority and graceful fallback if sensors are unavailable.
 
-The seek control uses a thick expressive progress line with waveform-like styling. If real waveform data is unavailable, use a restrained deterministic visual representation and never imply it is actual audio analysis.
+Media mode lingers for a short grace period after playback pauses (default 2 min) so
+it can be resumed; after that a small note glyph in Ambient Mode shows that clicking the
+Island still opens the player.
+
+The seek control uses a thick expressive progress line with waveform-like styling.
+MELLOW uses a Material 3 Expressive wavy line for the played part; its motion only
+signals that playback is running. If real waveform data is unavailable, use a restrained deterministic visual representation and never imply it is actual audio analysis.
 
 The compact Island should morph into the expanded player as one coherent surface.
 
