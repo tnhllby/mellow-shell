@@ -1,0 +1,61 @@
+# MELLOW — Confirmed Decisions
+
+## Product
+- Name: MELLOW.
+- MELLOW is a desktop shell, not merely a widget pack.
+- Target compositor: Hyprland.
+- Development: on the developer's host, inside the repository only (never its `~/.config`).
+- Testing: a separate PC with clean Arch Linux + Hyprland, installed via `install.sh`.
+- Framework: Quickshell + QML.
+- Initial launch: manual; no autostart until approved.
+
+## Visual identity
+- Direction: Organic Material.
+- Must feel related to Pixel UI, but remain original.
+- Use Material Design 3 / Material You / Material 3 Expressive principles.
+- Shared stylistic inspiration from end-4 and Caelestia without copying.
+- Ryoku is a reference for Wallpaper Studio's experience only.
+
+## Panel
+- Full-width top panel.
+- Left (top-left corner): workspace indicator. Revisit if it does not look right.
+- Center: MELLOW Island.
+- Right: Pixel-inspired Quick Settings / Control Center.
+
+## Dock
+- Pinned-app Dock on the left screen edge (vertical), appearing on edge interaction.
+  (2026-11-16: moved out of the panel's left zone.)
+
+## Fonts
+- Pixel / end-4 family: Google Sans Flex (primary), Roboto Flex, Roboto Mono,
+  Material Symbols Rounded. Installed per-user by `install.sh`, never bundled.
+
+## Island
+- Media is the priority state.
+- When no media session is actively playing, show system statistics.
+- Clicking compact Island expands a full player.
+- Expanded player uses an expressive thick seek line with waveform-like styling.
+- Do not represent fabricated waveform as actual audio analysis.
+
+## Workspace frame
+- A frame surrounds the entire usable workspace continuously.
+- It is a defining visual element.
+- It must not steal input or obstruct windows.
+- Fullscreen behavior must be designed and tested.
+- A setting to disable it is recommended.
+
+## Launcher and Overview
+- Meta opens application launcher from bottom.
+- Meta+Tab opens workspace/window Overview.
+- Overview is Pixel-inspired with expressive window cards.
+
+## Effects
+- Blur is optional: Off, Subtle, Expressive.
+- Reduced-motion mode is required.
+- Shell remains usable without blur.
+
+## Product philosophy
+- Core functionality before decoration.
+- Avoid feature bloat.
+- No feature without a concrete user problem.
+- All core actions support keyboard and pointer.
