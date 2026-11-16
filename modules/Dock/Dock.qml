@@ -1,0 +1,96 @@
+import QtQuick
+import Quickshell
+import Quickshell.Wayland
+import qs.core
+import qs.components
+
+// Left-edge Dock. Hidden, it only accepts input on a thin strip along the
+// screen edge; pointing at that strip slides the pinned apps in.
+PanelWindow {
+    id: root
+
+    readonly property bool shown: !Config.dock.autoHide || hover.hovered || hideTimer.running
+
+    // Re-evaluated when the desktop entry database (re)loads.
+    readonly property var apps: {
+        DesktopEntries.applications.values;
+        return Config.dock.pinned.map(id => DesktopEntries.byId(id)).filter(entry => entry && !entry.noDisplay);
+    }
+
+    anchors {
+        top: true
+        bottom: true
+        left: true
+    }
+    margins.top: Config.panel.height
+    implicitWidth: card.width + Config.frame.thickness + 2 * Theme.spacing.x2
+    exclusionMode: Config.dock.autoHide ? ExclusionMode.Ignore : ExclusionMode.Normal
+    exclusiveZone: Config.dock.autoHide ? 0 : implicitWidth
+    color: "transparent"
+    visible: apps.length > 0
+
+    WlrLayershell.namespace: "mellow:dock"
+    WlrLayershell.layer: WlrLayer.Top
+    WlrLayershell.keyboardFocus: WlrKeyboardFocus.None
+
+    // Input region: the edge strip, plus the card while it is shown. Keeping the
+    // strip in the region avoids a hide/show loop while the pointer sits on it.
+    mask: Region {
+        item: trigger
+        Region {
+            item: root.shown ? card : null
+        }
+    }
+
+    HoverHandler {
+        id: hover
+        onHoveredChanged: if (!hovered && Config.dock.autoHide) hideTimer.restart()
+    }
+
+    Timer {
+        id: hideTimer
+        interval: Config.dock.hideDelay
+    }
+
+    Item {
+        id: trigger
+        width: Config.dock.triggerWidth
+        height: parent.height
+    }
+
+    Surface {
+        id: card
+
+        x: root.shown ? Config.frame.thickness + Theme.spacing.x2 : -width - Theme.spacing.x4
+        anchors.verticalCenter: parent.verticalCenter
+        width: 64
+        height: column.implicitHeight + 2 * Theme.spacing.x2
+        radius: Theme.shape.lg
+        topRightRadius: Theme.shape.organic
+        color: Theme.color.surfaceContainerHigh
+        border.width: 1
+        border.color: Theme.color.outlineVariant
+
+        Behavior on x {
+            NumberAnimation {
+                duration: Motion.module
+                easing.type: Easing.BezierSpline
+                easing.bezierCurve: root.shown ? Motion.emphasizedDecelerate : Motion.emphasizedAccelerate
+            }
+        }
+
+        Column {
+            id: column
+            anchors.centerIn: parent
+            spacing: Theme.spacing.x1
+
+            Repeater {
+                model: root.apps
+
+                delegate: DockItem {
+                    onLaunched: hideTimer.stop()
+                }
+            }
+        }
+    }
+}
