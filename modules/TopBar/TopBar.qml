@@ -26,9 +26,12 @@ PanelWindow {
     WlrLayershell.layer: WlrLayer.Top
     WlrLayershell.keyboardFocus: WlrKeyboardFocus.None
 
+    // Rounded top corners match the frame's bottom corners: one continuous chrome.
     Rectangle {
         anchors.fill: parent
         color: Theme.chrome
+        topLeftRadius: Theme.chromeShape.outerRadius
+        topRightRadius: Theme.chromeShape.outerRadius
     }
 
     WorkspaceStrip {

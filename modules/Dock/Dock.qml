@@ -9,7 +9,7 @@ import qs.components
 PanelWindow {
     id: root
 
-    readonly property bool shown: !Config.dock.autoHide || hover.hovered || hideTimer.running
+    readonly property bool shown: !Config.dock.autoHide || zone.containsMouse || hideTimer.running
 
     // Re-evaluated when the desktop entry database (re)loads.
     readonly property var apps: {
@@ -33,18 +33,11 @@ PanelWindow {
     WlrLayershell.layer: WlrLayer.Top
     WlrLayershell.keyboardFocus: WlrKeyboardFocus.None
 
-    // Input region: the edge strip, plus the card while it is shown. Keeping the
-    // strip in the region avoids a hide/show loop while the pointer sits on it.
+    // The input region is exactly the hover zone. It grows from the edge strip
+    // to the whole dock column, so the pointer stays inside it when the dock
+    // opens, whether it rests on the edge or moves onto the card.
     mask: Region {
-        item: trigger
-        Region {
-            item: root.shown ? card : null
-        }
-    }
-
-    HoverHandler {
-        id: hover
-        onHoveredChanged: if (!hovered && Config.dock.autoHide) hideTimer.restart()
+        item: zone
     }
 
     Timer {
@@ -52,43 +45,46 @@ PanelWindow {
         interval: Config.dock.hideDelay
     }
 
-    Item {
-        id: trigger
-        width: Config.dock.triggerWidth
+    MouseArea {
+        id: zone
+
+        width: root.shown ? root.width : Config.dock.triggerWidth
         height: parent.height
-    }
+        hoverEnabled: true
+        onContainsMouseChanged: if (!containsMouse && Config.dock.autoHide) hideTimer.restart()
 
-    Surface {
-        id: card
+        Surface {
+            id: card
 
-        x: root.shown ? Config.frame.thickness + Theme.spacing.x2 : -width - Theme.spacing.x4
-        anchors.verticalCenter: parent.verticalCenter
-        width: 64
-        height: column.implicitHeight + 2 * Theme.spacing.x2
-        radius: Theme.shape.lg
-        topRightRadius: Theme.shape.organic
-        color: Theme.color.surfaceContainerHigh
-        border.width: 1
-        border.color: Theme.color.outlineVariant
+            x: root.shown ? Config.frame.thickness + Theme.spacing.x2 : -width - Theme.spacing.x4
+            anchors.verticalCenter: parent.verticalCenter
+            width: 64
+            height: column.implicitHeight + 2 * Theme.spacing.x2
+            radius: Theme.shape.lg
+            topRightRadius: Theme.shape.organic
+            color: Theme.color.surfaceContainerHigh
+            border.width: 1
+            border.color: Theme.color.outlineVariant
 
-        Behavior on x {
-            NumberAnimation {
-                duration: Motion.module
-                easing.type: Easing.BezierSpline
-                easing.bezierCurve: root.shown ? Motion.emphasizedDecelerate : Motion.emphasizedAccelerate
+            Behavior on x {
+                NumberAnimation {
+                    duration: Motion.module
+                    easing.type: Easing.BezierSpline
+                    easing.bezierCurve: root.shown ? Motion.emphasizedDecelerate : Motion.emphasizedAccelerate
+                }
             }
-        }
 
-        Column {
-            id: column
-            anchors.centerIn: parent
-            spacing: Theme.spacing.x1
+            Column {
+                id: column
+                anchors.centerIn: parent
+                spacing: Theme.spacing.x1
 
-            Repeater {
-                model: root.apps
+                Repeater {
+                    model: root.apps
 
-                delegate: DockItem {
-                    onLaunched: hideTimer.stop()
+                    delegate: DockItem {
+                        onLaunched: hideTimer.stop()
+                    }
                 }
             }
         }

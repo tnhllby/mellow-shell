@@ -15,6 +15,13 @@
   exclusive-zone strips so windows tile inside it. Hidden while the monitor's active
   workspace has a fullscreen window (`Config.frame.fullscreenPolicy`).
 
+## Test-machine feedback (2026-11-16)
+- Dock hid while the pointer rested on the screen edge. Fixed by switching to a single
+  hover zone whose input region grows from the edge strip to the whole dock column
+  (needs re-test on the test machine).
+- Frame thinned to 4 px; bar and frame now share rounded outer screen corners and
+  rounded inner fillets around the workspace (`Theme.chromeShape`).
+
 ## Verified on the development host (alongside ii)
 - Shell loads with no QML errors or warnings in the log.
 - All surfaces are created on both monitors (`hyprctl layers`), with the expected geometry.

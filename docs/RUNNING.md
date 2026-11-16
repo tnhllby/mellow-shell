@@ -55,11 +55,11 @@ Run `qs -p ~/mellow-shell` in a terminal and watch for `WARN`/`ERROR` lines.
 - [ ] Panel spans the top of every monitor; workspaces left, Island centre, Control Center button right.
 - [ ] Switching workspaces (keyboard or clicking a pill) moves the highlighted pill; scrolling over the strip cycles workspaces.
 - [ ] Focused monitor's active pill is primary-coloured; the other monitor's is tonal.
-- [ ] Frame visible on left/right/bottom, rounded inner corners, continuous with the panel.
+- [ ] Frame visible on left/right/bottom, rounded inner fillets and rounded outer screen corners, continuous with the panel's rounded top corners.
 - [ ] Tiled windows sit inside the frame, never under it.
 - [ ] Clicking/dragging on the frame does nothing (no focus change, no resize handles).
 - [ ] Fullscreen a window (`fullscreen` bind): frame hides; leaving fullscreen brings it back.
-- [ ] Moving the pointer to the very left screen edge slides the Dock in; leaving it hides the Dock after ~0.5 s.
+- [ ] Moving the pointer to the very left screen edge slides the Dock in, and it stays while the pointer rests on the edge or the Dock; moving right past the Dock hides it after ~0.5 s.
 - [ ] Clicking a Dock icon launches the app.
 - [ ] Control Center button opens the popup; Escape, clicking outside, or the button again closes it.
 - [ ] Typing in a window is never interrupted while the popup is closed.

@@ -1,11 +1,13 @@
 import QtQuick
+import QtQuick.Shapes
 import Quickshell
 import Quickshell.Wayland
 import qs.core
 import qs.integrations.hyprland
 
-// Draws the persistent workspace frame: chrome along the left, right and bottom
-// edges with rounded inner corners, continuing the panel's surface.
+// Draws the persistent workspace frame below the panel: a ring of chrome with
+// rounded outer screen corners and rounded inner fillets around the workspace,
+// continuing the panel's surface.
 // Purely visual: an empty input mask lets every click pass through, and it never
 // takes keyboard focus. The space it covers is reserved by FrameReservation.
 PanelWindow {
@@ -14,9 +16,8 @@ PanelWindow {
     readonly property var monitor: HyprlandService.monitorFor(screen)
     readonly property bool fullscreen: monitor?.activeWorkspace?.hasFullscreen ?? false
     readonly property int thickness: Config.frame.thickness
-    readonly property int innerRadius: Theme.shape.lg
-    // Border width used to paint the frame; large enough to cover any edge.
-    readonly property int paint: Math.max(width, height)
+    readonly property int innerRadius: Theme.chromeShape.innerRadius
+    readonly property int outerRadius: Theme.chromeShape.outerRadius
 
     visible: Config.frame.enabled && !(fullscreen && Config.frame.fullscreenPolicy === "hide")
 
@@ -35,37 +36,47 @@ PanelWindow {
     WlrLayershell.layer: WlrLayer.Top
     WlrLayershell.keyboardFocus: WlrKeyboardFocus.None
 
-    Item {
+    Shape {
         anchors.fill: parent
-        clip: true
+        preferredRendererType: Shape.CurveRenderer
 
-        // A rectangle whose inner border edge is the rounded workspace outline;
-        // the oversized border fills everything outside it with chrome.
-        Rectangle {
-            x: root.thickness - root.paint
-            y: -root.paint
-            width: parent.width - 2 * root.thickness + 2 * root.paint
-            height: parent.height - root.thickness + 2 * root.paint
-            radius: root.innerRadius + root.paint
-            color: "transparent"
-            border.width: root.paint
-            border.color: Theme.chrome
+        // Outer outline minus the workspace outline (odd-even fill) = the frame ring.
+        // The outer rectangle starts above the window so only its bottom corners show.
+        ShapePath {
+            fillColor: Theme.chrome
+            fillRule: ShapePath.OddEvenFill
+            strokeWidth: -1
+
+            PathRectangle {
+                x: 0
+                y: -root.outerRadius
+                width: root.width
+                height: root.height + root.outerRadius
+                bottomLeftRadius: root.outerRadius
+                bottomRightRadius: root.outerRadius
+            }
+            PathRectangle {
+                x: root.thickness
+                y: 0
+                width: root.width - 2 * root.thickness
+                height: root.height - root.thickness
+                radius: root.innerRadius
+            }
         }
 
         // The focused monitor gets a subtle tonal outline on the workspace edge.
-        Rectangle {
-            x: root.thickness
-            y: -root.innerRadius
-            width: parent.width - 2 * root.thickness
-            height: parent.height - root.thickness + root.innerRadius
-            radius: root.innerRadius
-            color: "transparent"
-            border.width: 1
-            border.color: Theme.color.primary
-            opacity: root.monitor?.focused ? 0.35 : 0
+        ShapePath {
+            fillColor: "transparent"
+            strokeColor: Qt.alpha(Theme.color.primary, root.monitor?.focused ? 0.35 : 0)
+            strokeWidth: 1
 
-            Behavior on opacity {
-                NumberAnimation { duration: Motion.module }
+            PathRectangle {
+                x: root.thickness
+                y: 0
+                width: root.width - 2 * root.thickness
+                height: root.height - root.thickness
+                radius: root.innerRadius
+                strokeAdjustment: 1
             }
         }
     }

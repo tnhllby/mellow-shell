@@ -42,6 +42,13 @@ Singleton {
         readonly property real pressed: 0.10
     }
 
+    // Bar + frame chrome: rounded outer screen corners and the inner fillets
+    // around the workspace.
+    readonly property QtObject chromeShape: QtObject {
+        readonly property int outerRadius: 22
+        readonly property int innerRadius: 30
+    }
+
     readonly property QtObject focusRing: QtObject {
         readonly property int width: 2
         readonly property int offset: 2

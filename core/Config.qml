@@ -22,7 +22,7 @@ Singleton {
 
     readonly property QtObject frame: QtObject {
         readonly property bool enabled: true
-        readonly property int thickness: 6
+        readonly property int thickness: 4
         // "hide": frame disappears while the monitor's active workspace has a
         // fullscreen window. "show": frame stays.
         readonly property string fullscreenPolicy: "hide"
