@@ -103,7 +103,7 @@ Requirements:
 - follows monitor/workspace geometry;
 - respects panel reservations and screen scaling;
 - does not steal input, obstruct windows or create accidental resize regions;
-- active monitor may receive a stronger tonal treatment;
+- no inner outline: the chrome alone defines the edge (outline removed after testing);
 - thickness and color are theme tokens;
 - user can disable it;
 - fullscreen policy must be defined and tested.

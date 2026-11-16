@@ -12,6 +12,14 @@
   Up/Down/Tab, Enter/Space, Escape.
 - Panel: active window icon + title after the workspace strip (`Config.panel.showActiveWindow`).
 
+## Test-machine feedback (2026-11-16, round 2)
+- Dock stayed open on the frame but hid with the pointer pressed against the screen
+  edge: changing a surface's input region drops hover until the pointer moves, which it
+  cannot do at the edge. The edge trigger is now its own surface with a fixed input
+  region; the dock surface only gains input right of it. (Needs re-test.)
+- Frame's focused-monitor outline removed.
+- Keybindings: the M6 installer will configure them (docs/DECISIONS.md).
+
 ## Verified on the development host
 - Loads with no QML warnings; all surfaces on both monitors.
 - `qs ipc show` lists the `mellow` target and its four functions.

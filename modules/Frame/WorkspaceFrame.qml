@@ -63,21 +63,5 @@ PanelWindow {
                 radius: root.innerRadius
             }
         }
-
-        // The focused monitor gets a subtle tonal outline on the workspace edge.
-        ShapePath {
-            fillColor: "transparent"
-            strokeColor: Qt.alpha(Theme.color.primary, root.monitor?.focused ? 0.35 : 0)
-            strokeWidth: 1
-
-            PathRectangle {
-                x: root.thickness
-                y: 0
-                width: root.width - 2 * root.thickness
-                height: root.height - root.thickness
-                radius: root.innerRadius
-                strokeAdjustment: 1
-            }
-        }
     }
 }

@@ -8,6 +8,10 @@
 - Testing: a separate PC with clean Arch Linux + Hyprland, installed via `install.sh`.
 - Framework: Quickshell + QML.
 - Initial launch: manual; no autostart until approved.
+- Final installer (M6) configures Hyprland itself so users bind nothing by hand: it
+  adds MELLOW's keybindings (and, with consent, autostart) as a separate file sourced
+  from the user's Hyprland config (classic or Lua), backs up the original, and
+  `uninstall.sh` removes it again. Until then binds are added manually.
 
 ## Visual identity
 - Direction: Organic Material.

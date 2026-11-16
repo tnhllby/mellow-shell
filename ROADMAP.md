@@ -54,6 +54,6 @@ Deliver light/dark refinement, wallpaper palette improvements, blur modes, dimen
 Acceptance: usable with blur off and reduced motion; consistent states; animation never blocks input.
 
 ## M6 — Settings and release
-Deliver settings UI, validated configuration, theme presets, docs, install/uninstall instructions, diagnostics and performance review.
+Deliver settings UI, validated configuration, theme presets, docs, install/uninstall instructions, diagnostics and performance review. The installer sets up MELLOW's Hyprland keybindings (sourced snippet, backed up, removable by `uninstall.sh`) so users do not bind anything manually.
 
 Acceptance: fresh-install procedure verified in clean VM snapshot; rollback verified; limitations documented; no host-specific required paths.

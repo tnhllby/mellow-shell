@@ -43,7 +43,7 @@ hl.on("hyprland.start", function() hl.exec_cmd("qs -c mellow") end)
 ```
 
 ## Keybindings (optional, added by you)
-MELLOW registers Hyprland global shortcuts; bind keys to them in your config:
+Until the M6 installer sets these up automatically, MELLOW registers Hyprland global shortcuts; bind keys to them in your config:
 ```
 # hyprland.conf
 bind = SUPER, C, global, mellow:controlCenter

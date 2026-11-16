@@ -94,7 +94,8 @@ Modules import each other as `qs.<dir>` (Quickshell resolves these from the shel
 | `mellow:panel` | Top | None | whole panel | panel height |
 | `mellow:frame` | Top | None | empty (click-through) | ignored |
 | `mellow:frame-reserve` ×3 | Top (after panel) | None | empty | frame thickness (left/right/bottom) |
-| `mellow:dock` | Top | None | edge strip; + card while shown | ignored (auto-hide) |
+| `mellow:dock-edge` | Top | None | fixed edge strip (never changes) | ignored |
+| `mellow:dock` | Top | None (OnDemand when keyboard-opened) | empty while hidden; right of the strip while shown | ignored (auto-hide) / auto (pinned) |
 | Control Center popup | popup of panel | via HyprlandFocusGrab while open | whole card | — |
 
 ## 3. Boundaries
