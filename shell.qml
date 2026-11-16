@@ -1,3 +1,5 @@
+// Silences a known-harmless Qt Wayland message logged when a focused popup closes.
+//@ pragma Env QT_LOGGING_RULES=qt.qpa.wayland.textinput=false
 import QtQuick
 import Quickshell
 import qs.modules.TopBar

@@ -21,7 +21,7 @@ Row {
     IconImage {
         anchors.verticalCenter: parent.verticalCenter
         implicitSize: 20
-        source: Quickshell.iconPath(root.entry?.icon ?? root.appId, "application-x-executable")
+        source: Icons.app(root.entry?.icon || root.appId)
     }
 
     MText {

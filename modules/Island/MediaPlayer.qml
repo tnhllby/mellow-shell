@@ -67,7 +67,7 @@ FocusScope {
             IconImage {
                 anchors.verticalCenter: parent.verticalCenter
                 implicitSize: 16
-                source: Quickshell.iconPath(root.sourceEntry?.icon ?? MediaService.desktopEntry, true)
+                source: Icons.optional(root.sourceEntry?.icon || MediaService.desktopEntry)
                 visible: source != ""
             }
 

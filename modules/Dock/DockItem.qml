@@ -43,7 +43,7 @@ Rectangle {
     IconImage {
         anchors.centerIn: parent
         implicitSize: 36
-        source: Quickshell.iconPath(root.modelData.icon, "application-x-executable")
+        source: Icons.app(root.modelData.icon)
         scale: mouse.pressed ? 0.9 : 1
 
         Behavior on scale {

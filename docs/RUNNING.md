@@ -28,8 +28,10 @@ The installer never edits Hyprland configuration and does not enable autostart.
 | Stop | `qs kill -c mellow` or Ctrl+C | `qs kill -p ~/mellow-shell` |
 | Logs | `qs log -c mellow` | `qs log -p ~/mellow-shell` |
 
-Quickshell reloads QML automatically when files change, so `git pull` on the test machine
-updates a running shell.
+Quickshell reloads QML automatically when files change. A `git pull` that adds new
+files or folders can trigger a reload before they exist (e.g. `module "qs.modules.X" is
+not installed`), and the running shell keeps the old version. After pulling, restart:
+`qs kill -c mellow; qs -c mellow`.
 
 Stop other bars first (`pkill waybar`, `qs kill -c <other>`), otherwise their exclusive
 zones stack with MELLOW's.
