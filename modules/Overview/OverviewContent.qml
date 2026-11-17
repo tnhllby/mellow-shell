@@ -64,9 +64,15 @@ FocusScope {
         selected = sortedWindows(target)[0];
     }
 
-    Component.onCompleted: {
+    // Previews re-capture when this changes (each time the Overview opens).
+    property int captureGeneration: 0
+
+    // Called on every open: the content is kept between opens.
+    function opened() {
+        selected = HyprlandService.activeWindow;
         if (!windows.includes(selected))
             selected = windows[0] ?? null;
+        captureGeneration++;
         forceActiveFocus();
     }
     onWindowsChanged: if (!windows.includes(selected)) selected = windows[0] ?? null

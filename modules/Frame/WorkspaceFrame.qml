@@ -16,7 +16,8 @@ PanelWindow {
     readonly property var monitor: HyprlandService.monitorFor(screen)
     readonly property bool fullscreen: HyprlandService.hasRealFullscreen(monitor?.activeWorkspace)
     readonly property int thickness: Config.frame.thickness
-    readonly property int innerRadius: Theme.chromeShape.innerRadius
+    // Concentric with the outer corners, so the line keeps its thickness round the curve.
+    readonly property int innerRadius: Math.max(0, outerRadius - thickness)
     readonly property int outerRadius: Theme.chromeShape.outerRadius
 
     visible: Config.frame.enabled && !(fullscreen && Config.frame.fullscreenPolicy === "hide")

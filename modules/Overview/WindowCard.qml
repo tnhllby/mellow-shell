@@ -57,7 +57,17 @@ Item {
             anchors.fill: parent
             captureSource: root.window.wayland
             live: false
-            constraintSize: Qt.size(root.width * 2, root.height * 2)
+            // Card-sized captures: cheaper than full-size window buffers.
+            constraintSize: Qt.size(Math.ceil(root.width * 1.5), Math.ceil(root.height * 1.5))
+
+            Connections {
+                target: root.overview
+                // New previews capture on their own; only refresh existing ones.
+                function onCaptureGenerationChanged() {
+                    if (preview.hasContent)
+                        preview.captureFrame();
+                }
+            }
         }
 
         // Shown until (or instead of) the capture.

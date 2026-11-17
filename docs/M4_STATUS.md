@@ -28,6 +28,19 @@
 - Whether `follow = false` keeps focus in place under the Lua config.
 - Release binding for Meta alone.
 
+## Fixes after the first test run
+- Launcher never opened from `bindr = SUPER, SUPER_L`: a release bind only sends the
+  global shortcut's "released" event, and the launcher listened for "pressed". It now
+  toggles on release (Hyprland already drops the release when another key was pressed
+  with Meta, so Meta+Tab etc. do not open it).
+- Overview felt like it froze: its content was rebuilt on every open and popped in
+  without animation while the backdrop faded. It is now built once, fades/scales in
+  and out (360 ms), and re-captures previews on open at card size. Measured on the
+  host: content ready 11 ms after opening, captures within 50 ms, ~1–2 % CPU while
+  open, no frames over 34 ms (3 windows).
+- Frame bottom corners looked thinner: the inner corners now share the outer corners'
+  centre (radius = outer − thickness), so the line keeps its width round the curve.
+
 ## Known limitations
 - Previews are still captures taken when the Overview opens (not live).
 - Overview shows one monitor (the focused one).

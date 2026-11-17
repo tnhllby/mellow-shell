@@ -6,12 +6,14 @@ import qs.core
 import qs.integrations.hyprland
 
 // Workspace / window Overview (Meta+Tab) for one monitor. The surface stays
-// mapped (input region and keyboard focus only while open); its content, with
-// window previews, exists only while open.
+// mapped (input region and keyboard focus only while open). The content is
+// built on first open and kept, so opening is a fade/scale animation plus a
+// re-capture of the previews rather than a rebuild.
 PanelWindow {
     id: root
 
     readonly property bool open: ShellState.overviewMonitor === screen?.name
+    property bool loaded: false
 
     function close() {
         if (open)
@@ -42,8 +44,10 @@ PanelWindow {
 
     // Window geometry (IPC data) is refreshed on open and on window events.
     onOpenChanged: if (open) {
+        loaded = true;
         Hyprland.refreshWorkspaces();
         Hyprland.refreshToplevels();
+        Qt.callLater(() => content.item?.opened());
     }
 
     Connections {
@@ -80,9 +84,30 @@ PanelWindow {
     }
 
     Loader {
+        id: content
         anchors.fill: parent
-        active: root.open
+        active: root.loaded
         focus: true
+        opacity: root.open ? 1 : 0
+        scale: root.open ? 1 : 0.94
+        visible: opacity > 0
+        enabled: root.open
+
+        Behavior on opacity {
+            NumberAnimation {
+                duration: Motion.workspace
+                easing.type: Easing.BezierSpline
+                easing.bezierCurve: Motion.standard
+            }
+        }
+        Behavior on scale {
+            NumberAnimation {
+                duration: Motion.workspace
+                easing.type: Easing.BezierSpline
+                easing.bezierCurve: root.open ? Motion.emphasizedDecelerate : Motion.emphasizedAccelerate
+            }
+        }
+
         sourceComponent: OverviewContent {
             screen: root.screen
             onCloseRequested: root.close()

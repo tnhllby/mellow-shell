@@ -67,7 +67,10 @@ Scope {
         appid: "mellow"
         name: "launcher"
         description: "Toggle the application launcher"
-        onPressed: ShellState.toggleLauncher(root.focusedMonitorName())
+        // Acts on release: a release bind (`bindr = SUPER, SUPER_L`, Meta alone)
+        // only sends "released", and Hyprland drops it when another key was
+        // pressed while Meta was held. Normal binds send both events.
+        onReleased: ShellState.toggleLauncher(root.focusedMonitorName())
     }
 
     GlobalShortcut {
