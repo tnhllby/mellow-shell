@@ -31,6 +31,9 @@ PanelWindow {
     mask: Region {
         item: root.open ? backdrop : null
     }
+    BackgroundEffect.blurRegion: Region {
+        item: Theme.effects.backdropBlur && backdrop.opacity > 0.5 ? backdrop : null
+    }
 
     WlrLayershell.namespace: "mellow:overview"
     WlrLayershell.layer: WlrLayer.Top

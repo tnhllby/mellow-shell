@@ -9,11 +9,16 @@ Singleton {
     // Foreground/background role pairs that carry text in MELLOW.
     readonly property var textPairs: [
         ["contentSurface", "surface"],
+        ["contentSurface", "surfaceContainer"],
         ["contentSurface", "surfaceContainerHighest"],
+        ["contentSurfaceVariant", "surfaceContainerLow"],
+        ["contentSurfaceVariant", "surfaceContainer"],
         ["contentSurfaceVariant", "surfaceContainerHigh"],
+        ["contentSurfaceVariant", "surfaceContainerHighest"],
         ["contentPrimary", "primary"],
         ["contentPrimaryContainer", "primaryContainer"],
         ["contentSecondaryContainer", "secondaryContainer"],
+        ["contentError", "error"],
         ["contentErrorContainer", "errorContainer"]
     ]
 

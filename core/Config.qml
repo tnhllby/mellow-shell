@@ -70,4 +70,12 @@ Singleton {
     readonly property QtObject motion: QtObject {
         readonly property bool reduced: false
     }
+
+    readonly property QtObject effects: QtObject {
+        // "off": opaque surfaces. "subtle": cards are slightly translucent over
+        // a compositor blur. "expressive": more translucent cards, and the
+        // Overview/Studio backdrops blur what is behind them. Falls back to
+        // "off" while Hyprland's blur (decoration:blur:enabled) is disabled.
+        readonly property string blur: "subtle"
+    }
 }

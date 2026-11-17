@@ -107,12 +107,22 @@ FocusScope {
         anchors.centerIn: parent
         spacing: Theme.spacing.x6
 
-        MText {
+        // Text sits on surfaces, not on the scrim, so it stays readable in
+        // both modes and over any window content.
+        Surface {
             anchors.horizontalCenter: parent.horizontalCenter
-            role: Typography.titleMedium
-            color: Theme.color.contentSurface
-            text: root.selected ? (root.selected.title || HyprlandService.appIdOf(root.selected)) : "No windows"
-            width: Math.min(implicitWidth, root.width - 2 * Theme.spacing.x10)
+            width: title.width + 2 * Theme.spacing.x5
+            height: title.implicitHeight + 2 * Theme.spacing.x2
+            radius: Theme.shape.pill
+
+            MText {
+                id: title
+                anchors.centerIn: parent
+                role: Typography.titleMedium
+                color: Theme.color.contentSurface
+                text: root.selected ? (root.selected.title || HyprlandService.appIdOf(root.selected)) : "No windows"
+                width: Math.min(implicitWidth, root.width - 2 * Theme.spacing.x10)
+            }
         }
 
         Flow {
@@ -143,11 +153,20 @@ FocusScope {
             }
         }
 
-        MText {
+        Surface {
             anchors.horizontalCenter: parent.horizontalCenter
-            role: Typography.labelMedium
-            color: Theme.color.contentSurfaceVariant
-            text: "Return focus · Delete close · 1–9 workspace · Shift+1–9 move · drag to move"
+            width: hint.implicitWidth + 2 * Theme.spacing.x4
+            height: hint.implicitHeight + 2 * Theme.spacing.x2
+            radius: Theme.shape.pill
+            color: Theme.color.surfaceContainer
+
+            MText {
+                id: hint
+                anchors.centerIn: parent
+                role: Typography.labelMedium
+                color: Theme.color.contentSurfaceVariant
+                text: "Return focus · Delete close · 1–9 workspace · Shift+1–9 move · drag to move"
+            }
         }
     }
 }

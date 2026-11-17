@@ -40,6 +40,11 @@ PanelWindow {
     mask: Region {
         item: root.open ? card : null
     }
+    BackgroundEffect.blurRegion: Region {
+        item: Theme.effects.blurOn && card.opacity > 0.5 ? card : null
+        radius: card.radius
+        topRightRadius: card.topRightRadius
+    }
 
     WlrLayershell.namespace: "mellow:control-center"
     WlrLayershell.layer: WlrLayer.Top
@@ -70,7 +75,7 @@ PanelWindow {
         height: Math.min(content.implicitHeight + 2 * Theme.spacing.x4, root.height - y)
         radius: Theme.shape.xl
         topRightRadius: Theme.shape.md
-        color: Theme.color.surfaceContainer
+        color: Theme.glass(Theme.color.surfaceContainer)
         border.width: 1
         border.color: Theme.color.outlineVariant
         clip: true

@@ -40,6 +40,11 @@ PanelWindow {
     mask: Region {
         item: root.open ? sheet : null
     }
+    BackgroundEffect.blurRegion: Region {
+        item: Theme.effects.blurOn && sheet.opacity > 0.5 ? sheet : null
+        radius: sheet.radius
+        topLeftRadius: sheet.topLeftRadius
+    }
 
     WlrLayershell.namespace: "mellow:launcher"
     WlrLayershell.layer: WlrLayer.Top
@@ -68,7 +73,7 @@ PanelWindow {
         y: root.open ? 0 : parent.height + Theme.spacing.x4
         radius: Theme.shape.xl
         topLeftRadius: Theme.shape.organic
-        color: Theme.color.surfaceContainer
+        color: Theme.glass(Theme.color.surfaceContainer)
         border.width: 1
         border.color: Theme.color.outlineVariant
         opacity: root.open ? 1 : 0

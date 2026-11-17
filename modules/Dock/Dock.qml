@@ -91,6 +91,11 @@ Scope {
         mask: Region {
             item: root.shown ? dockArea : null
         }
+        BackgroundEffect.blurRegion: Region {
+            item: Theme.effects.blurOn ? card : null
+            radius: card.radius
+            topRightRadius: card.topRightRadius
+        }
 
         HyprlandFocusGrab {
             active: root.keyboardOpen
@@ -116,7 +121,7 @@ Scope {
                 height: column.implicitHeight + 2 * Theme.spacing.x2
                 radius: Theme.shape.lg
                 topRightRadius: Theme.shape.organic
-                color: Theme.color.surfaceContainerHigh
+                color: Theme.glass(Theme.color.surfaceContainerHigh)
                 border.width: 1
                 border.color: Theme.color.outlineVariant
 

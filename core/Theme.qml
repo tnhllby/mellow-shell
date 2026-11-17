@@ -6,10 +6,30 @@ import qs.core
 // Central provider of semantic design tokens. Components read colours,
 // shapes and spacing from here and never hardcode them.
 Singleton {
+    id: root
+
     readonly property bool dark: ThemeState.dark
     readonly property ThemeColors color: ThemeColors {
         roles: ThemeState.roles
         fallback: ThemeState.fallbackRoles
+    }
+
+    // Set from the shell root: whether the compositor blurs (core does not
+    // talk to Hyprland itself).
+    property bool compositorBlur: false
+
+    readonly property QtObject effects: QtObject {
+        readonly property string blur: root.compositorBlur && ["subtle", "expressive"].includes(Config.effects.blur) ? Config.effects.blur : "off"
+        readonly property bool blurOn: blur !== "off"
+        // Card opacity over the blur; 1 keeps cards opaque.
+        readonly property real cardOpacity: blur === "expressive" ? 0.72 : blur === "subtle" ? 0.86 : 1
+        // Full-screen backdrops (Overview, Studio) blur what is behind them.
+        readonly property bool backdropBlur: blur === "expressive"
+    }
+
+    // A card colour made translucent to match the blur mode.
+    function glass(c) {
+        return Qt.alpha(c, effects.cardOpacity);
     }
 
     // The continuous chrome shared by the panel and the workspace frame.

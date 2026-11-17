@@ -55,7 +55,12 @@
 - Overview is Pixel-inspired with expressive window cards.
 
 ## Effects
-- Blur is optional: Off, Subtle, Expressive.
+- Blur is optional: Off, Subtle, Expressive. (M5) Implemented through the
+  ext-background-effect protocol (Quickshell `BackgroundEffect.blurRegion`, supported by
+  Hyprland 0.56), so no Hyprland layer rules are needed. Default Subtle; it falls back to
+  Off while Hyprland's `decoration:blur:enabled` is false, so cards are never translucent
+  without blur. Blur strength and xray come from the user's Hyprland blur settings.
+  The bar/frame chrome and the compact Island stay opaque in every mode.
 - Reduced-motion mode is required.
 - Shell remains usable without blur.
 

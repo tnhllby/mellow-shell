@@ -10,11 +10,21 @@ import qs.modules.Overview
 import qs.modules.Background
 import qs.modules.WallpaperStudio
 import qs.modules
+import qs.core
+import qs.integrations.hyprland
 
 // MELLOW entry point: one set of surfaces per connected screen. Variants
 // creates and destroys them as monitors are plugged in or removed.
 ShellRoot {
     Shortcuts {}
+
+    // Theme lives in core and does not talk to Hyprland; hand it the
+    // compositor's blur state here.
+    Binding {
+        target: Theme
+        property: "compositorBlur"
+        value: HyprlandService.blurEnabled
+    }
 
     Variants {
         model: Quickshell.screens

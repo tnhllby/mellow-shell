@@ -125,6 +125,14 @@ Modules import each other as `qs.<dir>` (Quickshell resolves these from the shel
 - `HyprlandService.moveWindowToWorkspace` (`movetoworkspacesilent` /
   `hl.dsp.window.move({ workspace, follow = false, window })`).
 
+### Effects (M5)
+- `Theme.effects` derives the blur mode from `Config.effects.blur` and
+  `Theme.compositorBlur`; `shell.qml` binds the latter to `HyprlandService.blurEnabled`
+  so `core/` never talks to Hyprland. `Theme.glass(color)` applies the card opacity.
+- Each floating card sets `BackgroundEffect.blurRegion` (Quickshell.Wayland,
+  ext-background-effect) to a `Region` on the card with matching corner radii, only
+  while the card is shown; Overview/Studio backdrops use it in Expressive mode only.
+
 ### Surfaces (M0)
 | Surface | Layer | Keyboard | Input region | Exclusive zone |
 |---|---|---|---|---|

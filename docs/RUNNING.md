@@ -165,3 +165,14 @@ Run `qs -p ~/mellow-shell` in a terminal and watch for `WARN`/`ERROR` lines.
 - [ ] Overview pointer: click focuses; click empty area opens the workspace; middle click
       or × closes; drag a window onto another workspace or "New workspace" moves it.
 - [ ] Overview updates when windows open/close while it is shown.
+
+## M5 test checklist (test machine)
+- [ ] Light and dark (Control Center → Dark theme): bar, Island, Control Center, Dock,
+      Launcher, Overview and Studio are readable; Overview title/hint sit on chips.
+- [ ] Blur (`Config.effects.blur`): "subtle" — Control Center, Launcher, Dock and the
+      expanded Island are slightly translucent over a blur; "expressive" — more
+      translucent, and Overview/Studio blur the whole screen behind them; "off" — opaque.
+- [ ] With Hyprland blur disabled (`decoration:blur:enabled = false`, then reload) the
+      surfaces turn opaque without restarting MELLOW.
+- [ ] `Config.motion.reduced: true`: every surface opens and closes instantly; the seek
+      bar wave stands still; nothing ignores input while animating.

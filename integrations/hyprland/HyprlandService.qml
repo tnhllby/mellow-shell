@@ -2,6 +2,7 @@ pragma Singleton
 import QtQuick
 import Quickshell
 import Quickshell.Hyprland
+import Quickshell.Io
 
 // The single entry point for Hyprland state and actions. Widgets bind to this
 // service instead of talking to Hyprland or spawning hyprctl themselves.
@@ -25,6 +26,10 @@ Singleton {
     // All mapped windows, and the focused one.
     readonly property var windows: Hyprland.toplevels.values
     readonly property var activeWindow: Hyprland.activeToplevel
+
+    // Whether the compositor blurs surfaces (decoration:blur:enabled). Read at
+    // startup and after each config reload; assumed off until known.
+    property bool blurEnabled: false
 
     // True when a window on `workspace` is real fullscreen. Hyprland's
     // `hasfullscreen` is also set for maximized windows, so the per-window
@@ -122,6 +127,24 @@ Singleton {
         function onRawEvent(event) {
             if (event.name === "fullscreen")
                 Hyprland.refreshToplevels();
+            else if (event.name === "configreloaded")
+                blurQuery.running = true;
+        }
+    }
+
+    Process {
+        id: blurQuery
+        running: root.available
+        command: ["hyprctl", "-j", "getoption", "decoration:blur:enabled"]
+        stdout: StdioCollector {
+            onStreamFinished: {
+                try {
+                    const option = JSON.parse(text);
+                    root.blurEnabled = (option.int ?? (option.bool ? 1 : 0)) !== 0;
+                } catch (e) {
+                    root.blurEnabled = false;
+                }
+            }
         }
     }
 

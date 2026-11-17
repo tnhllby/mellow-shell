@@ -32,6 +32,14 @@ PanelWindow {
     mask: Region {
         item: island
     }
+    // The compact Island sits on the opaque bar; only the expanded player
+    // floats over windows and uses the blur.
+    BackgroundEffect.blurRegion: Region {
+        item: Theme.effects.blurOn && root.expanded ? island : null
+        radius: island.radius
+        topLeftRadius: island.topLeftRadius
+        bottomRightRadius: island.bottomRightRadius
+    }
 
     WlrLayershell.namespace: "mellow:island"
     WlrLayershell.layer: WlrLayer.Top
@@ -54,7 +62,7 @@ PanelWindow {
         y: (Config.panel.height - 40) / 2
         width: root.expanded ? root.expandedWidth : compactWidth
         height: root.expanded ? player.implicitHeight : 40
-        color: root.expanded ? Theme.color.surfaceContainerHigh : Theme.color.surfaceContainerHighest
+        color: root.expanded ? Theme.glass(Theme.color.surfaceContainerHigh) : Theme.color.surfaceContainerHighest
         // Asymmetric organic corners give the Island its silhouette in both states.
         radius: Theme.shape.xl
         topLeftRadius: Theme.shape.organic

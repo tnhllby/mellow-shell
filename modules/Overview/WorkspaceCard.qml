@@ -25,7 +25,7 @@ Item {
         anchors.fill: parent
         radius: Theme.shape.lg
         topLeftRadius: root.active ? Theme.shape.organic : Theme.shape.lg
-        color: root.isNew ? "transparent" : Theme.color.surfaceContainerLow
+        color: root.isNew ? Qt.alpha(Theme.color.surfaceContainerLow, 0.85) : Theme.color.surfaceContainerLow
         border.width: root.dropTarget ? 3 : root.active ? 2 : root.isNew ? 2 : 1
         border.color: root.dropTarget || root.active ? Theme.color.primary : Theme.color.outlineVariant
 
