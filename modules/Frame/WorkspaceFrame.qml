@@ -3,6 +3,7 @@ import QtQuick.Shapes
 import Quickshell
 import Quickshell.Wayland
 import qs.core
+import qs.components
 import qs.integrations.hyprland
 
 // Draws the persistent workspace frame below the panel: chrome along the sides
@@ -68,5 +69,16 @@ PanelWindow {
                 topRightRadius: 0
             }
         }
+    }
+
+    ScreenCorner {
+        y: root.height - height
+        corner: "bottomLeft"
+    }
+
+    ScreenCorner {
+        x: root.width - width
+        y: root.height - height
+        corner: "bottomRight"
     }
 }

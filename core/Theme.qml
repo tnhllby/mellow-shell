@@ -14,6 +14,8 @@ Singleton {
 
     // The continuous chrome shared by the panel and the workspace frame.
     readonly property color chrome: color.surfaceContainer
+    // Outside the rounded screen corners: black like the display bezel, in every theme.
+    readonly property color screenCorner: "#000000"
 
     readonly property QtObject shape: QtObject {
         readonly property int xs: 6

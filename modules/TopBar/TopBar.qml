@@ -3,6 +3,7 @@ import QtQuick.Shapes
 import Quickshell
 import Quickshell.Wayland
 import qs.core
+import qs.components
 import qs.integrations.hyprland
 
 // Full-width top panel: workspaces and active window (left), clock and system
@@ -46,6 +47,17 @@ PanelWindow {
         color: Theme.chrome
         topLeftRadius: Theme.chromeShape.outerRadius
         topRightRadius: Theme.chromeShape.outerRadius
+    }
+
+    ScreenCorner {
+        corner: "topLeft"
+        visible: root.frameShown
+    }
+
+    ScreenCorner {
+        x: root.width - width
+        corner: "topRight"
+        visible: root.frameShown
     }
 
     // Inner fillets: concave corners from the bar down into the frame sides.

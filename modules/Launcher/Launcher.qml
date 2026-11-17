@@ -76,13 +76,13 @@ PanelWindow {
 
         Behavior on y {
             NumberAnimation {
-                duration: Motion.module
+                duration: Motion.card
                 easing.type: Easing.BezierSpline
                 easing.bezierCurve: root.open ? Motion.emphasizedDecelerate : Motion.emphasizedAccelerate
             }
         }
         Behavior on opacity {
-            NumberAnimation { duration: Motion.card }
+            NumberAnimation { duration: Motion.hover }
         }
 
         FocusScope {
