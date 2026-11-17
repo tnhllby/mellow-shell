@@ -10,6 +10,8 @@ import qs.services
 // scheme on a miniature MELLOW desktop, then apply or revert.
 // Opened from the Control Center ("Wallpaper & style") or the `mellow:studio`
 // shortcut; Escape, Close or a click on the backdrop closes it.
+// The surface stays mapped (input region and keyboard focus only while open)
+// so the focus grab never races the surface being created.
 PanelWindow {
     id: root
 
@@ -20,7 +22,6 @@ PanelWindow {
             ShellState.studioMonitor = "";
     }
 
-    visible: open
     anchors {
         top: true
         bottom: true
@@ -29,10 +30,13 @@ PanelWindow {
     }
     exclusionMode: ExclusionMode.Ignore
     color: "transparent"
+    mask: Region {
+        item: root.open ? backdrop : null
+    }
 
     WlrLayershell.namespace: "mellow:studio"
     WlrLayershell.layer: WlrLayer.Top
-    WlrLayershell.keyboardFocus: WlrKeyboardFocus.OnDemand
+    WlrLayershell.keyboardFocus: open ? WlrKeyboardFocus.OnDemand : WlrKeyboardFocus.None
 
     HyprlandFocusGrab {
         active: root.open
@@ -41,7 +45,9 @@ PanelWindow {
     }
 
     Rectangle {
+        id: backdrop
         anchors.fill: parent
+        visible: root.open
         color: Qt.alpha(Theme.color.scrim, 0.45)
 
         MouseArea {

@@ -3,7 +3,6 @@ import Quickshell
 import Quickshell.Wayland
 import qs.core
 import qs.integrations.hyprland
-import qs.modules.ControlCenter
 
 // Full-width top panel: workspaces and active window (left), clock and system
 // controls (right). The centre belongs to the Island, a separate surface.
@@ -66,12 +65,5 @@ PanelWindow {
         anchors.verticalCenter: parent.verticalCenter
         controlCenterOpen: root.controlCenterOpen
         onControlCenterToggled: ShellState.toggleControlCenter(root.screen.name)
-    }
-
-    ControlCenterPopup {
-        panel: root
-        anchorItem: status
-        open: root.controlCenterOpen
-        onDismissed: if (root.controlCenterOpen) ShellState.controlCenterMonitor = ""
     }
 }

@@ -14,7 +14,7 @@ PanelWindow {
     id: root
 
     readonly property var monitor: HyprlandService.monitorFor(screen)
-    readonly property bool fullscreen: monitor?.activeWorkspace?.hasFullscreen ?? false
+    readonly property bool fullscreen: HyprlandService.hasRealFullscreen(monitor?.activeWorkspace)
     readonly property int thickness: Config.frame.thickness
     readonly property int innerRadius: Theme.chromeShape.innerRadius
     readonly property int outerRadius: Theme.chromeShape.outerRadius

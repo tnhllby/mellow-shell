@@ -4,6 +4,7 @@ import qs.modules.TopBar
 import qs.modules.Dock
 import qs.modules.Frame
 import qs.modules.Island
+import qs.modules.ControlCenter
 import qs.modules.Background
 import qs.modules.WallpaperStudio
 import qs.modules
@@ -25,6 +26,7 @@ ShellRoot {
             }
 
             TopBar {
+                id: topBar
                 screen: perScreen.modelData
             }
 
@@ -53,6 +55,11 @@ ShellRoot {
 
             Dock {
                 screen: perScreen.modelData
+            }
+
+            ControlCenter {
+                screen: perScreen.modelData
+                panel: topBar
             }
 
             WallpaperStudio {

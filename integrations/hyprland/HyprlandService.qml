@@ -26,6 +26,14 @@ Singleton {
     readonly property var windows: Hyprland.toplevels.values
     readonly property var activeWindow: Hyprland.activeToplevel
 
+    // True when a window on `workspace` is real fullscreen. Hyprland's
+    // `hasfullscreen` is also set for maximized windows, so the per-window
+    // fullscreen mode (bit 2 = fullscreen, bit 1 = maximized) decides.
+    function hasRealFullscreen(workspace) {
+        return (workspace?.hasFullscreen ?? false)
+            && windowsOn(workspace).some(w => ((w.lastIpcObject?.fullscreen ?? 0) & 2) !== 0);
+    }
+
     function monitorFor(screen) {
         return screen ? Hyprland.monitorFor(screen) : null;
     }
@@ -97,4 +105,16 @@ Singleton {
         if (selector)
             dispatch(`closewindow ${selector}`, `hl.dsp.window.close({ window = "${selector}" })`);
     }
+
+    // Window IPC data (fullscreen mode) is not pushed by events; refresh it
+    // when fullscreen state changes.
+    Connections {
+        target: Hyprland
+        function onRawEvent(event) {
+            if (event.name === "fullscreen")
+                Hyprland.refreshToplevels();
+        }
+    }
+
+    Component.onCompleted: if (available) Hyprland.refreshToplevels()
 }

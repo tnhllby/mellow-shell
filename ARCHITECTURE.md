@@ -122,9 +122,13 @@ Modules import each other as `qs.<dir>` (Quickshell resolves these from the shel
 | `mellow:frame-reserve` ×3 | Top (after panel) | None | empty | frame thickness (left/right/bottom) |
 | `mellow:dock-edge` | Top | None | fixed edge strip (never changes) | ignored |
 | `mellow:dock` | Top | None (OnDemand when keyboard-opened) | empty while hidden; right of the strip while shown | ignored (auto-hide) / auto (pinned) |
-| Control Center popup | popup of panel | via HyprlandFocusGrab while open | whole card | — |
+| `mellow:control-center` | Top | OnDemand + HyprlandFocusGrab (with the panel) while open | the card while open, empty otherwise | ignored |
 | `mellow:wallpaper` | Background | None | whole screen | ignored (only when a wallpaper is set) |
-| `mellow:studio` | Top | OnDemand + HyprlandFocusGrab while open | whole screen (backdrop closes) | ignored |
+| `mellow:studio` | Top | OnDemand + HyprlandFocusGrab while open | whole screen while open, empty otherwise | ignored |
+
+Interactive surfaces stay mapped and switch their input region instead of using
+xdg-popups: Hyprland's focus grab treats clicks inside a layer-shell popup as outside
+clicks, which dismissed the first Control Center on every press.
 
 ## 3. Boundaries
 

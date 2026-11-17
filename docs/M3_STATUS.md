@@ -36,6 +36,15 @@
   to networks, password entry.
 - The wallpaper surface on screen (disabled on the host to avoid covering its wallpaper).
 
+## Fixes after the first test-machine run
+- Control Center vanished on any click: it was an xdg-popup, and Hyprland's focus grab
+  counts clicks inside a layer-shell popup as outside clicks. It is now a layer surface
+  (`mellow:control-center`) like the Island, input region = the card.
+- Wallpaper Studio could not be opened from the Control Center (same cause); its surface
+  now also stays mapped so the focus grab never races surface creation.
+- Frame disappeared with maximized windows: Hyprland's `hasfullscreen` includes
+  maximize. The frame now hides only for real fullscreen (per-window mode bit 2).
+
 ## Known limitations
 - Revert keeps one step of history.
 - "Span across displays" placement is not offered.
