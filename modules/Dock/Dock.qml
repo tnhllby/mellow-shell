@@ -70,7 +70,8 @@ Scope {
         id: dock
 
         screen: root.screen
-        visible: root.apps.length > 0
+        // Always mapped (an empty Dock just never shows): re-creating the
+        // surface when the app list reloads dropped its blur region.
         anchors {
             top: true
             bottom: true
@@ -91,10 +92,10 @@ Scope {
         mask: Region {
             item: root.shown ? dockArea : null
         }
-        // Only while shown: the hidden card sits outside the surface, and a
-        // region there made Hyprland blur the whole Dock strip.
+        // Only once the card has slid fully in: a region outside the surface
+        // made Hyprland blur the whole Dock strip.
         BackgroundEffect.blurRegion: Region {
-            item: Theme.effects.blurOn && root.shown ? card : null
+            item: Theme.effects.blurOn && root.shown && card.x === card.restX ? card : null
             radius: card.radius
             topRightRadius: card.topRightRadius
         }
@@ -117,7 +118,9 @@ Scope {
             Surface {
                 id: card
 
-                x: root.shown ? Config.frame.thickness + Theme.spacing.x2 - dockArea.x : -width - dockArea.x - Theme.spacing.x4
+                readonly property real restX: Config.frame.thickness + Theme.spacing.x2 - dockArea.x
+
+                x: root.shown && root.apps.length > 0 ? restX : -width - dockArea.x - Theme.spacing.x4
                 anchors.verticalCenter: parent.verticalCenter
                 width: 64
                 height: column.implicitHeight + 2 * Theme.spacing.x2

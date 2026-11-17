@@ -30,7 +30,17 @@
 - A blurred strip covered the left ~84 px of the screen (bar and windows) whenever the
   Dock was hidden: its blur region followed the card off the surface, and Hyprland
   then blurred the whole Dock surface. The region now exists only while the Dock is
-  shown. Verified in a non-interactive copy (hidden: no strip; shown: card blurred).
+  shown and has slid fully in.
+- The shown Dock was never blurred: its window was hidden/re-shown whenever the app
+  list reloaded (`visible: apps.length > 0`), and the re-created surface lost its blur
+  region. The Dock window now stays mapped (an empty Dock simply never slides in).
+- Control Center showed a blurred block before the card: the blur region ignores the
+  card's scale/opacity animation. Control Center, Launcher and Overview now blur only
+  once fully open, and drop the blur as soon as closing starts.
+- Verified in a non-interactive copy with screenshot bursts during opening: no blur
+  ahead of the Control Center/Launcher card; Dock card blurred once in place.
+- Lesson: a blur region must only describe a settled, on-surface item, and blurred
+  surfaces must stay mapped (no `visible` toggling).
 
 ## Remaining M5 items
 - Frame and multi-monitor polish; dimensional iconography; theme-change animation.

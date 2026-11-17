@@ -41,7 +41,9 @@ PanelWindow {
         item: root.open ? card : null
     }
     BackgroundEffect.blurRegion: Region {
-        item: Theme.effects.blurOn && card.opacity > 0.5 ? card : null
+        // Only once fully open (the region ignores scale and opacity), and
+        // gone as soon as closing starts.
+        item: Theme.effects.blurOn && root.open && card.opacity === 1 && card.scale === 1 ? card : null
         radius: card.radius
         topRightRadius: card.topRightRadius
     }

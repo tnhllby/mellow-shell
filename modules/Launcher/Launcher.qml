@@ -41,7 +41,8 @@ PanelWindow {
         item: root.open ? sheet : null
     }
     BackgroundEffect.blurRegion: Region {
-        item: Theme.effects.blurOn && sheet.opacity > 0.5 ? sheet : null
+        // Only once the sheet has fully slid in, and gone as soon as it closes.
+        item: Theme.effects.blurOn && root.open && sheet.y === 0 && sheet.opacity === 1 ? sheet : null
         radius: sheet.radius
         topLeftRadius: sheet.topLeftRadius
     }
