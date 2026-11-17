@@ -13,7 +13,7 @@ FocusScope {
     signal pageRequested(string name)
 
     function focusFirst() {
-        (BrightnessService.available ? brightness : volume.visible ? volume : grid.children[0])?.forceActiveFocus();
+        (brightness.visible ? brightness : volume.visible ? volume : grid.children[0])?.forceActiveFocus();
     }
 
     implicitHeight: column.implicitHeight
@@ -60,11 +60,12 @@ FocusScope {
         ExpressiveSlider {
             id: brightness
             width: parent.width
-            visible: BrightnessService.available
+            // Brightness of the display this Control Center opened on.
+            visible: BrightnessService.available(root.monitorName)
             icon: "brightness_6"
-            label: "Brightness"
-            value: BrightnessService.value
-            onMoved: v => BrightnessService.setValue(v)
+            label: "Brightness, " + root.monitorName
+            value: BrightnessService.value(root.monitorName)
+            onMoved: v => BrightnessService.setValue(root.monitorName, v)
         }
 
         ExpressiveSlider {

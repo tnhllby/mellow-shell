@@ -5,9 +5,9 @@ import Quickshell.Wayland
 import qs.core
 import qs.integrations.hyprland
 
-// Draws the persistent workspace frame below the panel: a ring of chrome with
-// rounded outer screen corners and rounded inner fillets around the workspace,
-// continuing the panel's surface.
+// Draws the persistent workspace frame below the panel: chrome along the sides
+// and bottom with rounded outer screen corners and rounded inner bottom corners.
+// The inner top fillets are drawn by the panel so they always meet its edge.
 // Purely visual: an empty input mask lets every click pass through, and it never
 // takes keyboard focus. The space it covers is reserved by FrameReservation.
 PanelWindow {
@@ -27,7 +27,9 @@ PanelWindow {
         left: true
         right: true
     }
-    margins.top: Config.panel.height
+    // Starts below the panel's fillets (which cover the sides there), so a panel
+    // pushed down by another surface overlaps the frame instead of leaving a gap.
+    margins.top: Config.panel.height + Theme.chromeShape.innerRadius
     exclusionMode: ExclusionMode.Ignore
     color: "transparent"
     mask: Region {}
@@ -61,6 +63,8 @@ PanelWindow {
                 width: root.width - 2 * root.thickness
                 height: root.height - root.thickness
                 radius: root.innerRadius
+                topLeftRadius: 0
+                topRightRadius: 0
             }
         }
     }

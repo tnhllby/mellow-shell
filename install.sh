@@ -96,16 +96,25 @@ preflight() {
 
 install_deps() {
     info "Dependencies"
-    # matugen generates wallpaper colour schemes in Wallpaper Studio (optional).
+    # matugen generates wallpaper colour schemes in Wallpaper Studio; ddcutil
+    # controls external monitor brightness (both optional).
     local missing=()
     command -v qs >/dev/null || missing+=(quickshell)
     command -v matugen >/dev/null || missing+=(matugen)
+    command -v ddcutil >/dev/null || missing+=(ddcutil)
     if [ ${#missing[@]} -eq 0 ]; then
-        info "Quickshell and matugen already installed"
-        return
+        info "Quickshell, matugen and ddcutil already installed"
+    elif confirm "Install ${missing[*]} with sudo pacman?"; then
+        run sudo pacman -S --needed "${missing[@]}"
+    else
+        warn "skipped ${missing[*]}"
     fi
-    confirm "Install ${missing[*]} with sudo pacman?" || { warn "skipped ${missing[*]}"; return; }
-    run sudo pacman -S --needed "${missing[@]}"
+    # ddcutil needs the i2c-dev module and access to /dev/i2c-*; not changed here.
+    if ! id -nG | grep -qw i2c; then
+        warn "External monitor brightness needs i2c access. To enable it:"
+        warn "  sudo modprobe i2c-dev; echo i2c-dev | sudo tee /etc/modules-load.d/i2c-dev.conf"
+        warn "  sudo groupadd -f i2c; sudo usermod -aG i2c \"\$USER\"   (then log in again)"
+    fi
 }
 
 install_fonts() {

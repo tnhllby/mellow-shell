@@ -42,11 +42,18 @@
   (`mellow:control-center`) like the Island, input region = the card.
 - Wallpaper Studio could not be opened from the Control Center (same cause); its surface
   now also stays mapped so the focus grab never races surface creation.
+- Studio Apply/Revert could be covered by the gallery when the colour chips wrapped:
+  they now live in the Studio header and the top row grows with its controls.
+- Bar/frame fillets were drawn by the frame at a fixed height and could end up under a
+  bar pushed down by another surface; the bar's own surface now draws them.
+- Brightness only worked on the built-in display: external monitors are now controlled
+  over DDC/CI (ddcutil), per Control Center monitor. Read and no-op write verified on a
+  Dell P2217H over HDMI.
 - Frame disappeared with maximized windows: Hyprland's `hasfullscreen` includes
   maximize. The frame now hides only for real fullscreen (per-window mode bit 2).
 
 ## Known limitations
 - Revert keeps one step of history.
 - "Span across displays" placement is not offered.
-- External-monitor brightness (DDC/CI) is not supported.
+- External-monitor brightness needs DDC/CI support in the monitor and i2c access.
 - Do-not-disturb and night light are not shown (no backing service yet).

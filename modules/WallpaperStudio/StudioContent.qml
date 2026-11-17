@@ -113,24 +113,44 @@ FocusScope {
                     text: "Wallpaper & style"
                 }
 
-                IconButton {
+                Row {
                     anchors.right: parent.right
                     anchors.verticalCenter: parent.verticalCenter
-                    icon: "close"
-                    label: "Close"
-                    onClicked: root.closeRequested()
+                    spacing: Theme.spacing.x2
+
+                    MButton {
+                        text: "Revert"
+                        icon: "undo"
+                        variant: "tonal"
+                        enabled: WallpaperService.canRevert
+                        onClicked: WallpaperService.revert()
+                    }
+
+                    MButton {
+                        text: "Apply"
+                        icon: "check"
+                        enabled: root.selectedPath !== "" || root.candidate !== null
+                        onClicked: root.apply()
+                    }
+
+                    IconButton {
+                        anchors.verticalCenter: parent.verticalCenter
+                        icon: "close"
+                        label: "Close"
+                        onClicked: root.closeRequested()
+                    }
                 }
             }
 
             Row {
                 id: top
                 width: parent.width
-                height: preview.height
+                height: Math.max(preview.height, controls.implicitHeight)
                 spacing: Theme.spacing.x6
 
                 ThemePreview {
                     id: preview
-                    width: Math.min(parent.width * 0.58, 560)
+                    width: Math.min(parent.width * 0.52, 520)
                     aspect: root.aspect
                     source: root.selectedPath
                     placement: root.placement
@@ -139,6 +159,7 @@ FocusScope {
 
                 // Controls.
                 Column {
+                    id: controls
                     width: parent.width - preview.width - parent.spacing
                     spacing: Theme.spacing.x4
 
@@ -211,24 +232,6 @@ FocusScope {
                             : "Low contrast: " + root.contrast.failing.join(", "))
                     }
 
-                    Row {
-                        spacing: Theme.spacing.x2
-
-                        MButton {
-                            text: "Revert"
-                            icon: "undo"
-                            variant: "tonal"
-                            enabled: WallpaperService.canRevert
-                            onClicked: WallpaperService.revert()
-                        }
-
-                        MButton {
-                            text: "Apply"
-                            icon: "check"
-                            enabled: root.selectedPath !== "" || root.candidate !== null
-                            onClicked: root.apply()
-                        }
-                    }
                 }
             }
 

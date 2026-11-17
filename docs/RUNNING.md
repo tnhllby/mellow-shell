@@ -11,9 +11,11 @@
 - Control Center sources, each optional (controls without a source are hidden):
   PipeWire (volume, microphone), NetworkManager (Internet), BlueZ (Bluetooth),
   UPower (battery), power-profiles-daemon (power mode), systemd-logind + a
-  `/sys/class/backlight` device (brightness).
+  `/sys/class/backlight` device (laptop brightness), `ddcutil` with i2c access
+  (external monitor brightness over DDC/CI; the slider controls the monitor the
+  Control Center opened on).
 
-`install.sh --deps` installs Quickshell and matugen. State is kept in
+`install.sh --deps` installs Quickshell, matugen and ddcutil (and prints the i2c steps). State is kept in
 `~/.local/state/mellow/` (`theme.json`, `wallpaper.json`); delete it to reset.
 
 ## Install on the test machine

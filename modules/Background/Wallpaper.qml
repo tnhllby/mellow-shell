@@ -5,14 +5,15 @@ import qs.core
 import qs.services
 
 // Draws the wallpaper chosen in Wallpaper Studio on the background layer.
-// Nothing is drawn until a wallpaper is set, so another wallpaper tool keeps
-// working until then.
+// The surface is transparent until a wallpaper is set, so another wallpaper
+// tool keeps working until then. (It stays mapped: toggling `visible` from
+// `entry` re-evaluates `screen` and loops.)
 PanelWindow {
     id: root
 
     readonly property var entry: WallpaperService.wallpaperFor(screen?.name ?? "")
 
-    visible: Config.wallpaper.draw && entry !== null
+    visible: Config.wallpaper.draw
     anchors {
         top: true
         bottom: true
@@ -20,7 +21,8 @@ PanelWindow {
         right: true
     }
     exclusionMode: ExclusionMode.Ignore
-    color: Theme.color.surfaceDim
+    mask: Region {}
+    color: entry ? Theme.color.surfaceDim : "transparent"
 
     WlrLayershell.namespace: "mellow:wallpaper"
     WlrLayershell.layer: WlrLayer.Background
