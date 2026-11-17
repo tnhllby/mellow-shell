@@ -91,8 +91,10 @@ Scope {
         mask: Region {
             item: root.shown ? dockArea : null
         }
+        // Only while shown: the hidden card sits outside the surface, and a
+        // region there made Hyprland blur the whole Dock strip.
         BackgroundEffect.blurRegion: Region {
-            item: Theme.effects.blurOn ? card : null
+            item: Theme.effects.blurOn && root.shown ? card : null
             radius: card.radius
             topRightRadius: card.topRightRadius
         }

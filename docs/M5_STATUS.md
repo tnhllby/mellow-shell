@@ -26,5 +26,11 @@
 - Blur region following the cards during animations (only static states captured).
 - All interaction on the test machine (docs/RUNNING.md M5 checklist).
 
+## Fixes after the first test run
+- A blurred strip covered the left ~84 px of the screen (bar and windows) whenever the
+  Dock was hidden: its blur region followed the card off the surface, and Hyprland
+  then blurred the whole Dock surface. The region now exists only while the Dock is
+  shown. Verified in a non-interactive copy (hidden: no strip; shown: card blurred).
+
 ## Remaining M5 items
 - Frame and multi-monitor polish; dimensional iconography; theme-change animation.
