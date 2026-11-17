@@ -17,6 +17,10 @@ Singleton {
     property string studioMonitor: ""
     // Whether the Island was expanded from the keyboard (shows the focus ring at once).
     property bool islandFromKeyboard: false
+    // Monitor showing the application launcher, or "" when closed.
+    property string launcherMonitor: ""
+    // Monitor showing the workspace/window Overview, or "" when closed.
+    property string overviewMonitor: ""
 
     function toggleControlCenter(monitor, fromKeyboard) {
         controlCenterFromKeyboard = fromKeyboard === true;
@@ -32,12 +36,27 @@ Singleton {
         islandMonitor = islandMonitor === monitor ? "" : monitor;
     }
 
+    // Full-screen modes are exclusive: opening one closes the others.
+    function toggleLauncher(monitor) {
+        const open = launcherMonitor !== monitor;
+        closeAll();
+        launcherMonitor = open ? monitor : "";
+    }
+
+    function toggleOverview(monitor) {
+        const open = overviewMonitor !== monitor;
+        closeAll();
+        overviewMonitor = open ? monitor : "";
+    }
+
     function openStudio(monitor) {
         controlCenterMonitor = "";
         studioMonitor = monitor;
     }
 
     function closeAll() {
+        launcherMonitor = "";
+        overviewMonitor = "";
         studioMonitor = "";
         controlCenterMonitor = "";
         dockMonitor = "";

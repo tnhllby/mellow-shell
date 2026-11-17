@@ -113,6 +113,18 @@ Modules import each other as `qs.<dir>` (Quickshell resolves these from the shel
   user's templates) in a queued Process with a session cache. `ColorUtil.check` reports
   WCAG contrast for the text role pairs.
 
+### Launcher, Dock and Overview (M4)
+- `AppService`: visible desktop entries, ranked search (name, words, generic name,
+  keywords, id, comment, in-order letters), launch (Terminal=true apps run in
+  `Config.launcher.terminal`), MELLOW's own launch counts (`apps.json`) as a small
+  ranking boost, window → desktop entry mapping (`DesktopEntries.heuristicLookup`).
+- Dock = pinned entries + running unpinned apps, both from `HyprlandService.windows`.
+- Overview reads window geometry from Hyprland IPC (`lastIpcObject.at/size`), refreshed
+  on open and on window events while open; previews are one-shot `ScreencopyView`
+  captures (`live: false`) created only while the Overview is open.
+- `HyprlandService.moveWindowToWorkspace` (`movetoworkspacesilent` /
+  `hl.dsp.window.move({ workspace, follow = false, window })`).
+
 ### Surfaces (M0)
 | Surface | Layer | Keyboard | Input region | Exclusive zone |
 |---|---|---|---|---|
@@ -124,6 +136,8 @@ Modules import each other as `qs.<dir>` (Quickshell resolves these from the shel
 | `mellow:dock` | Top | None (OnDemand when keyboard-opened) | empty while hidden; right of the strip while shown | ignored (auto-hide) / auto (pinned) |
 | `mellow:control-center` | Top | OnDemand + HyprlandFocusGrab (with the panel) while open | the card while open, empty otherwise | ignored |
 | `mellow:wallpaper` | Background | None | whole screen | ignored (only when a wallpaper is set) |
+| `mellow:launcher` | Top | OnDemand + HyprlandFocusGrab while open | the sheet while open, empty otherwise | ignored |
+| `mellow:overview` | Top (created last) | OnDemand + HyprlandFocusGrab while open | whole screen while open, empty otherwise | ignored |
 | `mellow:studio` | Top | OnDemand + HyprlandFocusGrab while open | whole screen while open, empty otherwise | ignored |
 
 Interactive surfaces stay mapped and switch their input region instead of using

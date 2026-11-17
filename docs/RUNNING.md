@@ -61,6 +61,8 @@ bind = SUPER, C, global, mellow:controlCenter
 bind = SUPER, D, global, mellow:dock
 bind = SUPER, M, global, mellow:island
 bind = SUPER, W, global, mellow:studio
+bindr = SUPER, SUPER_L, global, mellow:launcher   # Meta alone, on release
+bind = SUPER, TAB, global, mellow:overview
 bind = , XF86AudioPlay, global, mellow:mediaPlayPause
 bind = , XF86AudioNext, global, mellow:mediaNext
 bind = , XF86AudioPrev, global, mellow:mediaPrevious
@@ -68,6 +70,8 @@ bind = , Escape, global, mellow:closeAll     # optional; Escape already closes f
 -- hyprland.lua
 hl.bind("SUPER + C", hl.dsp.global("mellow:controlCenter"))
 hl.bind("SUPER + D", hl.dsp.global("mellow:dock"))
+hl.bind("SUPER + SUPER_L", hl.dsp.global("mellow:launcher"), { release = true })
+hl.bind("SUPER + TAB", hl.dsp.global("mellow:overview"))
 ```
 `hyprctl globalshortcuts | grep mellow` lists them. The same actions are available over IPC:
 `qs -c mellow ipc call mellow toggleControlCenter` (`qs -c mellow ipc show` lists all;
@@ -143,3 +147,21 @@ Run `qs -p ~/mellow-shell` in a terminal and watch for `WARN`/`ERROR` lines.
 - [ ] Note: MELLOW's wallpaper sits on the background layer; stop other wallpaper
       daemons (hyprpaper, swww) or they may draw on top. `Config.wallpaper.draw: false`
       turns MELLOW's wallpaper off.
+
+## M4 test checklist (test machine)
+- [ ] Meta (released alone) opens the launcher from the bottom; Meta+other keys do not.
+- [ ] Typing goes straight into the search field; results rank sensibly ("fire" →
+      Firefox, "term" → terminals); arrows/Tab move the selection; Return launches;
+      Escape clears, then closes; a click outside closes.
+- [ ] Empty search: pinned apps first (pin mark), then all apps A–Z.
+- [ ] A Terminal=true app (e.g. btop, Vim) opens in the configured terminal.
+- [ ] Dock: running indicator pill on running apps, longer on the focused one; running
+      apps that are not pinned appear after a divider; click focuses / cycles windows;
+      middle click (or Shift+Return) opens a new instance.
+- [ ] Meta+Tab Overview: workspaces of the focused monitor with window previews at
+      their positions; active workspace and focused window marked.
+- [ ] Overview keyboard: arrows/Tab select, Up/Down jump workspace, Return focuses,
+      Delete closes, 1–9 opens a workspace, Shift+1–9 moves the selected window.
+- [ ] Overview pointer: click focuses; click empty area opens the workspace; middle click
+      or × closes; drag a window onto another workspace or "New workspace" moves it.
+- [ ] Overview updates when windows open/close while it is shown.

@@ -5,6 +5,8 @@ import qs.modules.Dock
 import qs.modules.Frame
 import qs.modules.Island
 import qs.modules.ControlCenter
+import qs.modules.Launcher
+import qs.modules.Overview
 import qs.modules.Background
 import qs.modules.WallpaperStudio
 import qs.modules
@@ -62,7 +64,16 @@ ShellRoot {
                 panel: topBar
             }
 
+            Launcher {
+                screen: perScreen.modelData
+            }
+
             WallpaperStudio {
+                screen: perScreen.modelData
+            }
+
+            // Last, so it covers every other surface while open.
+            Overview {
                 screen: perScreen.modelData
             }
         }

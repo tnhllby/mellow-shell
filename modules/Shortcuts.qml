@@ -65,6 +65,20 @@ Scope {
 
     GlobalShortcut {
         appid: "mellow"
+        name: "launcher"
+        description: "Toggle the application launcher"
+        onPressed: ShellState.toggleLauncher(root.focusedMonitorName())
+    }
+
+    GlobalShortcut {
+        appid: "mellow"
+        name: "overview"
+        description: "Toggle the workspace and window Overview"
+        onPressed: ShellState.toggleOverview(root.focusedMonitorName())
+    }
+
+    GlobalShortcut {
+        appid: "mellow"
         name: "studio"
         description: "Open Wallpaper Studio"
         onPressed: ShellState.openStudio(root.focusedMonitorName())
@@ -102,6 +116,14 @@ Scope {
 
         function mediaPrevious(): void {
             MediaService.previous();
+        }
+
+        function toggleLauncher(): void {
+            ShellState.toggleLauncher(root.focusedMonitorName());
+        }
+
+        function toggleOverview(): void {
+            ShellState.toggleOverview(root.focusedMonitorName());
         }
 
         function openStudio(): void {

@@ -4,6 +4,7 @@ import Quickshell.Wayland
 import Quickshell.Hyprland
 import qs.core
 import qs.components
+import qs.services
 
 // Left-edge Dock, built from two surfaces:
 //  - an edge trigger: a thin strip on the screen edge whose input region never
@@ -21,11 +22,10 @@ Scope {
     readonly property bool hovered: edgeArea.containsMouse || dockArea.containsMouse
     readonly property bool shown: !Config.dock.autoHide || keyboardOpen || hovered || hideTimer.running
 
-    // Re-evaluated when the desktop entry database (re)loads.
-    readonly property var apps: {
-        DesktopEntries.applications.values;
-        return Config.dock.pinned.map(id => DesktopEntries.byId(id)).filter(entry => entry && !entry.noDisplay);
-    }
+    // Pinned applications, then running applications that are not pinned.
+    readonly property var pinnedItems: AppService.pinned.map(entry => ({ entry, appId: entry.id, pinned: true }))
+    readonly property var runningItems: AppService.runningUnpinned.map(item => Object.assign({ pinned: false }, item))
+    readonly property var apps: pinnedItems.concat(runningItems)
 
     function closeKeyboard() {
         if (keyboardOpen)
@@ -134,10 +134,31 @@ Scope {
                     spacing: Theme.spacing.x1
 
                     Repeater {
-                        model: root.apps
+                        model: root.pinnedItems
 
                         delegate: DockItem {
-                            onLaunched: {
+                            onActivated: {
+                                hideTimer.stop();
+                                root.closeKeyboard();
+                            }
+                        }
+                    }
+
+                    // Divider between pinned and other running applications.
+                    Rectangle {
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        width: 28
+                        height: 2
+                        radius: 1
+                        color: Theme.color.outlineVariant
+                        visible: root.pinnedItems.length > 0 && root.runningItems.length > 0
+                    }
+
+                    Repeater {
+                        model: root.runningItems
+
+                        delegate: DockItem {
+                            onActivated: {
                                 hideTimer.stop();
                                 root.closeKeyboard();
                             }

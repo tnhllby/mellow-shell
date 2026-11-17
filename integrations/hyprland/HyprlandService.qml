@@ -106,6 +106,15 @@ Singleton {
             dispatch(`closewindow ${selector}`, `hl.dsp.window.close({ window = "${selector}" })`);
     }
 
+    // Move a window to workspace `id` without following it.
+    function moveWindowToWorkspace(window, id) {
+        const selector = windowSelector(window);
+        const n = Number(id);
+        if (selector && Number.isInteger(n) && n > 0)
+            dispatch(`movetoworkspacesilent ${n},${selector}`,
+                `hl.dsp.window.move({ workspace = "${n}", follow = false, window = "${selector}" })`);
+    }
+
     // Window IPC data (fullscreen mode) is not pushed by events; refresh it
     // when fullscreen state changes.
     Connections {

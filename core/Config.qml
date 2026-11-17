@@ -49,6 +49,12 @@ Singleton {
         readonly property string fullscreenPolicy: "hide"
     }
 
+    readonly property QtObject launcher: QtObject {
+        // Used for desktop entries with Terminal=true.
+        readonly property var terminal: ["kitty", "-e"]
+        readonly property int maxResults: 48
+    }
+
     readonly property QtObject dock: QtObject {
         readonly property bool autoHide: true
         // Width of the invisible activation strip on the left screen edge.
