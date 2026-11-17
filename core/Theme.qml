@@ -49,7 +49,7 @@ Singleton {
     // around the workspace.
     readonly property QtObject chromeShape: QtObject {
         readonly property int outerRadius: 22
-        readonly property int innerRadius: 30
+        readonly property int innerRadius: 11
     }
 
     readonly property QtObject focusRing: QtObject {

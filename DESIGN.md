@@ -42,7 +42,7 @@ MELLOW has a full-width top panel with three zones:
 The usable workspace has a persistent frame around its perimeter. This is a defining MELLOW visual element.
 
 ### 3.1 Full-width panel
-Initial target height: 56–64 logical pixels, configurable and scale-aware.
+Height: 52 logical pixels (configurable in `Config.panel.height`, scale-aware).
 
 The panel must align all three zones, avoid crowding at narrow resolutions, support multiple monitors, and expose hover/focus/pressed/active/disabled states. It must remain visually subordinate to applications.
 

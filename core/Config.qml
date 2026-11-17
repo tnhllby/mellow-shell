@@ -17,7 +17,7 @@ Singleton {
     }
 
     readonly property QtObject panel: QtObject {
-        readonly property int height: 56
+        readonly property int height: 52
         readonly property bool showActiveWindow: true
     }
 
