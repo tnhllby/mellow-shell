@@ -35,7 +35,7 @@ Do not reproduce another project's code, assets, exact layouts or component desi
 ## 3. Desktop composition
 
 MELLOW has a full-width top panel with three zones:
-- **Left:** workspace indicator in the top-left corner; each workspace button shows the icon of its main app (the last focused window there) next to its number.
+- **Left:** workspace indicator in the top-left corner; inactive workspaces show their number, the active one shows the icon of its main app (the last focused window there), or its number when empty.
 - **Center:** MELLOW Island.
 - **Right:** clock/date, system status and Pixel-inspired Quick Settings entry point.
 

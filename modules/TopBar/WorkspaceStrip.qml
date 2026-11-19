@@ -6,9 +6,10 @@ import qs.components
 import qs.services
 import qs.integrations.hyprland
 
-// Workspaces of this panel's monitor, each with the icon of its main app (the
-// last focused window there). The focused workspace stretches into a pill;
-// scrolling over the strip steps through the list.
+// Workspaces of this panel's monitor. Inactive workspaces show their number;
+// the focused one stretches into a pill showing its main app's icon (the last
+// focused window there), or its number when empty. Scrolling over the strip
+// steps through the list.
 Surface {
     id: root
 
@@ -43,12 +44,13 @@ Surface {
                 readonly property var window: HyprlandService.mainWindowOn(modelData)
                 readonly property string iconName: window
                     ? (AppService.entryForWindow(window)?.icon || HyprlandService.appIdOf(window)) : ""
+                readonly property bool showIcon: current && iconName !== ""
 
                 width: Math.max(height, content.implicitWidth + 2 * (current ? Theme.spacing.x3 : Theme.spacing.x2))
                 height: Theme.barPill.inner
                 radius: Theme.shape.pill
-                color: modelData.urgent ? Theme.color.errorContainer
-                     : current ? (focusedMonitor ? Theme.color.primary : Theme.color.secondaryContainer)
+                color: modelData.urgent ? Theme.glass(Theme.color.errorContainer)
+                     : current ? Theme.glass(focusedMonitor ? Theme.color.primary : Theme.color.secondaryContainer)
                      : "transparent"
 
                 Accessible.role: Accessible.Button
@@ -78,14 +80,15 @@ Surface {
 
                     IconImage {
                         anchors.verticalCenter: parent.verticalCenter
-                        implicitSize: 16
-                        visible: pill.iconName !== ""
-                        source: pill.iconName !== "" ? Icons.app(pill.iconName) : ""
+                        implicitSize: 18
+                        visible: pill.showIcon
+                        source: pill.showIcon ? Icons.app(pill.iconName) : ""
                     }
 
                     MText {
                         id: label
                         anchors.verticalCenter: parent.verticalCenter
+                        visible: !pill.showIcon
                         role: Typography.labelLarge
                         text: pill.modelData.name
                         color: pill.modelData.urgent ? Theme.color.contentErrorContainer

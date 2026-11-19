@@ -62,5 +62,15 @@
 - Verified in a non-interactive copy (dark and light): icons per workspace, no
   outlines, no warnings. Not verified: icon updates while switching/moving windows.
 
+## Follow-up (2026-11-19, evening)
+- Light rim around blurred cards after the outlines were removed: the card's
+  antialiased edge is partly transparent, and the blurred backdrop under it (the
+  wallpaper while Hyprland's xray is on) showed through. `components/CardBlurRegion`
+  insets each card's blur region by 1 px (Control Center, Launcher, Dock, Island).
+  Measured across the Control Center's bottom edge: the edge row now shows the real
+  background instead of the blur.
+- Workspace strip: inactive workspaces show their number; the active one shows its
+  main app's icon (number when empty). Active/urgent pills are translucent too.
+
 ## Remaining M5 items
 - Frame and multi-monitor polish; dimensional iconography; theme-change animation.

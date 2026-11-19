@@ -32,12 +32,9 @@ PanelWindow {
     mask: Region {
         item: island
     }
-    // Radii clamped to half the height, as Qt draws them.
-    BackgroundEffect.blurRegion: Region {
-        item: Theme.effects.blurOn ? island : null
-        radius: Math.min(island.radius, island.height / 2)
-        topLeftRadius: Math.min(island.topLeftRadius, island.height / 2)
-        bottomRightRadius: Math.min(island.bottomRightRadius, island.height / 2)
+    BackgroundEffect.blurRegion: CardBlurRegion {
+        card: island
+        active: Theme.effects.blurOn
     }
 
     WlrLayershell.namespace: "mellow:island"

@@ -40,11 +40,10 @@ PanelWindow {
     mask: Region {
         item: root.open ? sheet : null
     }
-    BackgroundEffect.blurRegion: Region {
-        // Only once the sheet has fully slid in, and gone as soon as it closes.
-        item: Theme.effects.blurOn && root.open && sheet.y === 0 && sheet.opacity === 1 ? sheet : null
-        radius: sheet.radius
-        topLeftRadius: sheet.topLeftRadius
+    // Only once the sheet has fully slid in, and gone as soon as it closes.
+    BackgroundEffect.blurRegion: CardBlurRegion {
+        card: sheet
+        active: Theme.effects.blurOn && root.open && sheet.y === 0 && sheet.opacity === 1
     }
 
     WlrLayershell.namespace: "mellow:launcher"

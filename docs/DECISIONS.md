@@ -22,7 +22,7 @@
 
 ## Panel
 - Full-width top panel.
-- Left (top-left corner): workspace indicator; each workspace button shows its main app's icon. (2026-11-19: the separate active-window icon + title was removed.)
+- Left (top-left corner): workspace indicator; the active workspace shows its main app's icon, inactive ones their number. (2026-11-19: the separate active-window icon + title was removed.)
 - Bar 44 px (2026-11-19, was 52). Bar pills, Island and Control Center trigger are translucent over the blur.
 - Workspace corners: top fillets and bottom inner corners share one radius, outer − frame thickness (18 px).
 - Floating cards (Control Center, Launcher, Dock) have no outline; tonal colour and blur separate them. Overview keeps borders as selection/active markers.

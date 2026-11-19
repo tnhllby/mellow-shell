@@ -94,10 +94,9 @@ Scope {
         }
         // Only once the card has slid fully in: a region outside the surface
         // made Hyprland blur the whole Dock strip.
-        BackgroundEffect.blurRegion: Region {
-            item: Theme.effects.blurOn && root.shown && card.x === card.restX ? card : null
-            radius: card.radius
-            topRightRadius: card.topRightRadius
+        BackgroundEffect.blurRegion: CardBlurRegion {
+            card: card
+            active: Theme.effects.blurOn && root.shown && card.x === card.restX
         }
 
         HyprlandFocusGrab {

@@ -40,12 +40,11 @@ PanelWindow {
     mask: Region {
         item: root.open ? card : null
     }
-    BackgroundEffect.blurRegion: Region {
-        // Only once fully open (the region ignores scale and opacity), and
-        // gone as soon as closing starts.
-        item: Theme.effects.blurOn && root.open && card.opacity === 1 && card.scale === 1 ? card : null
-        radius: card.radius
-        topRightRadius: card.topRightRadius
+    // Only once fully open (the region ignores scale and opacity), and gone
+    // as soon as closing starts.
+    BackgroundEffect.blurRegion: CardBlurRegion {
+        card: card
+        active: Theme.effects.blurOn && root.open && card.opacity === 1 && card.scale === 1
     }
 
     WlrLayershell.namespace: "mellow:control-center"

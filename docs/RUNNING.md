@@ -179,9 +179,10 @@ Run `qs -p ~/mellow-shell` in a terminal and watch for `WARN`/`ERROR` lines.
 - [ ] Overview updates when windows open/close while it is shown.
 
 ## M5 test checklist (test machine)
-- [ ] Bar 44 px: each workspace button shows the icon of the app last focused there;
-      it follows focus changes, closed windows and windows moved between workspaces;
-      empty workspaces show the number only.
+- [ ] Bar 44 px: inactive workspaces show their number; the active one shows the icon
+      of the app last focused there (number when empty), following focus changes,
+      closed windows and windows moved between workspaces.
+- [ ] No light rim around the Control Center, Launcher, Dock or Island edges.
 - [ ] Top and bottom inner workspace corners have the same radius.
 - [ ] Light and dark (Control Center → Dark theme): bar, Island, Control Center, Dock,
       Launcher, Overview and Studio are readable; Overview title/hint sit on chips.
