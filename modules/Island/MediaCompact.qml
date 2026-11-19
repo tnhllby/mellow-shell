@@ -8,7 +8,7 @@ Item {
     id: root
 
     implicitWidth: row.implicitWidth
-    implicitHeight: 40
+    implicitHeight: Theme.barPill.height
 
     Row {
         id: row

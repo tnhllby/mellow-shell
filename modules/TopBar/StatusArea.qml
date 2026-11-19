@@ -14,9 +14,9 @@ Surface {
     signal controlCenterToggled
 
     implicitWidth: row.implicitWidth + Theme.spacing.x4 + Theme.spacing.x1
-    implicitHeight: 40
+    implicitHeight: Theme.barPill.height
     radius: Theme.shape.pill
-    color: Theme.color.surfaceContainerHigh
+    color: Theme.glass(Theme.color.surfaceContainerHigh)
 
     SystemClock {
         id: clock
@@ -52,9 +52,9 @@ Surface {
 
             anchors.verticalCenter: parent.verticalCenter
             width: icons.implicitWidth + 2 * Theme.spacing.x3
-            height: 32
+            height: Theme.barPill.inner
             radius: root.controlCenterOpen ? Theme.shape.md : Theme.shape.pill
-            color: root.controlCenterOpen ? Theme.color.secondaryContainer : Theme.color.surfaceContainerHighest
+            color: root.controlCenterOpen ? Theme.color.secondaryContainer : Theme.glass(Theme.color.surfaceContainerHighest)
             Accessible.role: Accessible.Button
             Accessible.name: "Control Center"
 

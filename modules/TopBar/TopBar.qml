@@ -6,8 +6,8 @@ import qs.core
 import qs.components
 import qs.integrations.hyprland
 
-// Full-width top panel: workspaces and active window (left), clock and system
-// controls (right). The centre belongs to the Island, a separate surface.
+// Full-width top panel: workspaces with their apps' icons (left), clock and
+// system controls (right). The centre belongs to the Island, a separate surface.
 // It never takes keyboard focus; it only receives pointer input inside its own
 // rectangle, which Hyprland keeps clear of windows via the exclusive zone.
 PanelWindow {
@@ -142,27 +142,11 @@ PanelWindow {
         }
     }
 
-    Row {
+    WorkspaceStrip {
         anchors.left: parent.left
         anchors.leftMargin: Theme.spacing.x3
         anchors.verticalCenter: bar.verticalCenter
-        spacing: Theme.spacing.x4
-
-        WorkspaceStrip {
-            id: workspaces
-            anchors.verticalCenter: parent.verticalCenter
-            monitor: root.monitor
-        }
-
-        ActiveWindow {
-            anchors.verticalCenter: parent.verticalCenter
-            monitor: root.monitor
-            // Space left of the (widest compact) Island that the workspace strip does not use.
-            maximumWidth: Math.max(0, root.width / 2 - Math.min(Config.island.compactMaxWidth, root.width * 0.34) / 2
-                - workspaces.width - 3 * Theme.spacing.x4)
-            visible: Config.panel.showActiveWindow && maximumWidth > 60 && window !== null
-                && window.monitor === monitor && window.title !== ""
-        }
+        monitor: root.monitor
     }
 
     StatusArea {

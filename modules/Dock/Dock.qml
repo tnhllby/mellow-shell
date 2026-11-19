@@ -127,8 +127,6 @@ Scope {
                 radius: Theme.shape.lg
                 topRightRadius: Theme.shape.organic
                 color: Theme.glass(Theme.color.surfaceContainerHigh)
-                border.width: 1
-                border.color: Theme.color.outlineVariant
 
                 Behavior on x {
                     NumberAnimation {

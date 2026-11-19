@@ -75,8 +75,6 @@ PanelWindow {
         radius: Theme.shape.xl
         topLeftRadius: Theme.shape.organic
         color: Theme.glass(Theme.color.surfaceContainer)
-        border.width: 1
-        border.color: Theme.color.outlineVariant
         opacity: root.open ? 1 : 0
         visible: opacity > 0
 

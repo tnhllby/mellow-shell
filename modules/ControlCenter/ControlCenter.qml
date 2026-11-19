@@ -78,8 +78,6 @@ PanelWindow {
         radius: Theme.shape.xl
         topRightRadius: Theme.shape.md
         color: Theme.glass(Theme.color.surfaceContainer)
-        border.width: 1
-        border.color: Theme.color.outlineVariant
         clip: true
 
         visible: opacity > 0

@@ -32,13 +32,12 @@ PanelWindow {
     mask: Region {
         item: island
     }
-    // The compact Island sits on the opaque bar; only the expanded player
-    // floats over windows and uses the blur.
+    // Radii clamped to half the height, as Qt draws them.
     BackgroundEffect.blurRegion: Region {
-        item: Theme.effects.blurOn && root.expanded ? island : null
-        radius: island.radius
-        topLeftRadius: island.topLeftRadius
-        bottomRightRadius: island.bottomRightRadius
+        item: Theme.effects.blurOn ? island : null
+        radius: Math.min(island.radius, island.height / 2)
+        topLeftRadius: Math.min(island.topLeftRadius, island.height / 2)
+        bottomRightRadius: Math.min(island.bottomRightRadius, island.height / 2)
     }
 
     WlrLayershell.namespace: "mellow:island"
@@ -59,10 +58,10 @@ PanelWindow {
         readonly property real compactWidth: Math.min(root.compactMaxWidth, (root.media ? mediaCompact.implicitWidth : ambientCompact.implicitWidth) + 2 * Theme.spacing.x4)
 
         anchors.horizontalCenter: parent.horizontalCenter
-        y: (Config.panel.height - 40) / 2
+        y: (Config.panel.height - Theme.barPill.height) / 2
         width: root.expanded ? root.expandedWidth : compactWidth
-        height: root.expanded ? player.implicitHeight : 40
-        color: root.expanded ? Theme.glass(Theme.color.surfaceContainerHigh) : Theme.color.surfaceContainerHighest
+        height: root.expanded ? player.implicitHeight : Theme.barPill.height
+        color: Theme.glass(root.expanded ? Theme.color.surfaceContainerHigh : Theme.color.surfaceContainerHighest)
         // Asymmetric organic corners give the Island its silhouette in both states.
         radius: Theme.shape.xl
         topLeftRadius: Theme.shape.organic

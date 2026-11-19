@@ -47,10 +47,10 @@ release bind, smoother Overview, concentric frame corners; `f7c34c0` M4.
 
 ## User preferences and decisions
 - Dock on the **left** edge (auto-hide, separate 2 px edge-trigger surface);
-  workspaces + active window at the **top-left**; clock, date and status at the right.
-- Bar 52 px; thin frame (4 px) around the workspace, no inner outline; bar and frame
+  workspaces (each with its app icon) at the **top-left**; clock, date and status at the right.
+- Bar 44 px; thin frame (4 px) around the workspace, no inner outline; bar and frame
   form one chrome: rounded outer screen corners (22 px) with **black** outside them,
-  inner fillets under the bar 11 px, frame inner bottom corners concentric (18 px).
+  all inner workspace corners 18 px (outer 22 − frame 4); no outlines on cards.
 - Fonts used by Pixel/end-4 (Google Sans Flex, Roboto Flex, Roboto Mono, Material
   Symbols Rounded), installed only by `install.sh --fonts` (user-local).
 - Pixel-inspired Material 3 Expressive look, original — never copy other projects.

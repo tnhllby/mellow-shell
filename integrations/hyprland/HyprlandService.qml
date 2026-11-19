@@ -53,6 +53,25 @@ Singleton {
         return workspace ? workspace.toplevels.values : [];
     }
 
+    // Last focused window per workspace id, updated as focus changes.
+    property var lastFocused: ({})
+    onActiveWindowChanged: {
+        const id = activeWindow?.workspace?.id;
+        if (id === undefined)
+            return;
+        const map = Object.assign({}, lastFocused);
+        map[id] = activeWindow;
+        lastFocused = map;
+    }
+
+    // The window that represents a workspace: its last focused one if it is
+    // still there, otherwise its first window; null when empty.
+    function mainWindowOn(workspace) {
+        const list = windowsOn(workspace);
+        const last = workspace ? lastFocused[workspace.id] : null;
+        return list.includes(last) ? last : (list[0] ?? null);
+    }
+
     // Application id of a window (e.g. "firefox"), or "" if unknown.
     function appIdOf(window) {
         return window?.wayland?.appId ?? window?.lastIpcObject?.class ?? "";

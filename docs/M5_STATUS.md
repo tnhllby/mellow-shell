@@ -51,5 +51,16 @@
 - Live-window blur needs the Hyprland `xray = false` layer rule (docs/RUNNING.md); not
   tested, because it means changing the host's Hyprland config.
 
+## Bar refresh (2026-11-19)
+- Bar 44 px; pill sizes derive from it (`Theme.barPill`). Workspace buttons show the
+  icon of the workspace's main app (`HyprlandService.mainWindowOn`, last focused window
+  tracked from focus changes); the active-window title is gone.
+- Workspace strip, status pill and compact Island are translucent; the Island blurs
+  in compact and expanded state.
+- Top fillets now 18 px like the bottom inner corners (`Theme.chromeShape.innerRadius`).
+- Outlines removed from Control Center, Launcher and Dock cards.
+- Verified in a non-interactive copy (dark and light): icons per workspace, no
+  outlines, no warnings. Not verified: icon updates while switching/moving windows.
+
 ## Remaining M5 items
 - Frame and multi-monitor polish; dimensional iconography; theme-change animation.

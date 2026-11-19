@@ -73,7 +73,16 @@ Singleton {
     // around the workspace.
     readonly property QtObject chromeShape: QtObject {
         readonly property int outerRadius: 22
-        readonly property int innerRadius: 11
+        // Workspace corners, top (fillets) and bottom alike: concentric with the
+        // outer corners, so the frame keeps its thickness round the curve.
+        readonly property int innerRadius: outerRadius - Config.frame.thickness
+    }
+
+    // Pills sitting on the bar (workspaces, status, compact Island).
+    readonly property QtObject barPill: QtObject {
+        readonly property int height: Config.panel.height - 10
+        // Buttons inside a bar pill.
+        readonly property int inner: Config.panel.height - 18
     }
 
     readonly property QtObject focusRing: QtObject {

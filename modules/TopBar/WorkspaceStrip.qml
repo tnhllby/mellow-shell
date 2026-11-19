@@ -1,11 +1,14 @@
 import QtQuick
 import Quickshell
+import Quickshell.Widgets
 import qs.core
 import qs.components
+import qs.services
 import qs.integrations.hyprland
 
-// Workspaces of this panel's monitor. The focused workspace stretches into a
-// pill; scrolling over the strip steps through the list.
+// Workspaces of this panel's monitor, each with the icon of its main app (the
+// last focused window there). The focused workspace stretches into a pill;
+// scrolling over the strip steps through the list.
 Surface {
     id: root
 
@@ -13,9 +16,9 @@ Surface {
     readonly property var model: HyprlandService.workspacesOn(monitor)
 
     implicitWidth: row.implicitWidth + 2 * Theme.spacing.x1
-    implicitHeight: 36
+    implicitHeight: Theme.barPill.height
     radius: Theme.shape.pill
-    color: Theme.color.surfaceContainerHigh
+    color: Theme.glass(Theme.color.surfaceContainerHigh)
     visible: model.length > 0
 
     WheelHandler {
@@ -37,16 +40,19 @@ Surface {
                 required property var modelData
                 readonly property bool current: modelData === root.monitor?.activeWorkspace
                 readonly property bool focusedMonitor: root.monitor?.focused ?? false
+                readonly property var window: HyprlandService.mainWindowOn(modelData)
+                readonly property string iconName: window
+                    ? (AppService.entryForWindow(window)?.icon || HyprlandService.appIdOf(window)) : ""
 
-                width: current ? 44 : 28
-                height: 28
+                width: Math.max(height, content.implicitWidth + 2 * (current ? Theme.spacing.x3 : Theme.spacing.x2))
+                height: Theme.barPill.inner
                 radius: Theme.shape.pill
                 color: modelData.urgent ? Theme.color.errorContainer
                      : current ? (focusedMonitor ? Theme.color.primary : Theme.color.secondaryContainer)
                      : "transparent"
 
                 Accessible.role: Accessible.Button
-                Accessible.name: "Workspace " + modelData.name
+                Accessible.name: "Workspace " + modelData.name + (window ? ", " + window.title : "")
 
                 Behavior on width {
                     NumberAnimation {
@@ -65,14 +71,27 @@ Surface {
                     pressed: mouse.pressed
                 }
 
-                MText {
-                    id: label
+                Row {
+                    id: content
                     anchors.centerIn: parent
-                    role: Typography.labelLarge
-                    text: pill.modelData.name
-                    color: pill.modelData.urgent ? Theme.color.contentErrorContainer
-                         : pill.current ? (pill.focusedMonitor ? Theme.color.contentPrimary : Theme.color.contentSecondaryContainer)
-                         : Theme.color.contentSurfaceVariant
+                    spacing: Theme.spacing.x1 + 2
+
+                    IconImage {
+                        anchors.verticalCenter: parent.verticalCenter
+                        implicitSize: 16
+                        visible: pill.iconName !== ""
+                        source: pill.iconName !== "" ? Icons.app(pill.iconName) : ""
+                    }
+
+                    MText {
+                        id: label
+                        anchors.verticalCenter: parent.verticalCenter
+                        role: Typography.labelLarge
+                        text: pill.modelData.name
+                        color: pill.modelData.urgent ? Theme.color.contentErrorContainer
+                             : pill.current ? (pill.focusedMonitor ? Theme.color.contentPrimary : Theme.color.contentSecondaryContainer)
+                             : Theme.color.contentSurfaceVariant
+                    }
                 }
 
                 MouseArea {
