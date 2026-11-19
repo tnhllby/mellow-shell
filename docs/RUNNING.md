@@ -81,6 +81,18 @@ Qt logs a harmless `qt.qpa.wayland.textinput … Trying to disable … but 0x0 i
 warning when a focused popup closes. Hide it with
 `qs -c mellow --log-rules "qt.qpa.wayland.textinput=false"`.
 
+## Live blur behind MELLOW (optional, added by you)
+MELLOW asks Hyprland to blur behind its bar, frame and panels. If Hyprland's
+`decoration:blur:xray` is on, that blur shows only the wallpaper, not the windows behind
+a panel. To blur the live windows behind MELLOW while keeping xray for everything else:
+```
+-- hyprland.lua
+hl.layer_rule({ name = "mellow-live-blur", match = { namespace = "^mellow:" }, xray = false })
+```
+(The classic `hyprland.conf` layerrule syntax for this is not verified yet.) Live blur
+re-blurs what is behind a panel whenever it changes (e.g. video), which costs some
+GPU time; `Config.effects.blur: "off"` turns all blur off.
+
 ## Rollback
 1. `qs kill -c mellow`. All MELLOW surfaces and reserved space disappear immediately.
 2. `./uninstall.sh` removes the config symlink and (after asking) the fonts.

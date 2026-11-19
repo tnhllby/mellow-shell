@@ -36,6 +36,26 @@ PanelWindow {
     color: "transparent"
     mask: Region {}
 
+    // Blur behind the frame ring: the surface with rounded bottom corners
+    // minus the workspace. Kept inside the surface (regions outside it
+    // misbehave).
+    readonly property Region blurShape: Region {
+        width: root.width
+        height: root.height
+        bottomLeftRadius: root.outerRadius
+        bottomRightRadius: root.outerRadius
+
+        Region {
+            intersection: Intersection.Subtract
+            x: root.thickness
+            width: root.width - 2 * root.thickness
+            height: root.height - root.thickness
+            bottomLeftRadius: root.innerRadius
+            bottomRightRadius: root.innerRadius
+        }
+    }
+    BackgroundEffect.blurRegion: Theme.effects.blurOn ? blurShape : null
+
     WlrLayershell.namespace: "mellow:frame"
     WlrLayershell.layer: WlrLayer.Top
     WlrLayershell.keyboardFocus: WlrKeyboardFocus.None

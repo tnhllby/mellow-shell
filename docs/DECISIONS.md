@@ -60,7 +60,11 @@
   Hyprland 0.56), so no Hyprland layer rules are needed. Default Subtle; it falls back to
   Off while Hyprland's `decoration:blur:enabled` is false, so cards are never translucent
   without blur. Blur strength and xray come from the user's Hyprland blur settings.
-  The bar/frame chrome and the compact Island stay opaque in every mode.
+  The compact Island stays opaque on the bar in every mode. (2026-11-19) The bar and
+  frame chrome are translucent with blur too (0.85 Subtle, 0.70 Expressive), with blur
+  regions matching their exact shape (rounded outer corners, concave fillets, frame
+  ring). Blur of live windows (not just the wallpaper) needs a Hyprland layer rule
+  `xray = false` for `^mellow:` namespaces; the M6 installer adds it with the keybinds.
 - Reduced-motion mode is required.
 - Shell remains usable without blur.
 

@@ -35,6 +35,47 @@ PanelWindow {
         item: bar
     }
 
+    // Blur behind the chrome: the bar with its rounded outer corners, plus the
+    // concave fillets (a square minus the rounded workspace corner).
+    readonly property Region blurShape: Region {
+        width: root.width
+        height: Config.panel.height
+        topLeftRadius: Theme.chromeShape.outerRadius
+        topRightRadius: Theme.chromeShape.outerRadius
+
+        Region {
+            y: Config.panel.height
+            width: root.frameShown ? root.frameThickness + root.fillet : 0
+            height: root.fillet
+
+            Region {
+                intersection: Intersection.Subtract
+                x: root.frameThickness
+                y: Config.panel.height
+                width: 2 * root.fillet
+                height: 2 * root.fillet
+                topLeftRadius: root.fillet
+            }
+        }
+
+        Region {
+            x: root.width - width
+            y: Config.panel.height
+            width: root.frameShown ? root.frameThickness + root.fillet : 0
+            height: root.fillet
+
+            Region {
+                intersection: Intersection.Subtract
+                x: root.width - root.frameThickness - 2 * root.fillet
+                y: Config.panel.height
+                width: 2 * root.fillet
+                height: 2 * root.fillet
+                topRightRadius: root.fillet
+            }
+        }
+    }
+    BackgroundEffect.blurRegion: Theme.effects.blurOn ? blurShape : null
+
     WlrLayershell.namespace: "mellow:panel"
     WlrLayershell.layer: WlrLayer.Top
     WlrLayershell.keyboardFocus: WlrKeyboardFocus.None

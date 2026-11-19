@@ -42,5 +42,14 @@
 - Lesson: a blur region must only describe a settled, on-surface item, and blurred
   surfaces must stay mapped (no `visible` toggling).
 
+## Translucent chrome (2026-11-19)
+- Bar and frame are translucent over a blur (`Theme.effects.chromeOpacity`), with blur
+  regions built from Region subtraction so the blur follows the rounded outer corners,
+  the concave fillets and the frame ring exactly.
+- Verified in a non-interactive copy (Expressive, dark): corners and fillets clean, no
+  blur outside the chrome, no warnings. Your live session reloaded it in Subtle.
+- Live-window blur needs the Hyprland `xray = false` layer rule (docs/RUNNING.md); not
+  tested, because it means changing the host's Hyprland config.
+
 ## Remaining M5 items
 - Frame and multi-monitor polish; dimensional iconography; theme-change animation.

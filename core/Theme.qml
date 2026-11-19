@@ -23,6 +23,8 @@ Singleton {
         readonly property bool blurOn: blur !== "off"
         // Card opacity over the blur; 1 keeps cards opaque.
         readonly property real cardOpacity: blur === "expressive" ? 0.72 : blur === "subtle" ? 0.86 : 1
+        // Bar and frame (one chrome) opacity over the blur.
+        readonly property real chromeOpacity: blur === "expressive" ? 0.7 : blur === "subtle" ? 0.85 : 1
         // Full-screen backdrops (Overview, Studio) blur what is behind them.
         readonly property bool backdropBlur: blur === "expressive"
     }
@@ -33,7 +35,7 @@ Singleton {
     }
 
     // The continuous chrome shared by the panel and the workspace frame.
-    readonly property color chrome: color.surfaceContainer
+    readonly property color chrome: Qt.alpha(color.surfaceContainer, effects.chromeOpacity)
     // Outside the rounded screen corners: black like the display bezel, in every theme.
     readonly property color screenCorner: "#000000"
 
