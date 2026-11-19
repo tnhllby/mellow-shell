@@ -72,5 +72,11 @@
 - Workspace strip: inactive workspaces show their number; the active one shows its
   main app's icon (number when empty). Active/urgent pills are translucent too.
 
+- Control Center blur missed its left ~16 px: the region took the card position from
+  `mapToItem`, which includes the closed card's 0.96 scale, and was never re-measured.
+  It now uses plain x/y (+ an explicit parent offset for the nested Dock card).
+- Outline back on Control Center, Launcher and Dock, faint (`Theme.cardOutline`,
+  outlineVariant at 35 %): without it the edges looked too sharp.
+
 ## Remaining M5 items
 - Frame and multi-monitor polish; dimensional iconography; theme-change animation.

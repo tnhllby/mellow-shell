@@ -96,6 +96,7 @@ Scope {
         // made Hyprland blur the whole Dock strip.
         BackgroundEffect.blurRegion: CardBlurRegion {
             card: card
+            offset: Qt.point(dockArea.x, dockArea.y)
             active: Theme.effects.blurOn && root.shown && card.x === card.restX
         }
 
@@ -126,6 +127,8 @@ Scope {
                 radius: Theme.shape.lg
                 topRightRadius: Theme.shape.organic
                 color: Theme.glass(Theme.color.surfaceContainerHigh)
+                border.width: 1
+                border.color: Theme.cardOutline
 
                 Behavior on x {
                     NumberAnimation {

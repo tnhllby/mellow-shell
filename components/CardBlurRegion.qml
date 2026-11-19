@@ -12,14 +12,14 @@ Region {
 
     property Item card: null
     property bool active: true
+    // Position of the card's parent in the window, when the card is nested.
+    property point offset: Qt.point(0, 0)
 
     readonly property int inset: 1
     readonly property bool on: active && card !== null
-    // Card position in window coordinates (re-evaluated when it or its parent moves).
-    readonly property point origin: {
-        card?.x; card?.y; card?.parent?.x; card?.parent?.y;
-        return card ? card.mapToItem(null, 0, 0) : Qt.point(0, 0);
-    }
+    // Card position in window coordinates. Plain x/y, not mapToItem: that
+    // includes the card's scale animation and shifted the region.
+    readonly property point origin: card ? Qt.point(card.x + offset.x, card.y + offset.y) : Qt.point(0, 0)
 
     // A corner radius as Qt draws it (unset per-corner radii read as `radius`,
     // and radii are clamped to half the size), minus the inset.

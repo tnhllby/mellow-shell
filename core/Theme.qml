@@ -29,6 +29,9 @@ Singleton {
         readonly property bool backdropBlur: blur === "expressive"
     }
 
+    // Hairline around floating cards: just enough to soften their edge.
+    readonly property color cardOutline: Qt.alpha(color.outlineVariant, 0.35)
+
     // A card colour made translucent to match the blur mode.
     function glass(c) {
         return Qt.alpha(c, effects.cardOpacity);
