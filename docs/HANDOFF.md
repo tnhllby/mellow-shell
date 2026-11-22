@@ -82,9 +82,15 @@ each requested change; never push.
   shows only its main app's icon** (last focused window there; number when empty).
   No active-window title in the bar. Clock, date, status at the right; Island centre.
 - Dock on the **left** edge (auto-hide, 2 px edge-trigger surface).
-- Floating cards (Control Center, Launcher, Dock) have a **faint** 1 px outline
-  (`Theme.cardOutline`, outlineVariant at 35 %): without one the edges looked too
-  sharp, and a normal outline looked too strong. Overview keeps borders as markers.
+- Launcher keeps a **faint** 1 px outline (`Theme.cardOutline`, outlineVariant at
+  35 %). Island, Dock, Control Center and the workspace preview use a 2 px edge band
+  in the card's own colour (`Theme.cardEdge`): the jagged blur edge looked "sharpy",
+  and the band must stay unnoticeable (a tinted or denser band read as a ring).
+  Overview keeps borders as markers.
+- Overview always shows workspaces 1–6 (`Config.overview.defaultWorkspaces`), empty
+  ones as plain cards; workspaces living on another monitor appear on that one.
+- Hovering an inactive workspace number (with windows) shows a preview card under
+  the bar after 300 ms (`modules/TopBar/WorkspacePreview.qml`).
 - Blur: `Config.effects.blur` = "subtle" (default) | "expressive" | "off"; it falls back
   to off when Hyprland blur is disabled. The user wants blur everywhere (bar, pills,
   panels). For live-window blur (not just the wallpaper), the user adds in
@@ -153,8 +159,8 @@ each requested change; never push.
 ## Known open points / unverified
 - On screen: the Launcher's faint outline; workspace icons updating live
   (focus changes, closing windows, moving windows between workspaces); the xray layer
-  rule; the `configreloaded` blur-off path; the Island's 1 px blur inset (it may leave a
-  slightly darker hairline).
+  rule; the `configreloaded` blur-off path; the workspace hover preview with a real pointer
+  (only tested with a faked hover in the copy).
 - Overview previews are captures taken on open (not live); one monitor at a time.
 - Wallpaper revert keeps one step; no Span placement; DND / night light not shown.
 - Launch history only counts launches made through MELLOW.

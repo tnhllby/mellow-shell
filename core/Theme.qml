@@ -32,6 +32,15 @@ Singleton {
     // Hairline around floating cards: just enough to soften their edge.
     readonly property color cardOutline: Qt.alpha(color.outlineVariant, 0.35)
 
+    // Edge band of blurred cards on the bar and screen edges (Island, Dock): the
+    // card's own colour, a little more opaque than the card and wider than the
+    // blur inset, so the unblurred ring and the stepped corners of the blur
+    // region stay hidden without reading as an outline.
+    readonly property int cardEdgeWidth: 2
+    function cardEdge(fill) {
+        return Qt.alpha(fill, (1 + effects.cardOpacity) / 2);
+    }
+
     // A card colour made translucent to match the blur mode.
     function glass(c) {
         return Qt.alpha(c, effects.cardOpacity);

@@ -80,3 +80,19 @@
 
 ## Remaining M5 items
 - Frame and multi-monitor polish; dimensional iconography; theme-change animation.
+
+## Workspace slots, hover preview, softer edges (2026-11-22)
+- Overview: workspaces 1–6 always have a card (`Config.overview.defaultWorkspaces`);
+  missing ones are empty cards you can click or drop a window on. "New workspace"
+  takes the next id after them.
+- Bar: resting the pointer 300 ms on an inactive workspace number shows a preview card
+  under it with still captures of that workspace's windows, its number and the main
+  window's title. Click-through; moving along the strip switches it.
+- Island and Dock (and Control Center): 2 px edge band in the card's own colour,
+  halfway between the card's opacity and opaque, over the 1 px blur inset. Measured
+  on the live Island: the jagged dark hairline at the organic corners is now a soft
+  band; a tinted 96 % band read as a visible ring and was dropped. Dock edge: the
+  blurred-wallpaper pixels along the edge are gone.
+- Verified in the non-interactive copy (dark and light): Overview slots, preview card
+  with a faked hover on workspace 3 (capture, number, icon, title), Dock edge; no
+  warnings. Not verified: hover with a real pointer, preview timing and switching.

@@ -77,6 +77,13 @@ Singleton {
         return window?.wayland?.appId ?? window?.lastIpcObject?.class ?? "";
     }
 
+    // Window geometry (IPC data) is not pushed by events: re-read it once
+    // before showing window positions (Overview, workspace previews).
+    function refreshWindows() {
+        if (available)
+            Hyprland.refreshToplevels();
+    }
+
     // ---- Actions -----------------------------------------------------------
 
     // Hyprland 0.56+ may run a Lua config, where dispatchers are Lua calls.

@@ -18,6 +18,15 @@ Singleton {
 
     readonly property QtObject panel: QtObject {
         readonly property int height: 44
+        // Hovering a workspace number shows a preview of its windows.
+        readonly property bool workspacePreview: true
+        readonly property int workspacePreviewDelay: 300
+        readonly property int workspacePreviewWidth: 320
+    }
+
+    readonly property QtObject overview: QtObject {
+        // Workspaces 1..n always get a card, even before they exist.
+        readonly property int defaultWorkspaces: 6
     }
 
     readonly property QtObject island: QtObject {

@@ -59,6 +59,8 @@ PanelWindow {
         width: root.expanded ? root.expandedWidth : compactWidth
         height: root.expanded ? player.implicitHeight : Theme.barPill.height
         color: Theme.glass(root.expanded ? Theme.color.surfaceContainerHigh : Theme.color.surfaceContainerHighest)
+        border.width: Theme.cardEdgeWidth
+        border.color: Theme.cardEdge(color)
         // Asymmetric organic corners give the Island its silhouette in both states.
         radius: Theme.shape.xl
         topLeftRadius: Theme.shape.organic

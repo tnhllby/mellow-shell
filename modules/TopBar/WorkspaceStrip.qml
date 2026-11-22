@@ -9,12 +9,16 @@ import qs.integrations.hyprland
 // Workspaces of this panel's monitor. Inactive workspaces show their number;
 // the focused one stretches into a pill showing its main app's icon (the last
 // focused window there), or its number when empty. Scrolling over the strip
-// steps through the list.
+// steps through the list. The hovered workspace is exposed for the preview.
 Surface {
     id: root
 
     required property var monitor
     readonly property var model: HyprlandService.workspacesOn(monitor)
+    // Workspace under the pointer (null when none), and the horizontal centre
+    // of its pill in window coordinates.
+    property var hoveredWorkspace: null
+    property real hoveredCenter: 0
 
     implicitWidth: row.implicitWidth + 2 * Theme.spacing.x1
     implicitHeight: Theme.barPill.height
@@ -103,6 +107,14 @@ Surface {
                     hoverEnabled: true
                     cursorShape: Qt.PointingHandCursor
                     onClicked: HyprlandService.activate(pill.modelData)
+                    onContainsMouseChanged: {
+                        if (containsMouse) {
+                            root.hoveredCenter = pill.mapToItem(null, pill.width / 2, 0).x;
+                            root.hoveredWorkspace = pill.modelData;
+                        } else if (root.hoveredWorkspace === pill.modelData) {
+                            root.hoveredWorkspace = null;
+                        }
+                    }
                 }
             }
         }

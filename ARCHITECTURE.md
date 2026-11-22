@@ -124,6 +124,13 @@ Modules import each other as `qs.<dir>` (Quickshell resolves these from the shel
   captures (`live: false`) created only while the Overview is open.
 - `HyprlandService.moveWindowToWorkspace` (`movetoworkspacesilent` /
   `hl.dsp.window.move({ workspace, follow = false, window })`).
+- Overview cards: the monitor's workspaces plus empty slots for default workspaces
+  `1..Config.overview.defaultWorkspaces` that do not exist on any monitor yet.
+- `modules/TopBar/WorkspacePreview`: a click-through, always-mapped layer surface per
+  screen. `WorkspaceStrip` exposes the hovered workspace (via `TopBar`); after
+  `Config.panel.workspacePreviewDelay` the preview refreshes window geometry
+  (`HyprlandService.refreshWindows()`) and shows still captures of that workspace's
+  windows. Not shown for the visible workspace or empty ones.
 
 ### Effects (M5)
 - `Theme.effects` derives the blur mode from `Config.effects.blur` and
@@ -132,6 +139,9 @@ Modules import each other as `qs.<dir>` (Quickshell resolves these from the shel
 - Each floating card sets `BackgroundEffect.blurRegion` (Quickshell.Wayland,
   ext-background-effect) to a `Region` on the card with matching corner radii, only
   while the card is shown; Overview/Studio backdrops use it in Expressive mode only.
+- Island, Dock, Control Center and the workspace preview draw a 2 px edge band
+  (`Theme.cardEdge(fill)`, the fill halfway to opaque) over the 1 px blur inset, so
+  the stepped corners of the blur region do not show.
 
 ### Surfaces (M0)
 | Surface | Layer | Keyboard | Input region | Exclusive zone |

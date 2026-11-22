@@ -46,6 +46,11 @@ ShellRoot {
                 screen: perScreen.modelData
             }
 
+            WorkspacePreview {
+                screen: perScreen.modelData
+                panel: topBar
+            }
+
             WorkspaceFrame {
                 screen: perScreen.modelData
             }

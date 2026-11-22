@@ -19,16 +19,30 @@ FocusScope {
 
     readonly property var monitor: HyprlandService.monitorFor(screen)
     readonly property var workspaces: HyprlandService.workspacesOn(monitor)
+    // Cards by id: this monitor's workspaces, plus empty slots for the default
+    // workspaces (1..n) that do not exist yet on any monitor.
+    readonly property var slots: {
+        const list = workspaces.map(ws => ({ id: ws.id, workspace: ws }));
+        for (let id = 1; id <= Config.overview.defaultWorkspaces; id++) {
+            if (!HyprlandService.workspaces.some(ws => ws.id === id))
+                list.push({ id, workspace: null });
+        }
+        return list.sort((a, b) => a.id - b.id);
+    }
     // A free id for the "New workspace" slot.
-    readonly property int newWorkspaceId: HyprlandService.workspaces.reduce((max, ws) => Math.max(max, ws.id), 0) + 1
+    readonly property int newWorkspaceId: HyprlandService.workspaces.reduce((max, ws) => Math.max(max, ws.id), Config.overview.defaultWorkspaces) + 1
     // Windows in keyboard order: by workspace, then left to right, top to bottom.
     readonly property var windows: workspaces.reduce((list, ws) => list.concat(sortedWindows(ws)), [])
     property var selected: HyprlandService.activeWindow
     property bool dragging: false
 
     readonly property real aspect: screen.width / Math.max(1, screen.height)
-    readonly property int columns: Math.max(1, Math.min(workspaces.length + 1, 4))
-    readonly property real cardWidth: Math.min(420, (width - 2 * Theme.spacing.x10 - (columns - 1) * Theme.spacing.x6) / columns)
+    readonly property int columns: Math.max(1, Math.min(slots.length + 1, 4))
+    readonly property int rows: Math.ceil((slots.length + 1) / columns)
+    // Fits the width, and the height left after the title and hint chips (~120 px).
+    readonly property real cardWidth: Math.min(420,
+        (width - 2 * Theme.spacing.x10 - (columns - 1) * Theme.spacing.x6) / columns,
+        (height - 2 * Theme.spacing.x10 - 120 - (rows - 1) * Theme.spacing.x6) / rows * aspect)
 
     function sortedWindows(workspace) {
         return HyprlandService.windowsOn(workspace).slice().sort((a, b) => {
@@ -131,11 +145,11 @@ FocusScope {
             spacing: Theme.spacing.x6
 
             Repeater {
-                model: root.workspaces
+                model: root.slots
 
                 WorkspaceCard {
                     required property var modelData
-                    workspace: modelData
+                    workspace: modelData.workspace
                     workspaceId: modelData.id
                     overview: root
                     width: root.cardWidth
@@ -147,6 +161,7 @@ FocusScope {
             WorkspaceCard {
                 workspace: null
                 workspaceId: root.newWorkspaceId
+                isNew: true
                 overview: root
                 width: root.cardWidth
                 height: root.cardWidth / root.aspect

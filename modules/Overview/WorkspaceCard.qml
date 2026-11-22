@@ -4,7 +4,8 @@ import qs.components
 import qs.integrations.hyprland
 
 // One workspace in the Overview: a miniature of the monitor with its windows
-// at their real positions. `workspace` is null for the "New workspace" slot.
+// at their real positions. `workspace` is null for the "New workspace" slot
+// and for default workspaces that do not exist yet (shown empty).
 Item {
     id: root
 
@@ -12,7 +13,7 @@ Item {
     required property int workspaceId
     required property var overview
 
-    readonly property bool isNew: workspace === null
+    property bool isNew: false
     readonly property bool active: workspace !== null && workspace === overview.monitor?.activeWorkspace
     readonly property real scaleFactor: width / Math.max(1, overview.screen.width)
     readonly property bool dropTarget: drop.containsDrag
@@ -64,7 +65,7 @@ Item {
         anchors.fill: parent
 
         Repeater {
-            model: root.isNew ? [] : root.overview.sortedWindows(root.workspace)
+            model: root.workspace ? root.overview.sortedWindows(root.workspace) : []
 
             WindowCard {
                 required property var modelData
@@ -90,7 +91,7 @@ Item {
             anchors.centerIn: parent
             role: Typography.labelLarge
             color: root.active ? Theme.color.contentPrimary : Theme.color.contentSurface
-            text: root.workspace?.name ?? ""
+            text: root.workspace?.name ?? root.workspaceId
         }
     }
 

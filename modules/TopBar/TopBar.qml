@@ -19,6 +19,9 @@ PanelWindow {
         && !(HyprlandService.hasRealFullscreen(monitor?.activeWorkspace) && Config.frame.fullscreenPolicy === "hide")
     readonly property int frameThickness: Config.frame.thickness
     readonly property int fillet: Theme.chromeShape.innerRadius
+    // For the workspace preview.
+    readonly property alias hoveredWorkspace: strip.hoveredWorkspace
+    readonly property alias hoveredCenter: strip.hoveredCenter
 
     anchors {
         top: true
@@ -143,6 +146,7 @@ PanelWindow {
     }
 
     WorkspaceStrip {
+        id: strip
         anchors.left: parent.left
         anchors.leftMargin: Theme.spacing.x3
         anchors.verticalCenter: bar.verticalCenter

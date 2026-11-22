@@ -77,8 +77,8 @@ PanelWindow {
         radius: Theme.shape.xl
         topRightRadius: Theme.shape.md
         color: Theme.glass(Theme.color.surfaceContainer)
-        border.width: 1
-        border.color: Theme.cardOutline
+        border.width: Theme.cardEdgeWidth
+        border.color: Theme.cardEdge(color)
         clip: true
 
         visible: opacity > 0
