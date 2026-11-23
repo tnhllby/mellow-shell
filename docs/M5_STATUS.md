@@ -79,7 +79,7 @@
   outlineVariant at 35 %): without it the edges looked too sharp.
 
 ## Remaining M5 items
-- Frame and multi-monitor polish; dimensional iconography; theme-change animation.
+- Frame and multi-monitor polish; theme-change animation.
 
 ## Workspace slots, hover preview, softer edges (2026-11-22)
 - Overview: workspaces 1–6 always have a card (`Config.overview.defaultWorkspaces`);
@@ -96,3 +96,19 @@
 - Verified in the non-interactive copy (dark and light): Overview slots, preview card
   with a faked hover on workspace 3 (capture, number, icon, title), Dock edge; no
   warnings. Not verified: hover with a real pointer, preview timing and switching.
+
+## Dimensional iconography (2026-11-23)
+- `MaterialIcon`: fill and weight ease over `Motion.hover` (instant with reduced
+  motion), so a toggled icon inks in; filled icons are weight 500 (state not by fill and
+  colour alone); grade −25 in dark mode to even out light-on-dark glyphs.
+- `components/IconBadge`: tonal square behind a state icon with a faint highlight from
+  above (`Theme.iconHighlight`, near-white at 8 % dark / 20 % light, fading by mid
+  height). Used by Quick Settings tiles and the Wi-Fi/Bluetooth list rows (36 px,
+  `secondary` when highlighted). App icons are unchanged.
+- Verified in the non-interactive copy (dark and light): Control Center main page and
+  Bluetooth page, no warnings; fractional FILL/wght render as in-between glyphs with
+  the installed font (standalone test). Not verified on screen: the fill animation
+  itself while toggling a tile.
+- Lesson: adding a new component file while the live session hot-reloads can fail
+  ("X is not a type") if the reload fires before the type is scanned; the next reload
+  picks it up.

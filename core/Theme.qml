@@ -41,6 +41,10 @@ Singleton {
         return Qt.alpha(fill, (1 + effects.cardOpacity) / 2);
     }
 
+    // Faint light from above on icon containers (IconBadge): a near-white tone
+    // in either mode, so the badge reads as lifted off its card.
+    readonly property color iconHighlight: Qt.alpha(dark ? color.contentSurface : color.surfaceContainerLowest, dark ? 0.08 : 0.2)
+
     // A card colour made translucent to match the blur mode.
     function glass(c) {
         return Qt.alpha(c, effects.cardOpacity);

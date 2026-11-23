@@ -55,22 +55,14 @@ Rectangle {
         onClicked: root.activated()
     }
 
-    Rectangle {
+    IconBadge {
         id: badge
         x: Theme.spacing.x3
         anchors.verticalCenter: parent.verticalCenter
-        width: 40
-        height: 40
-        radius: Theme.shape.md
+        icon: root.icon
+        active: root.active
         color: root.active ? Theme.color.primary : Theme.color.surfaceContainerHigh
-
-        MaterialIcon {
-            anchors.centerIn: parent
-            icon: root.icon
-            size: 22
-            filled: root.active
-            color: root.active ? Theme.color.contentPrimary : Theme.color.contentSurfaceVariant
-        }
+        iconColor: root.active ? Theme.color.contentPrimary : Theme.color.contentSurfaceVariant
     }
 
     Column {

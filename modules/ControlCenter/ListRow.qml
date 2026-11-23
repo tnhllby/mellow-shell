@@ -35,14 +35,18 @@ Rectangle {
         shown: root.activeFocus
     }
 
-    MaterialIcon {
+    IconBadge {
         id: leading
-        x: Theme.spacing.x3
+        x: Theme.spacing.x2
         anchors.verticalCenter: parent.verticalCenter
+        implicitWidth: 36
+        implicitHeight: 36
+        radius: Theme.shape.sm
         icon: root.icon
-        size: 22
-        filled: root.highlighted
-        color: root.highlighted ? Theme.color.contentSecondaryContainer : Theme.color.contentSurfaceVariant
+        iconSize: 20
+        active: root.highlighted
+        color: root.highlighted ? Theme.color.secondary : Theme.color.surfaceContainerHigh
+        iconColor: root.highlighted ? Theme.color.contentSecondary : Theme.color.contentSurfaceVariant
     }
 
     Column {

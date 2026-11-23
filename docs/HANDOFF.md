@@ -19,8 +19,8 @@ current milestone, test, report exactly what was and was not verified, update do
   blur modes, translucent bar/frame chrome, 44 px bar, workspace app icons, equal
   inner corners, card outline/rim fixes. The user runs MELLOW live on the host and
   reports issues with screenshots and recordings.
-- **Remaining M5:** frame and multi-monitor polish, dimensional iconography,
-  animated theme change. Ask the user which comes next.
+- **Remaining M5:** frame and multi-monitor polish, animated theme change.
+  Dimensional iconography done (animated fill/weight, dark grade, `IconBadge`). Ask the user which comes next.
 - **Then M6:** settings UI, validated config, and an installer that writes MELLOW's
   Hyprland keybindings **and the `xray = false` layer rule** (sourced snippet, backed
   up, removable by `uninstall.sh`).
@@ -148,6 +148,9 @@ each requested change; never push.
   per-corner radius reads as `radius`.
 - Hyprland applies exclusive zones in layer and creation order; the bar draws the inner
   fillets itself.
+- A new component file can fail the live hot reload ("X is not a type") when the
+  reload fires before the file is scanned; write the new file first, then `touch` a user
+  of it, and check `qs log -c mellow`.
 - Toggling a PanelWindow's `visible` from a property that depends on `screen` loops.
 - `ScreencopyView.captureFrame()` only after the first capture (`hasContent`).
 - A release bind only sends the global shortcut's `released` signal.

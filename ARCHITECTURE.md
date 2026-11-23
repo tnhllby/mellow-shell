@@ -66,6 +66,7 @@ mellow-shell/
 ├── core/                      Config, Theme, ColorScheme (generated), Typography, Motion
 ├── integrations/hyprland/     HyprlandService
 ├── components/                Surface, StateLayer, FocusRing, MText, MaterialIcon, IconButton
+                               (M5: IconBadge, tonal icon container)
 ├── modules/TopBar/            TopBar, WorkspaceStrip, StatusArea
 ├── services/                  MediaService (MPRIS + PipeWire sink), SystemStatsService (/proc, hwmon)
 ├── modules/Island/            Island (window), MediaCompact, AmbientCompact, MediaPlayer, Artwork
