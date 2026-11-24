@@ -143,6 +143,8 @@ Modules import each other as `qs.<dir>` (Quickshell resolves these from the shel
   windows. Not shown for the visible workspace or empty ones.
 
 ### Effects (M5)
+- Theme changes cross-fade in `ThemeColors`; components that animate `color` disable that
+  `Behavior` while `Theme.transitioning`.
 - `Theme.effects` derives the blur mode from `Config.effects.blur` and
   `Theme.compositorBlur`; `shell.qml` binds the latter to `HyprlandService.blurEnabled`
   so `core/` never talks to Hyprland. `Theme.glass(color)` applies the card opacity.

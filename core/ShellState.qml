@@ -5,6 +5,8 @@ import Quickshell
 // Shell-wide UI state shared between surfaces and entry points (pointer,
 // global shortcuts, IPC). Monitors are identified by connector name ("eDP-1").
 Singleton {
+    id: root
+
     // Monitor showing the Control Center, or "" when closed.
     property string controlCenterMonitor: ""
     // Whether the Control Center was opened from the keyboard.
@@ -52,6 +54,19 @@ Singleton {
     function openStudio(monitor) {
         controlCenterMonitor = "";
         studioMonitor = monitor;
+    }
+
+    // A surface open on an unplugged monitor must not reopen when it returns.
+    Connections {
+        target: Quickshell
+
+        function onScreensChanged() {
+            const names = Quickshell.screens.map(s => s.name);
+            for (const key of ["controlCenterMonitor", "dockMonitor", "islandMonitor", "studioMonitor", "launcherMonitor", "overviewMonitor"]) {
+                if (!names.includes(root[key]))
+                    root[key] = "";
+            }
+        }
     }
 
     function closeAll() {

@@ -44,6 +44,7 @@ Row {
             Keys.onRightPressed: if (!last) root.selected(root.options[index + 1].value)
 
             Behavior on color {
+                enabled: !Theme.transitioning
                 ColorAnimation { duration: Motion.hover }
             }
 

@@ -19,7 +19,7 @@ current milestone, test, report exactly what was and was not verified, update do
   blur modes, translucent bar/frame chrome, 44 px bar, workspace app icons, equal
   inner corners, card outline/rim fixes. The user runs MELLOW live on the host and
   reports issues with screenshots and recordings.
-- **Remaining M5:** frame and multi-monitor polish, animated theme change.
+- **M5 is implemented;** user testing remains. Theme changes cross-fade in `ThemeColors`.
   Dimensional iconography done (animated fill/weight, dark grade, `IconBadge`). Ask the user which comes next.
 - **Then M6:** settings UI, validated config, and an installer that writes MELLOW's
   Hyprland keybindings **and the `xray = false` layer rule** (sourced snippet, backed

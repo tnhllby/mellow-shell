@@ -18,6 +18,7 @@ Rectangle {
     color: Theme.color.surfaceContainerHigh
 
     Behavior on color {
+        enabled: !Theme.transitioning
         ColorAnimation { duration: Motion.hover }
     }
 

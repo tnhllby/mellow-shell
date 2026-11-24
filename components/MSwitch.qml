@@ -24,6 +24,7 @@ Rectangle {
     Keys.onReturnPressed: toggled()
 
     Behavior on color {
+        enabled: !Theme.transitioning
         ColorAnimation { duration: Motion.hover }
     }
 

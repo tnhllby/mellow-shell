@@ -30,6 +30,7 @@ Rectangle {
     Keys.onRightPressed: if (hasDetails) detailsRequested()
 
     Behavior on color {
+        enabled: !Theme.transitioning
         ColorAnimation { duration: Motion.hover }
     }
     Behavior on radius {

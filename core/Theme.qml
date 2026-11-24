@@ -12,6 +12,27 @@ Singleton {
     readonly property ThemeColors color: ThemeColors {
         roles: ThemeState.roles
         fallback: ThemeState.fallbackRoles
+        animate: root.settled
+        onRolesChanged: {
+            if (root.settled)
+                transition.restart();
+        }
+    }
+
+    // Off until the saved theme has loaded, so startup does not cross-fade.
+    property bool settled: false
+    // The colour roles are cross-fading; animating them again would only lag.
+    readonly property bool transitioning: transition.running
+
+    Timer {
+        interval: 1000
+        running: true
+        onTriggered: root.settled = true
+    }
+
+    Timer {
+        id: transition
+        interval: Motion.theme
     }
 
     // Set from the shell root: whether the compositor blurs (core does not
@@ -91,7 +112,7 @@ Singleton {
         readonly property int outerRadius: 22
         // Workspace corners, top (fillets) and bottom alike: concentric with the
         // outer corners, so the frame keeps its thickness round the curve.
-        readonly property int innerRadius: outerRadius - Config.frame.thickness
+        readonly property int innerRadius: Math.max(0, outerRadius - Config.frame.thickness)
     }
 
     // Pills sitting on the bar (workspaces, status, compact Island).

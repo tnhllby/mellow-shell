@@ -68,6 +68,7 @@ Surface {
                     }
                 }
                 Behavior on color {
+                    enabled: !Theme.transitioning
                     ColorAnimation { duration: Motion.card }
                 }
 

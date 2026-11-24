@@ -79,7 +79,7 @@
   outlineVariant at 35 %): without it the edges looked too sharp.
 
 ## Remaining M5 items
-- Frame and multi-monitor polish; theme-change animation.
+- None to build; the unverified items in this file and the RUNNING.md checklists remain.
 
 ## Workspace slots, hover preview, softer edges (2026-11-22)
 - Overview: workspaces 1–6 always have a card (`Config.overview.defaultWorkspaces`);
@@ -124,3 +124,15 @@
 - Not verified: pointer/keyboard use (scrolling, dismissing, actions, focus), taking over
   when the other program exits, config reload with kept notifications.
 - Seen once: the copy's isolated `theme.json` went from light to dark; not reproduced.
+
+## Theme transition, frame and multi-monitor (2026-11-24)
+- `ThemeColors` cross-fades all roles (`animate`, 450 ms); `Theme.transitioning` switches
+  off per-component colour animations meanwhile (they kept restarting and froze tiles
+  in the old theme). No fade at startup or in the Studio preview; instant with reduced
+  motion. Text briefly loses contrast mid-fade, as any light/dark cross-fade does.
+- Measured with both monitors and the Control Center open: 27-28 frames per 450 ms
+  fade, worst frame 34 ms; about 0.37 s CPU per change.
+- Frame: hiding for fullscreen and coming back restores the blur (pixel-identical,
+  simulated fullscreen flag); no change needed.
+- `ShellState` clears surfaces open on an unplugged monitor, so they do not reopen when
+  it returns. Not verified (needs a hot-plug). Fractional scales also not verified.

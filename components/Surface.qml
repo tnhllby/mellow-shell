@@ -8,6 +8,7 @@ Rectangle {
     radius: Theme.shape.md
 
     Behavior on color {
+        enabled: !Theme.transitioning
         ColorAnimation {
             duration: Motion.theme
             easing.type: Easing.BezierSpline

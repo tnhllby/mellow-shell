@@ -201,3 +201,5 @@ MELLOW receives notifications only while no other program (dunst, mako, another 
 - [ ] A notification's action buttons and default action (click, Return) work.
 - [ ] Media card: previous / play-pause / next and seeking work.
 - [ ] Tab reaches every control, and the list scrolls to the focused card.
+- [ ] Toggling Dark theme cross-fades the whole shell; instant with reduced motion.
+- [ ] Unplug a monitor with the Control Center open on it: it is closed after replugging.
