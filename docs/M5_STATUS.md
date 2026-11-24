@@ -109,6 +109,18 @@
   Bluetooth page, no warnings; fractional FILL/wght render as in-between glyphs with
   the installed font (standalone test). Not verified on screen: the fill animation
   itself while toggling a tile.
-- Lesson: adding a new component file while the live session hot-reloads can fail
-  ("X is not a type") if the reload fires before the type is scanned; the next reload
-  picks it up.
+- Seen once: after adding a component file, a live reload failed ("X is not a type");
+  the next reload worked. Cause unverified.
+
+## Control Center panel (2026-11-24)
+- Full-height panel (420 px, `Config.controlCenter.width`) sliding in from the right;
+  all previous controls (Wallpaper & style is now a tile), media card, notification
+  center (actions, dismiss, clear all, urgent marking, scrolling).
+- Verified in the non-interactive copy, 1366x768 and 1920x1080, dark and light: slide
+  in/out, blur only at rest, real notifications on a private D-Bus (icons, actions shown,
+  plain text, transient skipped, clear all), fake MPRIS player with seek line and the
+  host's real player, Wi-Fi and Bluetooth pages, and the "another program" state with
+  `ii` as owner. No new QML warnings.
+- Not verified: pointer/keyboard use (scrolling, dismissing, actions, focus), taking over
+  when the other program exits, config reload with kept notifications.
+- Seen once: the copy's isolated `theme.json` went from light to dark; not reproduced.

@@ -4,19 +4,18 @@ import qs.core
 import qs.components
 import qs.services
 
-// Control Center main page: battery header, sliders, quick tiles and the
-// Wallpaper & style entry.
+// Control Center main page: battery header, sliders and quick tiles stay at
+// the top; media controls and notifications scroll below them.
 FocusScope {
     id: root
 
     required property string monitorName
     signal pageRequested(string name)
+    signal closeRequested
 
     function focusFirst() {
         (brightness.visible ? brightness : volume.visible ? volume : grid.children[0])?.forceActiveFocus();
     }
-
-    implicitHeight: column.implicitHeight
 
     Column {
         id: column
@@ -89,6 +88,9 @@ FocusScope {
 
         GridLayout {
             id: grid
+
+            readonly property int tileCount: 1 + [NetworkService.available, BluetoothService.available, AudioService.sourceAvailable, PowerService.profilesAvailable].filter(v => v).length
+
             width: parent.width
             columns: 2
             columnSpacing: Theme.spacing.x2
@@ -146,59 +148,65 @@ FocusScope {
                 active: ThemeState.dark
                 onActivated: ThemeState.toggleMode()
             }
+
+            // Wallpaper Studio; spans the row when no tile is left beside it.
+            QuickTile {
+                Layout.fillWidth: true
+                Layout.columnSpan: grid.tileCount % 2 === 0 ? 2 : 1
+                icon: "palette"
+                title: "Wallpaper"
+                subtitle: "Style and colors"
+                onActivated: ShellState.openStudio(root.monitorName)
+            }
+        }
+    }
+
+    Flickable {
+        id: flick
+
+        // Room for the focus rings, which the clip would cut.
+        readonly property int pad: Theme.focusRing.offset + Theme.focusRing.width
+
+        anchors.top: column.bottom
+        anchors.topMargin: Theme.spacing.x3 - pad
+        anchors.bottom: parent.bottom
+        x: -pad
+        width: parent.width + 2 * pad
+        contentHeight: lower.implicitHeight + 2 * pad
+        boundsBehavior: Flickable.StopAtBounds
+        clip: true
+
+        // Keep the keyboard-focused control in view.
+        readonly property Item focusedItem: Window.activeFocusItem
+        onFocusedItemChanged: {
+            let item = focusedItem;
+            while (item && item !== lower)
+                item = item.parent;
+            if (!item || focusedItem === lower)
+                return;
+            const top = focusedItem.mapToItem(contentItem, 0, 0).y - pad;
+            const bottom = top + focusedItem.height + 2 * pad;
+            if (top < contentY)
+                contentY = top;
+            else if (bottom > contentY + height)
+                contentY = Math.min(top, bottom - height);
         }
 
-        // Prominent entry to Wallpaper Studio.
-        Rectangle {
-            id: studioButton
-            width: parent.width
-            height: 52
-            radius: Theme.shape.lg
-            topLeftRadius: Theme.shape.organic
-            color: Theme.color.secondaryContainer
-            activeFocusOnTab: true
-            Accessible.role: Accessible.Button
-            Accessible.name: "Wallpaper and style"
-            Keys.onReturnPressed: ShellState.openStudio(root.monitorName)
-            Keys.onSpacePressed: ShellState.openStudio(root.monitorName)
+        Column {
+            id: lower
+            x: flick.pad
+            y: flick.pad
+            width: root.width
+            spacing: Theme.spacing.x2
 
-            StateLayer {
-                color: Theme.color.contentSecondaryContainer
-                hovered: studioMouse.containsMouse
-                pressed: studioMouse.pressed
-                focused: studioButton.activeFocus
+            MediaCard {
+                width: parent.width
+                visible: MediaService.activePlayer !== null
             }
 
-            FocusRing {
-                shown: studioButton.activeFocus
-            }
-
-            Row {
-                anchors.centerIn: parent
-                spacing: Theme.spacing.x2
-
-                MaterialIcon {
-                    anchors.verticalCenter: parent.verticalCenter
-                    icon: "palette"
-                    size: 22
-                    filled: true
-                    color: Theme.color.contentSecondaryContainer
-                }
-
-                MText {
-                    anchors.verticalCenter: parent.verticalCenter
-                    role: Typography.labelLarge
-                    color: Theme.color.contentSecondaryContainer
-                    text: "Wallpaper & style"
-                }
-            }
-
-            MouseArea {
-                id: studioMouse
-                anchors.fill: parent
-                hoverEnabled: true
-                cursorShape: Qt.PointingHandCursor
-                onClicked: ShellState.openStudio(root.monitorName)
+            NotificationList {
+                width: parent.width
+                onActionInvoked: root.closeRequested()
             }
         }
     }

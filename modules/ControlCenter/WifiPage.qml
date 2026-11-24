@@ -14,7 +14,6 @@ FocusScope {
     // Network whose password field is open.
     property var passwordFor: null
 
-    implicitHeight: column.implicitHeight
     onVisibleChanged: {
         passwordFor = null;
         if (visible)
@@ -72,7 +71,7 @@ FocusScope {
         ListView {
             id: list
             width: parent.width
-            height: Math.min(contentHeight, 320)
+            height: Math.min(contentHeight, Math.max(120, root.height - y - (passwordForm.visible ? passwordForm.height + column.spacing : 0)))
             clip: true
             spacing: Theme.spacing.x1
             visible: NetworkService.wifiEnabled
@@ -94,6 +93,7 @@ FocusScope {
 
         // Inline password entry for a new protected network.
         Column {
+            id: passwordForm
             width: parent.width
             spacing: Theme.spacing.x2
             visible: root.passwordFor !== null

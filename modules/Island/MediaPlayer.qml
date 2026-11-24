@@ -17,14 +17,6 @@ FocusScope {
         playButton.forceActiveFocus();
     }
 
-    function formatTime(seconds) {
-        const s = Math.max(0, Math.floor(seconds));
-        const h = Math.floor(s / 3600);
-        const m = Math.floor(s % 3600 / 60);
-        const ss = String(s % 60).padStart(2, "0");
-        return h > 0 ? `${h}:${String(m).padStart(2, "0")}:${ss}` : `${m}:${ss}`;
-    }
-
     readonly property var sourceEntry: MediaService.desktopEntry ? DesktopEntries.heuristicLookup(MediaService.desktopEntry) : null
 
     implicitHeight: column.implicitHeight + 2 * Theme.spacing.x5
@@ -141,7 +133,7 @@ FocusScope {
                     role: Typography.labelSmall
                     tabular: true
                     color: Theme.color.contentSurfaceVariant
-                    text: root.formatTime(MediaService.position)
+                    text: MediaService.formatTime(MediaService.position)
                 }
 
                 MText {
@@ -149,7 +141,7 @@ FocusScope {
                     role: Typography.labelSmall
                     tabular: true
                     color: Theme.color.contentSurfaceVariant
-                    text: root.formatTime(MediaService.length)
+                    text: MediaService.formatTime(MediaService.length)
                 }
             }
         }

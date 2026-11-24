@@ -114,6 +114,15 @@ Modules import each other as `qs.<dir>` (Quickshell resolves these from the shel
   user's templates) in a queued Process with a session cache. `ColorUtil.check` reports
   WCAG contrast for the text role pairs.
 
+### Control Center panel and notifications (M5)
+- Full-height surface inside the chrome on the right; the card slides in on x. `MainPage`
+  pins the controls and scrolls `MediaCard` and `NotificationList` below them.
+- `NotificationService` wraps Quickshell's `NotificationServer`. Only one program per
+  session can own `org.freedesktop.Notifications`; the owner is queried (busctl) at
+  startup and when the panel opens, and the list says so when it is another program.
+  Text is plain, remote images are never loaded, at most `Config.notifications.maxKept`
+  are kept, transient ones are not. There are no popups.
+
 ### Launcher, Dock and Overview (M4)
 - `AppService`: visible desktop entries, ranked search (name, words, generic name,
   keywords, id, comment, in-order letters), launch (Terminal=true apps run in

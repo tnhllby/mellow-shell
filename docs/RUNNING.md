@@ -193,3 +193,11 @@ Run `qs -p ~/mellow-shell` in a terminal and watch for `WARN`/`ERROR` lines.
       surfaces turn opaque without restarting MELLOW.
 - [ ] `Config.motion.reduced: true`: every surface opens and closes instantly; the seek
       bar wave stands still; nothing ignores input while animating.
+
+## Control Center panel checklist
+MELLOW receives notifications only while no other program (dunst, mako, another shell) does.
+- [ ] Panel slides in from the right; Escape, the trigger or a click outside closes it.
+- [ ] `notify-send Test Hello` shows a card; X or Delete dismisses it; Clear all empties the list.
+- [ ] A notification's action buttons and default action (click, Return) work.
+- [ ] Media card: previous / play-pause / next and seeking work.
+- [ ] Tab reaches every control, and the list scrolls to the focused card.

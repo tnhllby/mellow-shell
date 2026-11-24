@@ -63,6 +63,15 @@ Singleton {
         readonly property int maxResults: 48
     }
 
+    readonly property QtObject controlCenter: QtObject {
+        readonly property int width: 420
+    }
+
+    readonly property QtObject notifications: QtObject {
+        // Older notifications are dropped beyond this many.
+        readonly property int maxKept: 50
+    }
+
     readonly property QtObject dock: QtObject {
         readonly property bool autoHide: true
         // Width of the invisible activation strip on the left screen edge.

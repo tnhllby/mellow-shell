@@ -87,6 +87,9 @@ each requested change; never push.
   in the card's own colour (`Theme.cardEdge`): the jagged blur edge looked "sharpy",
   and the band must stay unnoticeable (a tinted or denser band read as a ring).
   Overview keeps borders as markers.
+- Control Center: full-height panel from the right with all controls, media card and
+  notification center. No notification popups yet; `qs -c ii` owns notifications on the
+  host, so test them under `dbus-run-session` (private bus, `notify-send`).
 - Overview always shows workspaces 1–6 (`Config.overview.defaultWorkspaces`), empty
   ones as plain cards; workspaces living on another monitor appear on that one.
 - Hovering an inactive workspace number (with windows) shows a preview card under
@@ -148,8 +151,8 @@ each requested change; never push.
   per-corner radius reads as `radius`.
 - Hyprland applies exclusive zones in layer and creation order; the bar draws the inner
   fillets itself.
-- A new component file can fail the live hot reload ("X is not a type") when the
-  reload fires before the file is scanned; write the new file first, then `touch` a user
+- A new component file can fail the live hot reload ("X is not a type") (seen
+  once; cause unverified, the next reload fixed it); write the new file first, then `touch` a user
   of it, and check `qs log -c mellow`.
 - Toggling a PanelWindow's `visible` from a property that depends on `screen` loops.
 - `ScreencopyView.captureFrame()` only after the first capture (`hasContent`).

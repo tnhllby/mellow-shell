@@ -9,7 +9,6 @@ FocusScope {
 
     signal back
 
-    implicitHeight: column.implicitHeight
     onVisibleChanged: if (visible) Qt.callLater(() => header.focusBack())
 
     function status(device) {
@@ -46,7 +45,7 @@ FocusScope {
         ListView {
             id: list
             width: parent.width
-            height: Math.min(contentHeight, 320)
+            height: Math.min(contentHeight, Math.max(120, root.height - y - (pairHint.height + column.spacing)))
             clip: true
             spacing: Theme.spacing.x1
             visible: BluetoothService.enabled
@@ -65,6 +64,7 @@ FocusScope {
         }
 
         MText {
+            id: pairHint
             width: parent.width
             role: Typography.bodySmall
             color: Theme.color.contentSurfaceVariant

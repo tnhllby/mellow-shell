@@ -6,7 +6,8 @@ import qs.core
 import qs.components
 import qs.services
 
-// Control Center: Pixel-inspired quick settings below the panel's status area.
+// Control Center: full-height panel on the right edge with quick settings,
+// media controls and notifications.
 // Like the Island it is a layer surface that stays mapped: its input region is
 // the card while open and empty otherwise. (An xdg-popup does not work here:
 // Hyprland's focus grab treats clicks inside a layer-shell popup as outside
@@ -29,22 +30,23 @@ PanelWindow {
     anchors {
         top: true
         right: true
+        bottom: true
     }
+    // Inside the chrome; the card slides out from under the frame's edge.
     margins.top: Config.panel.height
-    margins.right: Theme.spacing.x3
-    implicitWidth: 400
-    // Fixed size, so opening or switching pages never resizes the surface.
-    implicitHeight: (screen?.height ?? 800) - Config.panel.height - Config.frame.thickness
+    margins.right: Config.frame.thickness
+    margins.bottom: Config.frame.thickness
+    implicitWidth: Config.controlCenter.width + Theme.spacing.x2
     exclusionMode: ExclusionMode.Ignore
     color: "transparent"
     mask: Region {
         item: root.open ? card : null
     }
-    // Only once fully open (the region ignores scale and opacity), and gone
-    // as soon as closing starts.
+    // Only once fully slid in, and gone as soon as closing starts: a region
+    // reaching outside the surface makes Hyprland blur all of it.
     BackgroundEffect.blurRegion: CardBlurRegion {
         card: card
-        active: Theme.effects.blurOn && root.open && card.opacity === 1 && card.scale === 1
+        active: Theme.effects.blurOn && root.open && card.x === 0
     }
 
     WlrLayershell.namespace: "mellow:control-center"
@@ -61,6 +63,7 @@ PanelWindow {
         page = "main";
         if (open) {
             BrightnessService.refresh();
+            NotificationService.refreshOwner();
             // Keyboard opens focus the first control (with its ring); pointer
             // opens only focus the card, so Tab starts the ring.
             Qt.callLater(() => ShellState.controlCenterFromKeyboard ? mainPage.focusFirst() : content.forceActiveFocus());
@@ -72,8 +75,9 @@ PanelWindow {
         id: card
 
         y: Theme.spacing.x2
-        width: parent.width
-        height: Math.min(content.implicitHeight + 2 * Theme.spacing.x4, root.height - y)
+        x: root.open ? 0 : root.implicitWidth
+        width: Config.controlCenter.width
+        height: root.height - 2 * Theme.spacing.x2
         radius: Theme.shape.xl
         topRightRadius: Theme.shape.md
         color: Theme.glass(Theme.color.surfaceContainer)
@@ -81,26 +85,13 @@ PanelWindow {
         border.color: Theme.cardEdge(color)
         clip: true
 
-        visible: opacity > 0
-        opacity: root.open ? 1 : 0
-        scale: root.open ? 1 : 0.96
-        transformOrigin: Item.TopRight
+        visible: root.open || x < root.implicitWidth
 
-        Behavior on opacity {
-            NumberAnimation { duration: Motion.card }
-        }
-        Behavior on scale {
+        Behavior on x {
             NumberAnimation {
-                duration: Motion.card
+                duration: Motion.module
                 easing.type: Easing.BezierSpline
                 easing.bezierCurve: Motion.emphasizedDecelerate
-            }
-        }
-        Behavior on height {
-            NumberAnimation {
-                duration: Motion.card
-                easing.type: Easing.BezierSpline
-                easing.bezierCurve: Motion.standard
             }
         }
 
@@ -109,7 +100,6 @@ PanelWindow {
 
             anchors.fill: parent
             anchors.margins: Theme.spacing.x4
-            implicitHeight: (root.page === "wifi" ? wifiPage : root.page === "bluetooth" ? btPage : mainPage).implicitHeight
             focus: true
 
             Keys.onEscapePressed: {
@@ -121,22 +111,23 @@ PanelWindow {
 
             MainPage {
                 id: mainPage
-                width: parent.width
+                anchors.fill: parent
                 visible: root.page === "main"
                 monitorName: root.screen?.name ?? ""
                 onPageRequested: name => root.page = name
+                onCloseRequested: root.close()
             }
 
             WifiPage {
                 id: wifiPage
-                width: parent.width
+                anchors.fill: parent
                 visible: root.page === "wifi"
                 onBack: root.page = "main"
             }
 
             BluetoothPage {
                 id: btPage
-                width: parent.width
+                anchors.fill: parent
                 visible: root.page === "bluetooth"
                 onBack: root.page = "main"
             }

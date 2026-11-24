@@ -88,6 +88,9 @@ The compact Island should morph into the expanded player as one coherent surface
 ### 3.4 Right zone — System controls
 Contains status indicators and Control Center trigger. Control Center is inspired by Pixel Quick Settings, adapted for desktop.
 
+It is a full-height panel that slides in from the right edge: quick controls at the top,
+then media controls and the notification center, which scroll.
+
 Potential controls:
 - Wi-Fi/network;
 - Bluetooth;

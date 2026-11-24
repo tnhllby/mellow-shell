@@ -27,7 +27,7 @@
 - Workspace corners: top fillets and bottom inner corners share one radius, outer − frame thickness (18 px).
 - Floating cards (Control Center, Launcher, Dock) have a faint hairline (`Theme.cardOutline`, outlineVariant at 35 %); without any outline the edges looked too sharp. Overview keeps borders as selection/active markers.
 - Center: MELLOW Island.
-- Right: Pixel-inspired Quick Settings / Control Center.
+- Right: Pixel-inspired Quick Settings / Control Center. (2026-11-24) The Control Center is a full-height panel from the right edge with quick controls, media controls and the notification center; Wallpaper Studio's entry is a tile.
 
 ## Dock
 - Pinned-app Dock on the left screen edge (vertical), appearing on edge interaction.
