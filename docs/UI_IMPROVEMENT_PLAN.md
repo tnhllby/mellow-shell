@@ -1,6 +1,9 @@
-# UI improvement plan (proposal, awaiting approval)
+# UI improvement plan (steps 1-6 approved 2026-11-24)
 
-Nothing here is implemented. Bar 44 px, left auto-hide Dock, centred Island, frame
+Status: step 1 done except surface levels (A2); step 2 done; step 3 partly (tooltips on
+the bar only; state layers still missing on the slider and Studio swatches); step 4 partly
+(Studio layout A3 open); step 5 not done (before/after first); step 6 done, plus a
+Dashboard. The bar was reorganised as well (DESIGN §3). Bar 44 px, left auto-hide Dock, centred Island, frame
 geometry, blur modes, shortcuts and IPC stay as they are.
 
 ## 1. Design language: "Organic Material" made explicit

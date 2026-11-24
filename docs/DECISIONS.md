@@ -81,3 +81,9 @@
 - The installer also installs kitty, Firefox (default browser), Dolphin and Gwenview.
 - App theming uses matugen with MELLOW's own templates, off unless `theming.apps` is set.
 - Window decorations and autostart are asked about, never assumed.
+
+## Bar, Settings and Dashboard (2026-11-24)
+- The bar gains useful elements (apps, Overview, metrics, tray, battery percentage); it
+  stays 44 px with the Island centred. Elements give way before they reach the Island.
+- Settings is a normal window with a Dashboard (user picture, system facts and load).
+- `shell.qml` uses `UseQApplication`: tray menus need it.

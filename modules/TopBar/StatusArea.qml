@@ -13,6 +13,10 @@ Surface {
     property bool controlCenterOpen: false
     signal controlCenterToggled
 
+    readonly property string hoveredLabel: !mouse.containsMouse ? "" : [NetworkService.available ? NetworkService.label : "",
+        PowerService.hasBattery ? "Battery " + PowerService.percent + "%" : "",
+        NotificationService.list.length > 0 ? NotificationService.list.length + " notifications" : ""].filter(s => s).join("  ·  ") || "Control Center"
+
     implicitWidth: row.implicitWidth + Theme.spacing.x4 + Theme.spacing.x1
     implicitHeight: Theme.barPill.height
     radius: Theme.shape.pill
@@ -95,9 +99,26 @@ Surface {
                 }
 
                 MaterialIcon {
+                    icon: "notifications_unread"
+                    size: Theme.icon.inline
+                    filled: true
+                    color: Theme.color.primary
+                    visible: NotificationService.list.length > 0
+                }
+
+                MaterialIcon {
                     icon: PowerService.batteryIcon
                     size: Theme.icon.inline
                     color: PowerService.percent <= 15 && !PowerService.charging ? Theme.color.error : trigger.contentColor
+                    visible: PowerService.hasBattery
+                }
+
+                MText {
+                    anchors.verticalCenter: parent.verticalCenter
+                    role: Typography.labelMedium
+                    tabular: true
+                    color: trigger.contentColor
+                    text: PowerService.percent + "%"
                     visible: PowerService.hasBattery
                 }
 

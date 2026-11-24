@@ -98,7 +98,7 @@ Modules import each other as `qs.<dir>` (Quickshell resolves these from the shel
   name. Position is re-read once a second only while playing (MPRIS does not push it).
 - `SystemStatsService`: CPU from `/proc/stat` deltas, memory from `/proc/meminfo`,
   temperature from the best hwmon sensor (found once at startup). Samples every 3 s
-  only while ambient mode is visible; missing sources yield null and are hidden.
+  (Island, bar or Dashboard always show it); missing sources yield null and are hidden.
 
 ### Control Center and theming (M3)
 - `AudioService` (PipeWire default sink/source), `NetworkService` (Quickshell.Networking,
@@ -129,8 +129,9 @@ Modules import each other as `qs.<dir>` (Quickshell resolves these from the shel
 ### Configuration (M6)
 - `ConfigSchema` holds every setting's default and limits; `Config` overlays the valid
   values of `$XDG_CONFIG_HOME/mellow/config.json` and watches it. Wrong values fall back
-  to defaults, broken files keep the last good settings (`Config.problems`). MELLOW does
-  not write this file yet; the settings UI will.
+  to defaults, broken files keep the last good settings (`Config.problems`). The
+  settings window writes it through `Config.set`/`reset`: validated, unknown keys kept,
+  a broken file is never overwritten.
 
 ### Installer, Hyprland setup and app theming (M6)
 - `hypr/*.lua` are copied to `~/.config/hypr/mellow/` and required from one marked line.

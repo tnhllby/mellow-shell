@@ -9,6 +9,8 @@ import qs.services
 Row {
     id: root
 
+    property bool showNote: true
+
     spacing: Theme.spacing.x4
 
     component Metric: Row {
@@ -39,7 +41,7 @@ Row {
         icon: "music_note"
         size: Theme.icon.inline
         color: Theme.color.primary
-        visible: MediaService.activePlayer !== null
+        visible: root.showNote && MediaService.activePlayer !== null
         Accessible.name: "Media paused — click to open the player"
     }
 

@@ -13,11 +13,7 @@ Column {
     readonly property var facts: SystemInfoService.facts
 
     spacing: Theme.spacing.x4
-    Component.onCompleted: {
-        SystemInfoService.refresh();
-        SystemStatsService.dashboardShown = true;
-    }
-    Component.onDestruction: SystemStatsService.dashboardShown = false
+    Component.onCompleted: SystemInfoService.refresh()
 
     Timer {
         interval: 60000

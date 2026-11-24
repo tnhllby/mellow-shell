@@ -5,6 +5,8 @@ import Quickshell.Wayland
 import qs.core
 import qs.components
 import qs.integrations.hyprland
+import qs.services
+import qs.modules.Island
 
 // Full-width top panel: workspaces with their apps' icons (left), clock and
 // system controls (right). The centre belongs to the Island, a separate surface.
@@ -19,6 +21,14 @@ PanelWindow {
         && !(HyprlandService.hasRealFullscreen(monitor?.activeWorkspace) && Config.frame.fullscreenPolicy === "hide")
     readonly property int frameThickness: Config.frame.thickness
     readonly property int fillet: Theme.chromeShape.innerRadius
+    // Left edge of the widest compact Island (see Island.qml).
+    readonly property real islandLeft: (width - Math.min(Config.island.compactMaxWidth, width * 0.34)) / 2
+    // For the tooltip.
+    readonly property string hoveredLabel: launcherButton.hovered ? launcherButton.label : overviewButton.hovered ? overviewButton.label
+        : tray.hoveredLabel || status.hoveredLabel
+    readonly property real hoveredLabelCenter: launcherButton.hovered ? leftZone.x + launcherButton.x + launcherButton.width / 2
+        : overviewButton.hovered ? leftZone.x + overviewButton.x + overviewButton.width / 2
+        : tray.hoveredLabel ? tray.hoveredCenter : status.x + status.width - 48
     // For the workspace preview.
     readonly property alias hoveredWorkspace: strip.hoveredWorkspace
     readonly property alias hoveredCenter: strip.hoveredCenter
@@ -145,12 +155,58 @@ PanelWindow {
         }
     }
 
-    WorkspaceStrip {
-        id: strip
-        anchors.left: parent.left
-        anchors.leftMargin: Theme.spacing.x3
+    Row {
+        id: leftZone
+        x: Theme.spacing.x3
         anchors.verticalCenter: bar.verticalCenter
-        monitor: root.monitor
+        spacing: Theme.spacing.x2
+
+        BarButton {
+            id: launcherButton
+            icon: "apps"
+            label: "Apps"
+            toggled: ShellState.launcherMonitor === root.screen?.name
+            onClicked: ShellState.toggleLauncher(root.screen.name)
+        }
+
+        WorkspaceStrip {
+            id: strip
+            monitor: root.monitor
+        }
+
+        BarButton {
+            id: overviewButton
+            icon: "grid_view"
+            label: "Overview"
+            toggled: ShellState.overviewMonitor === root.screen?.name
+            onClicked: ShellState.toggleOverview(root.screen.name)
+        }
+
+        // The Island shows these itself while no media plays.
+        Surface {
+            id: stats
+            width: metrics.implicitWidth + 2 * Theme.spacing.x4
+            height: Theme.barPill.height
+            radius: Theme.shape.pill
+            color: Theme.glass(Theme.color.surfaceContainerHigh)
+            visible: MediaService.mediaMode && SystemStatsService.cpu !== null && leftZone.x + x + width + Theme.spacing.x3 < root.islandLeft
+
+            AmbientCompact {
+                id: metrics
+                anchors.centerIn: parent
+                showNote: false
+            }
+        }
+    }
+
+    Tray {
+        id: tray
+        anchors.right: status.left
+        anchors.rightMargin: Theme.spacing.x2
+        anchors.verticalCenter: bar.verticalCenter
+        window: root
+        // Only as many as fit between the Island and the status pill.
+        maxItems: Math.max(0, Math.min(6, Math.floor((status.x - (root.width - root.islandLeft) - 4 * Theme.spacing.x3) / Theme.barPill.inner)))
     }
 
     StatusArea {

@@ -47,7 +47,7 @@ Item {
             preferredRendererType: Shape.CurveRenderer
 
             ShapePath {
-                strokeColor: Theme.color.tertiary
+                strokeColor: Theme.color.primary
                 strokeWidth: root.stroke
                 capStyle: ShapePath.RoundCap
                 joinStyle: ShapePath.RoundJoin
@@ -81,7 +81,7 @@ Item {
         width: Math.max(0, root.width - x)
         height: root.stroke
         radius: height / 2
-        color: Theme.color.tertiaryContainer
+        color: Theme.color.secondaryContainer
     }
 
     // Handle.
@@ -91,7 +91,7 @@ Item {
         width: root.activeFocus || drag.pressed ? 6 : 4
         height: root.implicitHeight - 4
         radius: width / 2
-        color: Theme.color.tertiary
+        color: Theme.color.primary
         visible: root.seekable
 
         Behavior on width {

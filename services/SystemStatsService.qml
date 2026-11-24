@@ -5,15 +5,12 @@ import Quickshell.Io
 import qs.core
 import qs.services
 
-// CPU load, memory use and CPU temperature for the Island's ambient state.
-// Samples only while the Island shows ambient mode or the Dashboard is open. Each metric is null when
+// CPU load, memory use and CPU temperature: in the Island's ambient state, on
+// the bar while the Island shows media, and on the Dashboard. A metric is null when
 // its source is unavailable, and the UI hides it.
 Singleton {
     id: root
 
-    // Set while the settings Dashboard shows the values.
-    property bool dashboardShown: false
-    readonly property bool active: !MediaService.mediaMode || dashboardShown
 
     property var cpu: null          // percent
     property var memory: null       // percent
@@ -50,7 +47,7 @@ Singleton {
         interval: Config.island.statsInterval
         repeat: true
         triggeredOnStart: true
-        running: root.active
+        running: true
         onTriggered: root.sample()
     }
 

@@ -1,3 +1,4 @@
+//@ pragma UseQApplication
 import QtQuick
 import Quickshell
 import qs.modules.TopBar
@@ -56,6 +57,11 @@ ShellRoot {
 
             Island {
                 screen: perScreen.modelData
+            }
+
+            BarTooltip {
+                screen: perScreen.modelData
+                panel: topBar
             }
 
             WorkspacePreview {
