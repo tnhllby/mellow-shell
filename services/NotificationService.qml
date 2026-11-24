@@ -22,6 +22,17 @@ Singleton {
     // Monitor the pop-ups are on: the focused one when the first appeared.
     property string popupMonitor: ""
 
+    // Do Not Disturb: no pop-ups except critical ones; the list still fills.
+    readonly property bool doNotDisturb: store.doNotDisturb
+
+    function toggleDoNotDisturb() {
+        store.doNotDisturb = !store.doNotDisturb;
+        if (store.doNotDisturb) {
+            for (const n of popups.filter(n => n.urgency !== NotificationUrgency.Critical))
+                hidePopup(n);
+        }
+    }
+
     // Process that receives notifications; 0 when there is none.
     property int ownerPid: 0
     readonly property bool active: ownerPid === Quickshell.processId
@@ -99,7 +110,8 @@ Singleton {
         onNotification: notification => {
             root.ownerPid = Quickshell.processId;
             // Open in the Control Center already, or kept across a config reload.
-            const popup = Config.notifications.popups && ShellState.controlCenterMonitor === "" && !notification.lastGeneration;
+            const silenced = root.doNotDisturb && notification.urgency !== NotificationUrgency.Critical;
+            const popup = Config.notifications.popups && !silenced && ShellState.controlCenterMonitor === "" && !notification.lastGeneration;
             // Transient ones ask not to be kept.
             if (notification.transient && !popup)
                 return;
@@ -136,6 +148,26 @@ Singleton {
         function onControlCenterMonitorChanged() {
             if (ShellState.controlCenterMonitor !== "")
                 root.hidePopups();
+        }
+    }
+
+    Timer {
+        id: writeDelay
+        interval: 200
+        onTriggered: file.writeAdapter()
+    }
+
+    FileView {
+        id: file
+        path: Paths.state + "/notifications.json"
+        watchChanges: true
+        printErrors: false
+        onFileChanged: reload()
+        onAdapterUpdated: writeDelay.restart()
+
+        JsonAdapter {
+            id: store
+            property bool doNotDisturb: false
         }
     }
 

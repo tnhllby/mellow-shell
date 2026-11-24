@@ -102,7 +102,7 @@ FocusScope {
         GridLayout {
             id: grid
 
-            readonly property int tileCount: 1 + [NetworkService.available, BluetoothService.available, AudioService.sourceAvailable, PowerService.profilesAvailable].filter(v => v).length
+            readonly property int tileCount: 3 + [NetworkService.available, BluetoothService.available, AudioService.sourceAvailable, PowerService.profilesAvailable].filter(v => v).length
 
             width: parent.width
             columns: 2
@@ -160,6 +160,25 @@ FocusScope {
                 subtitle: ThemeState.dark ? "On" : "Off"
                 active: ThemeState.dark
                 onActivated: ThemeState.toggleMode()
+            }
+
+            QuickTile {
+                Layout.fillWidth: true
+                enabled: NotificationService.active
+                icon: NotificationService.doNotDisturb ? "notifications_off" : "notifications"
+                title: "Do Not Disturb"
+                subtitle: !NotificationService.active ? "Another program notifies" : NotificationService.doNotDisturb ? "On" : "Off"
+                active: enabled && NotificationService.doNotDisturb
+                onActivated: NotificationService.toggleDoNotDisturb()
+            }
+
+            QuickTile {
+                Layout.fillWidth: true
+                icon: "coffee"
+                title: "Keep awake"
+                subtitle: KeepAwakeService.active ? "On" : "Off"
+                active: KeepAwakeService.active
+                onActivated: KeepAwakeService.toggle()
             }
 
             // Wallpaper Studio; spans the row when no tile is left beside it.

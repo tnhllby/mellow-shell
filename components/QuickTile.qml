@@ -22,7 +22,8 @@ Rectangle {
     radius: active ? Theme.shape.lg : Theme.shape.xl
     color: active ? Theme.color.primaryContainer : Theme.color.surfaceContainerHighest
 
-    activeFocusOnTab: true
+    activeFocusOnTab: enabled
+    opacity: enabled ? 1 : 0.6
     Accessible.role: Accessible.Button
     Accessible.name: title + ", " + subtitle
     Keys.onReturnPressed: activated()

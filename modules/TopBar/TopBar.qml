@@ -21,6 +21,11 @@ PanelWindow {
         && !(HyprlandService.hasRealFullscreen(monitor?.activeWorkspace) && Config.frame.fullscreenPolicy === "hide")
     readonly property int frameThickness: Config.frame.thickness
     readonly property int fillet: Theme.chromeShape.innerRadius
+    IdleInhibitor {
+        window: root
+        enabled: KeepAwakeService.active
+    }
+
     // Left edge of the widest compact Island (see Island.qml).
     readonly property real islandLeft: (width - Math.min(Config.island.compactMaxWidth, width * 0.34)) / 2
     // For the tooltip.

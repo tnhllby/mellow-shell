@@ -15,7 +15,8 @@ Surface {
 
     readonly property string hoveredLabel: !mouse.containsMouse ? "" : [NetworkService.available ? NetworkService.label : "",
         PowerService.hasBattery ? "Battery " + PowerService.percent + "%" : "",
-        NotificationService.list.length > 0 ? NotificationService.list.length + " notifications" : ""].filter(s => s).join("  ·  ") || "Control Center"
+        NotificationService.list.length > 0 ? NotificationService.list.length + " notifications" : "",
+        NotificationService.active && NotificationService.doNotDisturb ? "Do Not Disturb" : "", KeepAwakeService.active ? "Keeping awake" : ""].filter(s => s).join("  ·  ") || "Control Center"
 
     implicitWidth: row.implicitWidth + Theme.spacing.x4 + Theme.spacing.x1
     implicitHeight: Theme.barPill.height
@@ -99,11 +100,26 @@ Surface {
                 }
 
                 MaterialIcon {
+                    icon: "coffee"
+                    size: Theme.icon.inline
+                    filled: true
+                    color: trigger.contentColor
+                    visible: KeepAwakeService.active
+                }
+
+                MaterialIcon {
+                    icon: "notifications_off"
+                    size: Theme.icon.inline
+                    color: trigger.contentColor
+                    visible: NotificationService.active && NotificationService.doNotDisturb
+                }
+
+                MaterialIcon {
                     icon: "notifications_unread"
                     size: Theme.icon.inline
                     filled: true
                     color: Theme.color.primary
-                    visible: NotificationService.list.length > 0
+                    visible: NotificationService.list.length > 0 && !NotificationService.doNotDisturb
                 }
 
                 MaterialIcon {

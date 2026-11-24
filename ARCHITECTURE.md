@@ -96,6 +96,9 @@ Modules import each other as `qs.<dir>` (Quickshell resolves these from the shel
 - `MediaService`: active MPRIS player (playing wins; otherwise the last one played),
   metadata with fallbacks, capabilities, transport/seek actions, PipeWire default sink
   name. Position is re-read once a second only while playing (MPRIS does not push it).
+- `KeepAwakeService`: "Keep awake" state; each `TopBar` holds an `IdleInhibitor` while on.
+  Survives a config reload, not a restart.
+- Do Not Disturb lives in `NotificationService` (`$XDG_STATE_HOME/mellow/notifications.json`).
 - `SystemStatsService`: CPU from `/proc/stat` deltas, memory from `/proc/meminfo`,
   temperature from the best hwmon sensor (found once at startup). Samples every 3 s
   (Island, bar or Dashboard always show it); missing sources yield null and are hidden.

@@ -144,6 +144,14 @@ Scope {
             ShellState.settingsOpen = !ShellState.settingsOpen;
         }
 
+        function toggleDoNotDisturb(): void {
+            NotificationService.toggleDoNotDisturb();
+        }
+
+        function toggleKeepAwake(): void {
+            KeepAwakeService.toggle();
+        }
+
         function toggleTheme(): void {
             ThemeState.toggleMode();
         }

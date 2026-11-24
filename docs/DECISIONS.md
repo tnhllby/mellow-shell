@@ -87,3 +87,11 @@
   stays 44 px with the Island centred. Elements give way before they reach the Island.
 - Settings is a normal window with a Dashboard (user picture, system facts and load).
 - `shell.qml` uses `UseQApplication`: tray menus need it.
+
+## Do Not Disturb and Keep awake (2026-11-24)
+- Do Not Disturb hides pop-ups except critical ones, keeps filling the list, and persists.
+  Its tile is disabled while another program owns notifications.
+- Keep awake is off after a restart, so it cannot drain the battery by accident. It stops
+  idle actions only, not an explicit suspend or the lid.
+- No settings list of MELLOW's own is needed beyond what end-4 / end4-pC offer; from those,
+  only settings for something MELLOW has are taken, and added with the feature.
