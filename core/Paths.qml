@@ -4,7 +4,7 @@ import Quickshell
 import Quickshell.Io
 
 // MELLOW's own state and cache directories (XDG), created on startup.
-// MELLOW only reads its config directory.
+// Config creates the config directory when a setting is first saved.
 Singleton {
     id: root
 

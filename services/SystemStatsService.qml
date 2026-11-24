@@ -6,12 +6,14 @@ import qs.core
 import qs.services
 
 // CPU load, memory use and CPU temperature for the Island's ambient state.
-// Samples only while the Island shows ambient mode. Each metric is null when
+// Samples only while the Island shows ambient mode or the Dashboard is open. Each metric is null when
 // its source is unavailable, and the UI hides it.
 Singleton {
     id: root
 
-    readonly property bool active: !MediaService.mediaMode
+    // Set while the settings Dashboard shows the values.
+    property bool dashboardShown: false
+    readonly property bool active: !MediaService.mediaMode || dashboardShown
 
     property var cpu: null          // percent
     property var memory: null       // percent

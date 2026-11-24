@@ -19,6 +19,9 @@ Singleton {
     property string studioMonitor: ""
     // Whether the Island was expanded from the keyboard (shows the focus ring at once).
     property bool islandFromKeyboard: false
+    // The settings window and its page.
+    property bool settingsOpen: false
+    property string settingsPage: "dashboard"
     // Monitor showing the application launcher, or "" when closed.
     property string launcherMonitor: ""
     // Monitor showing the workspace/window Overview, or "" when closed.

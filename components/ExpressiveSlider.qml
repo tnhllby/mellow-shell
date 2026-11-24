@@ -10,6 +10,8 @@ Item {
     property string icon
     property string label
     property real step: 0.05
+    // Shown at the end of the track; the percentage when empty.
+    property string valueText
     signal moved(real value)
     // Optional action on the icon (e.g. mute).
     signal iconClicked
@@ -71,7 +73,7 @@ Item {
             tabular: true
             // Readable on whichever part of the track lies under it.
             color: root.shownValue * track.width > x ? Theme.color.contentPrimary : Theme.color.contentSurfaceVariant
-            text: Math.round(root.shownValue * 100) + "%"
+            text: root.valueText || Math.round(root.shownValue * 100) + "%"
         }
     }
 

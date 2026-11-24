@@ -8,6 +8,7 @@ import qs.modules.ControlCenter
 import qs.modules.Launcher
 import qs.modules.Overview
 import qs.modules.Background
+import qs.modules.Settings
 import qs.modules.Notifications
 import qs.modules.WallpaperStudio
 import qs.modules
@@ -29,6 +30,12 @@ ShellRoot {
         target: Theme
         property: "compositorBlur"
         value: HyprlandService.blurEnabled
+    }
+
+    LazyLoader {
+        active: ShellState.settingsOpen
+
+        SettingsWindow {}
     }
 
     Variants {

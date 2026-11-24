@@ -33,8 +33,21 @@ FocusScope {
                 text: "Quick settings"
             }
 
-            Row {
+            IconButton {
+                id: gear
                 anchors.right: parent.right
+                anchors.verticalCenter: parent.verticalCenter
+                icon: "settings"
+                label: "Settings"
+                onClicked: {
+                    ShellState.settingsOpen = true;
+                    root.closeRequested();
+                }
+            }
+
+            Row {
+                anchors.right: gear.left
+                anchors.rightMargin: Theme.spacing.x1
                 anchors.verticalCenter: parent.verticalCenter
                 spacing: Theme.spacing.x1
                 visible: PowerService.hasBattery

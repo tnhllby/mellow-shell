@@ -20,7 +20,48 @@ Singleton {
         return overrides[key] ?? ConfigSchema.entries[key].def;
     }
 
+    // The file as parsed, with settings MELLOW does not know.
+    property var raw: ({})
+    // The file cannot be read: never overwrite it.
+    property bool broken: false
+
+    // Changes a setting and saves it; false when the value is not accepted.
+    function set(key, newValue) {
+        if (broken || ConfigSchema.problem(key, newValue) !== "")
+            return false;
+        change(key, newValue);
+        return true;
+    }
+
+    function reset(key) {
+        if (!broken)
+            change(key, undefined);
+    }
+
+    function change(key, newValue) {
+        const [group, name] = key.split(".");
+        const nextRaw = JSON.parse(JSON.stringify(raw));
+        const next = Object.assign({}, overrides);
+        if (newValue === undefined) {
+            delete next[key];
+            if (isGroup(nextRaw[group])) {
+                delete nextRaw[group][name];
+                if (Object.keys(nextRaw[group]).length === 0)
+                    delete nextRaw[group];
+            }
+        } else {
+            next[key] = newValue;
+            if (!isGroup(nextRaw[group]))
+                nextRaw[group] = {};
+            nextRaw[group][name] = newValue;
+        }
+        raw = nextRaw;
+        overrides = next;
+        saveDelay.restart();
+    }
+
     function apply(text) {
+        broken = true;
         const found = {};
         const issues = [];
         let data = {};
@@ -50,6 +91,8 @@ Singleton {
                     found[key] = data[group][name];
             }
         }
+        broken = false;
+        raw = data;
         overrides = found;
         report(issues);
     }
@@ -64,6 +107,18 @@ Singleton {
             console.warn("config.json: " + issue);
     }
 
+    Timer {
+        id: saveDelay
+        interval: 300
+        onTriggered: makeDir.running = true
+    }
+
+    Process {
+        id: makeDir
+        command: ["mkdir", "-p", Paths.config]
+        onExited: file.setText(JSON.stringify(root.raw, null, 2) + "\n")
+    }
+
     FileView {
         id: file
         path: Paths.config + "/config.json"
@@ -73,7 +128,11 @@ Singleton {
         watchChanges: true
         printErrors: false
         onFileChanged: reload()
-        onLoaded: root.apply(text())
+        // Not over changes that are about to be saved.
+        onLoaded: {
+            if (!saveDelay.running && !makeDir.running)
+                root.apply(text());
+        }
         onLoadFailed: error => {
             if (error === FileViewError.FileNotFound)
                 root.apply("");

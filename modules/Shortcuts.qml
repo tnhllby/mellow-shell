@@ -89,6 +89,13 @@ Scope {
 
     GlobalShortcut {
         appid: "mellow"
+        name: "settings"
+        description: "Open or close the settings window"
+        onPressed: ShellState.settingsOpen = !ShellState.settingsOpen
+    }
+
+    GlobalShortcut {
+        appid: "mellow"
         name: "closeAll"
         description: "Close all MELLOW popups"
         onPressed: ShellState.closeAll()
@@ -131,6 +138,10 @@ Scope {
 
         function openStudio(): void {
             ShellState.openStudio(root.focusedMonitorName());
+        }
+
+        function toggleSettings(): void {
+            ShellState.settingsOpen = !ShellState.settingsOpen;
         }
 
         function toggleTheme(): void {
