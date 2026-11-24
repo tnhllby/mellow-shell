@@ -21,9 +21,8 @@ current milestone, test, report exactly what was and was not verified, update do
   reports issues with screenshots and recordings.
 - **M5 is implemented;** user testing remains. Theme changes cross-fade in `ThemeColors`.
   Dimensional iconography done (animated fill/weight, dark grade, `IconBadge`). Ask the user which comes next.
-- **Then M6:** settings UI, validated config, and an installer that writes MELLOW's
-  Hyprland keybindings **and the `xray = false` layer rule** (sourced snippet, backed
-  up, removable by `uninstall.sh`).
+- **M6 in progress** (`docs/M6_STATUS.md`): config, pop-ups, installer, Hyprland setup and
+  app theming done; the settings UI is next. Host Hyprland is now 0.57.2 (Lua only).
 
 Latest commits: `564875a` shifted Control Center blur fix + faint card outline;
 `5d29da4` blur inset (light rim) + icon only on the active workspace; `64f23e3` 44 px

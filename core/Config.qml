@@ -114,6 +114,10 @@ Singleton {
         readonly property var presetSeeds: root.value("wallpaper.presetSeeds")
     }
 
+    readonly property QtObject theming: QtObject {
+        readonly property bool apps: root.value("theming.apps")
+    }
+
     readonly property QtObject frame: QtObject {
         readonly property bool enabled: root.value("frame.enabled")
         readonly property int thickness: root.value("frame.thickness")

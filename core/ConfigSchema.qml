@@ -39,6 +39,10 @@ Singleton {
         // Seeds offered next to the wallpaper's own colours.
         "wallpaper.presetSeeds": { type: "strings", def: ["#5E8C7A", "#4A6FA5", "#8E6CB8", "#C0597A", "#C7774A", "#B59A3A"], pattern: /^#[0-9a-fA-F]{6}$/ },
 
+        // Theme kitty, KDE, GTK and Hyprland from MELLOW's colours. Off by default:
+        // it changes those apps' settings. The installer turns it on.
+        "theming.apps": { type: "bool", def: false },
+
         "frame.enabled": { type: "bool", def: true },
         "frame.thickness": { type: "int", def: 4, min: 1, max: 20 },
         // "hide": frame disappears while the monitor's active workspace has a

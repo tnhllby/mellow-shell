@@ -12,12 +12,16 @@ import qs.modules.Notifications
 import qs.modules.WallpaperStudio
 import qs.modules
 import qs.core
+import qs.services
 import qs.integrations.hyprland
 
 // MELLOW entry point: one set of surfaces per connected screen. Variants
 // creates and destroys them as monitors are plugged in or removed.
 ShellRoot {
     Shortcuts {}
+
+    // Keeps the service alive from startup.
+    readonly property bool appTheming: AppThemeService.enabled
 
     // Theme lives in core and does not talk to Hyprland; hand it the
     // compositor's blur state here.

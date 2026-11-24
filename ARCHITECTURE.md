@@ -132,6 +132,12 @@ Modules import each other as `qs.<dir>` (Quickshell resolves these from the shel
   to defaults, broken files keep the last good settings (`Config.problems`). MELLOW does
   not write this file yet; the settings UI will.
 
+### Installer, Hyprland setup and app theming (M6)
+- `hypr/*.lua` are copied to `~/.config/hypr/mellow/` and required from one marked line.
+- `AppThemeService` runs `scripts/apply-app-theme.sh` (matugen + `scripts/templates/`) on
+  theme changes while `theming.apps` is on; only changed outputs are applied.
+- `scripts/setup-lib.sh`: backups and marked-block editing for install/uninstall.
+
 ### Launcher, Dock and Overview (M4)
 - `AppService`: visible desktop entries, ranked search (name, words, generic name,
   keywords, id, comment, in-order letters), launch (Terminal=true apps run in

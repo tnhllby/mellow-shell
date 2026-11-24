@@ -18,16 +18,16 @@
 `install.sh --deps` installs Quickshell, matugen and ddcutil (and prints the i2c steps). State is kept in
 `~/.local/state/mellow/` (`theme.json`, `wallpaper.json`); delete it to reset.
 
-## Install on the test machine
+## Install
 ```sh
-git clone <repo-url> ~/mellow-shell
-cd ~/mellow-shell
+git clone <repo-url> ~/mellow-shell && cd ~/mellow-shell
 ./install.sh --dry-run     # shows every step, changes nothing
-./install.sh               # quickshell (sudo pacman), fonts (~/.local/share/fonts/mellow), config symlink
+./install.sh               # asks before each kind of change
 ```
-Individual steps: `./install.sh --deps`, `--fonts`, `--link`; `-y` skips prompts.
-
-The installer never edits Hyprland configuration and does not enable autostart.
+Steps can be run alone: `--deps`, `--apps`, `--fonts`, `--link`, `--hypr`, `--theme`.
+Hyprland 0.57 reads only the Lua config (`hyprland.lua`); a missing one is created from
+Hyprland's example. MELLOW adds one marked line to it; its own files are in
+`~/.config/hypr/mellow/`. Changed files are copied to `~/.local/state/mellow/backup/`.
 
 ## Launch / stop
 | Action | Installed | Straight from the repo |
@@ -53,25 +53,24 @@ exec-once = qs -c mellow
 hl.on("hyprland.start", function() hl.exec_cmd("qs -c mellow") end)
 ```
 
-## Keybindings (optional, added by you)
-Until the M6 installer sets these up automatically, MELLOW registers Hyprland global shortcuts; bind keys to them in your config:
+## Keybindings
+`install.sh --hypr` adds these (`hypr/keybinds.lua`), replacing binds on the same keys:
+
+| Keys | Action |
+|---|---|
+| Meta / Meta+Tab | Launcher / Overview |
+| Meta+N / Ctrl+Meta+T / Meta+I | Control Center / Wallpaper Studio / Settings (no window yet) |
+| Meta+Q | Close window |
+| Meta+W / Meta+E / Meta+T, Meta+Enter | Firefox / Dolphin / kitty |
+| Meta+1..9 | Workspace |
+| Meta+Left/Right | Move focus |
+| Meta+Shift+Left/Right | Move window to the previous/next workspace |
+| Ctrl+Meta+Left/Right | Previous/next workspace |
+
+Other global shortcuts (`mellow:dock`, `mellow:island`, `mellow:mediaPlayPause`,
+`mellow:mediaNext`, `mellow:mediaPrevious`, `mellow:closeAll`) can be bound by you:
 ```
-# hyprland.conf
-bind = SUPER, C, global, mellow:controlCenter
-bind = SUPER, D, global, mellow:dock
-bind = SUPER, M, global, mellow:island
-bind = SUPER, W, global, mellow:studio
-bindr = SUPER, SUPER_L, global, mellow:launcher   # Meta alone; the launcher acts on key release
-bind = SUPER, TAB, global, mellow:overview
-bind = , XF86AudioPlay, global, mellow:mediaPlayPause
-bind = , XF86AudioNext, global, mellow:mediaNext
-bind = , XF86AudioPrev, global, mellow:mediaPrevious
-bind = , Escape, global, mellow:closeAll     # optional; Escape already closes focused popups
--- hyprland.lua
-hl.bind("SUPER + C", hl.dsp.global("mellow:controlCenter"))
 hl.bind("SUPER + D", hl.dsp.global("mellow:dock"))
-hl.bind("SUPER + SUPER_L", hl.dsp.global("mellow:launcher"), { release = true })
-hl.bind("SUPER + TAB", hl.dsp.global("mellow:overview"))
 ```
 `hyprctl globalshortcuts | grep mellow` lists them. The same actions are available over IPC:
 `qs -c mellow ipc call mellow toggleControlCenter` (`qs -c mellow ipc show` lists all;
@@ -211,3 +210,15 @@ in `core/ConfigSchema.qml`. Mistakes are logged (`qs log -c mellow`) and ignored
 { "controlCenter": { "width": 460 }, "notifications": { "popupTimeout": 4000 } }
 ```
 - [ ] Pop-ups: hovering keeps one open, X dismisses it, action buttons and clicking work.
+
+## App theming
+With `theming.apps` (set by `install.sh --theme`) MELLOW regenerates colours for kitty,
+KDE apps (Dolphin, Gwenview), GTK apps and Hyprland borders on every theme change.
+Firefox follows light/dark only. Log: `qs log -c mellow`.
+
+## M6 installer checklist (test machine)
+- [ ] `./install.sh` on a clean Arch + Hyprland: packages, services, Firefox as default browser.
+- [ ] Every keybinding in the table above works; Meta alone opens the Launcher.
+- [ ] Dolphin "Open with" lists apps; Dolphin, Gwenview, kitty and a GTK app follow the theme.
+- [ ] Changing wallpaper colours or light/dark updates them live.
+- [ ] `./uninstall.sh` restores the previous look; Hyprland starts without errors.

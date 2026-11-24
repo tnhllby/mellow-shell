@@ -10,7 +10,7 @@
 - Initial launch: manual; no autostart until approved.
 - Final installer (M6) configures Hyprland itself so users bind nothing by hand: it
   adds MELLOW's keybindings (and, with consent, autostart) as a separate file sourced
-  from the user's Hyprland config (classic or Lua), backs up the original, and
+  from the user's Hyprland config (Lua only: Hyprland 0.57 no longer reads hyprland.conf), backs up the original, and
   `uninstall.sh` removes it again. Until then binds are added manually.
 
 ## Visual identity
@@ -76,3 +76,8 @@
 - Avoid feature bloat.
 - No feature without a concrete user problem.
 - All core actions support keyboard and pointer.
+
+## Installer and app theming (2026-11-24)
+- The installer also installs kitty, Firefox (default browser), Dolphin and Gwenview.
+- App theming uses matugen with MELLOW's own templates, off unless `theming.apps` is set.
+- Window decorations and autostart are asked about, never assumed.
