@@ -73,7 +73,7 @@ FocusScope {
             id: brightness
             width: parent.width
             // Brightness of the display this Control Center opened on.
-            visible: BrightnessService.available(root.monitorName)
+            visible: Config.controlCenter.brightnessSlider && BrightnessService.available(root.monitorName)
             icon: "brightness_6"
             label: "Brightness, " + root.monitorName
             value: BrightnessService.value(root.monitorName)
@@ -83,7 +83,7 @@ FocusScope {
         ExpressiveSlider {
             id: volume
             width: parent.width
-            visible: AudioService.sinkAvailable
+            visible: Config.controlCenter.volumeSlider && AudioService.sinkAvailable
             icon: AudioService.muted ? "volume_off" : AudioService.volume < 0.4 ? "volume_down" : "volume_up"
             label: "Volume, " + AudioService.sinkName + (AudioService.muted ? ", muted" : "")
             value: AudioService.muted ? 0 : AudioService.volume
@@ -96,7 +96,7 @@ FocusScope {
             role: Typography.labelMedium
             color: Theme.color.contentSurfaceVariant
             text: AudioService.sinkName
-            visible: AudioService.sinkAvailable && text !== ""
+            visible: volume.visible && text !== ""
         }
 
         GridLayout {
@@ -105,7 +105,7 @@ FocusScope {
             readonly property int tileCount: 3 + [NetworkService.available, BluetoothService.available, AudioService.sourceAvailable, PowerService.profilesAvailable].filter(v => v).length
 
             width: parent.width
-            columns: 4
+            columns: Config.controlCenter.tileColumns
             uniformCellWidths: true
             columnSpacing: Theme.spacing.x2
             rowSpacing: Theme.spacing.x2
@@ -188,7 +188,7 @@ FocusScope {
             // Wallpaper Studio; fills the rest of its row.
             QuickTile {
                 Layout.fillWidth: true
-                Layout.columnSpan: 4 - grid.tileCount % 4
+                Layout.columnSpan: grid.columns - grid.tileCount % grid.columns
                 icon: "palette"
                 title: "Wallpaper"
                 subtitle: "Style and colors"

@@ -21,6 +21,32 @@ Singleton {
         "panel.workspacePreviewWidth": { type: "int", def: 320, min: 200, max: 640 },
 
         // Workspaces 1..n always get a card, even before they exist.
+        // Optional elements of the bar.
+        "panel.apps": { type: "bool", def: true },
+        "panel.overview": { type: "bool", def: true },
+        "panel.metrics": { type: "bool", def: true },
+        "panel.tray": { type: "bool", def: true },
+        "panel.batteryPercent": { type: "bool", def: true },
+        "panel.unreadCount": { type: "bool", def: false },
+
+        // Picture on the Dashboard; empty uses ~/.face or the account's.
+        "profile.avatar": { type: "string", def: "", empty: true },
+
+        // Notify at these battery levels (percent); 0 turns one off.
+        "battery.low": { type: "int", def: 20, min: 0, max: 50 },
+        "battery.critical": { type: "int", def: 10, min: 0, max: 30 },
+        "battery.fullAlert": { type: "bool", def: false },
+
+        // Cap the volume, and undo sudden jumps not made in MELLOW (percent).
+        "audio.protection": { type: "bool", def: false },
+        "audio.maxVolume": { type: "int", def: 100, min: 30, max: 150 },
+        "audio.maxStep": { type: "int", def: 20, min: 5, max: 100 },
+
+        "osd.enabled": { type: "bool", def: true },
+        "osd.timeout": { type: "int", def: 1500, min: 500, max: 5000 },
+
+        // 0: as many as fit, up to four.
+        "overview.columns": { type: "int", def: 0, min: 0, max: 8 },
         "overview.defaultWorkspaces": { type: "int", def: 6, min: 1, max: 10 },
 
         "island.compactMaxWidth": { type: "int", def: 360, min: 200, max: 600 },
@@ -34,6 +60,8 @@ Singleton {
         // another wallpaper tool.
         "wallpaper.draw": { type: "bool", def: true },
         "wallpaper.folders": { type: "strings", def: ["~/Pictures/Wallpapers", "~/Pictures"] },
+        // Minutes between wallpapers from the first folder; 0 turns it off.
+        "wallpaper.slideshowMinutes": { type: "int", def: 0, min: 0, max: 1440 },
         // matugen scheme type for wallpaper-derived colours.
         "wallpaper.schemeType": { type: "enum", def: "scheme-tonal-spot", values: ["scheme-content", "scheme-expressive", "scheme-fidelity", "scheme-fruit-salad", "scheme-monochrome", "scheme-neutral", "scheme-rainbow", "scheme-tonal-spot", "scheme-vibrant"] },
         // Seeds offered next to the wallpaper's own colours.
@@ -55,6 +83,12 @@ Singleton {
 
         "controlCenter.width": { type: "int", def: 420, min: 380, max: 560 },
 
+        "controlCenter.tileColumns": { type: "int", def: 4, min: 2, max: 5 },
+        "controlCenter.brightnessSlider": { type: "bool", def: true },
+        "controlCenter.volumeSlider": { type: "bool", def: true },
+
+        // Monitor for pop-ups: "focused", or a name such as "eDP-1".
+        "notifications.monitor": { type: "string", def: "focused" },
         "notifications.popups": { type: "bool", def: true },
         // How long a pop-up stays when the app does not say (ms).
         "notifications.popupTimeout": { type: "int", def: 6000, min: 1000, max: 60000 },
@@ -90,7 +124,7 @@ Singleton {
         case "enum":
             return e.values.includes(value) ? "" : "expected one of: " + e.values.join(", ");
         case "string":
-            return typeof value === "string" && value !== "" ? "" : "expected text";
+            return typeof value === "string" && (value !== "" || e.empty === true) ? "" : "expected text";
         case "strings":
             return Array.isArray(value) && value.length >= (e.minLength ?? 0) && value.every(v => typeof v === "string" && v !== "" && (!e.pattern || e.pattern.test(v))) ? "" : "expected a list of valid texts";
         }

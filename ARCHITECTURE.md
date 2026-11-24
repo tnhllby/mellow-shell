@@ -96,6 +96,10 @@ Modules import each other as `qs.<dir>` (Quickshell resolves these from the shel
 - `MediaService`: active MPRIS player (playing wins; otherwise the last one played),
   metadata with fallbacks, capabilities, transport/seek actions, PipeWire default sink
   name. Position is re-read once a second only while playing (MPRIS does not push it).
+- `OsdService`: what the on-screen indicator (`modules/Osd`) shows and where.
+- `BatteryAlertService`: battery notifications, only while MELLOW receives notifications.
+- `SlideshowService`: changes the shared wallpaper on an interval.
+- `AudioService` also applies the optional volume protection.
 - `KeepAwakeService`: "Keep awake" state; each `TopBar` holds an `IdleInhibitor` while on.
   Survives a config reload, not a restart.
 - Do Not Disturb lives in `NotificationService` (`$XDG_STATE_HOME/mellow/notifications.json`).

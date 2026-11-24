@@ -27,3 +27,12 @@ bind("SUPER + SHIFT + left", hl.dsp.window.move({ workspace = "r-1" }))
 bind("SUPER + SHIFT + right", hl.dsp.window.move({ workspace = "r+1" }))
 bind("CTRL + SUPER + left", hl.dsp.focus({ workspace = "r-1" }))
 bind("CTRL + SUPER + right", hl.dsp.focus({ workspace = "r+1" }))
+
+-- Media keys, also while locked; held keys repeat.
+local held = { locked = true, repeating = true }
+bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"), held)
+bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"), held)
+bind("XF86AudioMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"), { locked = true })
+bind("XF86AudioMicMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"), { locked = true })
+bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("qs -c mellow ipc call mellow brightnessStep 5"), held)
+bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("qs -c mellow ipc call mellow brightnessStep -- -5"), held)

@@ -19,7 +19,8 @@ Singleton {
     property var popupIds: []
     readonly property int maxPopups: 3
     readonly property var popups: server.trackedNotifications.values.filter(n => popupIds.includes(n.id)).reverse().slice(0, maxPopups)
-    // Monitor the pop-ups are on: the focused one when the first appeared.
+    // Monitor the pop-ups are on: the configured one, or the one focused when
+    // the first appeared.
     property string popupMonitor: ""
 
     // Do Not Disturb: no pop-ups except critical ones; the list still fills.
@@ -118,7 +119,7 @@ Singleton {
             notification.tracked = true;
             if (popup) {
                 if (root.popups.length === 0)
-                    root.popupMonitor = HyprlandService.focusedMonitor?.name ?? Quickshell.screens[0]?.name ?? "";
+                    root.popupMonitor = Quickshell.screens.find(s => s.name === Config.notifications.monitor)?.name ?? HyprlandService.focusedMonitor?.name ?? Quickshell.screens[0]?.name ?? "";
                 const alive = server.trackedNotifications.values.map(n => n.id);
                 root.popupIds = [...root.popupIds.filter(id => alive.includes(id) && id !== notification.id), notification.id];
                 // Those pushed out by newer ones are done popping up.

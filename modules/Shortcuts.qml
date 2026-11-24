@@ -152,6 +152,15 @@ Scope {
             KeepAwakeService.toggle();
         }
 
+        // Brightness of the focused monitor, by percentage points.
+        function brightnessStep(percent: int): void {
+            const name = root.focusedMonitorName();
+            if (!BrightnessService.available(name))
+                return;
+            BrightnessService.setValue(name, BrightnessService.value(name) + percent / 100);
+            OsdService.showBrightness(name);
+        }
+
         function toggleTheme(): void {
             ThemeState.toggleMode();
         }

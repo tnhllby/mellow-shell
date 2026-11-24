@@ -37,7 +37,7 @@ FocusScope {
     property bool dragging: false
 
     readonly property real aspect: screen.width / Math.max(1, screen.height)
-    readonly property int columns: Math.max(1, Math.min(slots.length + 1, 4))
+    readonly property int columns: Math.max(1, Math.min(slots.length + 1, Config.overview.columns || 4))
     readonly property int rows: Math.ceil((slots.length + 1) / columns)
     // Fits the width, and the height left after the title and hint chips (~120 px).
     readonly property real cardWidth: Math.min(420,

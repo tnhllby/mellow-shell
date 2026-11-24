@@ -11,6 +11,7 @@ import qs.modules.Overview
 import qs.modules.Background
 import qs.modules.Settings
 import qs.modules.Notifications
+import qs.modules.Osd
 import qs.modules.WallpaperStudio
 import qs.modules
 import qs.core
@@ -22,8 +23,10 @@ import qs.integrations.hyprland
 ShellRoot {
     Shortcuts {}
 
-    // Keeps the service alive from startup.
+    // Keeps the services alive from startup.
     readonly property bool appTheming: AppThemeService.enabled
+    readonly property bool batteryAlerts: BatteryAlertService.active
+    readonly property bool slideshow: SlideshowService.active
 
     // Theme lives in core and does not talk to Hyprland; hand it the
     // compositor's blur state here.
@@ -98,6 +101,10 @@ ShellRoot {
             }
 
             NotificationPopups {
+                screen: perScreen.modelData
+            }
+
+            Osd {
                 screen: perScreen.modelData
             }
 

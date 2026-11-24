@@ -122,6 +122,15 @@ Surface {
                     visible: NotificationService.list.length > 0 && !NotificationService.doNotDisturb
                 }
 
+                MText {
+                    anchors.verticalCenter: parent.verticalCenter
+                    role: Typography.labelMedium
+                    tabular: true
+                    color: Theme.color.primary
+                    text: NotificationService.list.length
+                    visible: Config.panel.unreadCount && NotificationService.list.length > 0 && !NotificationService.doNotDisturb
+                }
+
                 MaterialIcon {
                     icon: PowerService.batteryIcon
                     size: Theme.icon.inline
@@ -135,7 +144,7 @@ Surface {
                     tabular: true
                     color: trigger.contentColor
                     text: PowerService.percent + "%"
-                    visible: PowerService.hasBattery
+                    visible: Config.panel.batteryPercent && PowerService.hasBattery
                 }
 
                 // Shown when no indicator applies, so the trigger never looks empty.

@@ -50,7 +50,12 @@ Column {
             Image {
                 id: picture
                 anchors.fill: parent
-                source: root.facts.avatar ? "file://" + root.facts.avatar : ""
+                // The chosen picture, if it loads, else the account's.
+                property bool failed: false
+                readonly property string chosen: Config.profile.avatar.replace(/^~/, Quickshell.env("HOME"))
+                onChosenChanged: failed = false
+                onStatusChanged: if (status === Image.Error && chosen) failed = true
+                source: chosen && !failed ? "file://" + chosen : root.facts.avatar ? "file://" + root.facts.avatar : ""
                 sourceSize.width: 176
                 sourceSize.height: 176
                 fillMode: Image.PreserveAspectCrop
@@ -203,7 +208,7 @@ Column {
             spacing: Theme.spacing.x2
 
             Repeater {
-                model: [["System", root.facts.os], ["Kernel", root.facts.kernel], ["Processor", root.facts.cpu]].filter(r => r[1])
+                model: [["Up since", root.facts.uptime ? Qt.formatDateTime(new Date(Date.now() - root.facts.uptime * 1000), "ddd, d MMM, HH:mm") : ""], ["System", root.facts.os], ["Kernel", root.facts.kernel], ["Processor", root.facts.cpu]].filter(r => r[1])
 
                 Item {
                     required property var modelData

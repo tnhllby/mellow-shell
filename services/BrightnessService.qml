@@ -143,6 +143,8 @@ Singleton {
     FileView {
         id: currentFile
         path: root.backlight ? `/sys/class/backlight/${root.backlight}/brightness` : ""
+        watchChanges: true
+        onFileChanged: reload()
         onLoaded: root.current = Number(text().trim()) || 0
     }
 

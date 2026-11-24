@@ -1,4 +1,5 @@
 import QtQuick
+import Quickshell
 import qs.core
 import qs.components
 
@@ -57,8 +58,8 @@ Item {
         id: control
         x: root.wide ? 0 : root.width - 48 - width
         y: root.wide ? head.y + head.height + Theme.spacing.x2 : (parent.height - height) / 2
-        width: root.wide ? root.width : root.entry.type === "int" || root.entry.type === "string" ? 270 : implicitWidth
-        sourceComponent: ({ bool: boolControl, int: intControl, string: stringControl, strings: listControl })[root.entry.type]
+        width: root.wide ? root.width : root.entry.type === "int" || (root.entry.type === "string" && !root.row.choices) ? 270 : implicitWidth
+        sourceComponent: root.row.choices ? screenControl : ({ bool: boolControl, int: intControl, string: stringControl, strings: listControl })[root.entry.type]
             ?? (root.wide ? choiceControl : segmentControl)
     }
 
@@ -84,7 +85,7 @@ Item {
             label: root.row.title
             step: Math.max(stride / (high - low), 0.01)
             value: (root.value - low) / (high - low)
-            valueText: root.value / (root.row.scale ?? 1) + (root.row.unit ? " " + root.row.unit : "")
+            valueText: root.value === 0 && root.row.zero ? root.row.zero : root.value / (root.row.scale ?? 1) + (root.row.unit ? " " + root.row.unit : "")
             onMoved: v => Config.set(root.key, Math.max(low, Math.min(high, low + Math.round(v * (high - low) / stride) * stride)))
         }
     }
@@ -95,6 +96,17 @@ Item {
         SegmentedButton {
             label: root.row.title
             options: root.entry.values.map(v => ({ value: v, label: root.label(v) }))
+            current: root.value
+            onSelected: v => Config.set(root.key, v)
+        }
+    }
+
+    Component {
+        id: screenControl
+
+        SegmentedButton {
+            label: root.row.title
+            options: [{ value: "focused", label: "Focused" }].concat(Quickshell.screens.map(s => ({ value: s.name, label: s.name })))
             current: root.value
             onSelected: v => Config.set(root.key, v)
         }

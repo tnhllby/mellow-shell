@@ -95,3 +95,11 @@
   idle actions only, not an explicit suspend or the lid.
 - No settings list of MELLOW's own is needed beyond what end-4 / end4-pC offer; from those,
   only settings for something MELLOW has are taken, and added with the feature.
+
+## Settings taken from end-4 / end4-pC (2026-11-24)
+- Taken: bar elements, battery warnings, volume protection, Control Center sliders and tile
+  columns, Overview columns, pop-up display, wallpaper slideshow, profile picture, OSD.
+- Not taken: a Hyprland page (MELLOW would write Hyprland's configuration), and settings for
+  features MELLOW does not have.
+- Control Center tiles are compact (four columns, two rows) to leave room for notifications.
+- Volume protection is off by default. Media keys are part of `hypr/keybinds.lua`.

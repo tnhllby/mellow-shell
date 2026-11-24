@@ -45,6 +45,15 @@ Singleton {
             ThemeState.setScheme(scheme);
     }
 
+    // Slideshow: changes only what all displays share, without a revert point.
+    function applyShared(path, scheme) {
+        const next = JSON.parse(JSON.stringify(wallpapers));
+        next["*"] = { path, placement: next["*"]?.placement ?? "fill" };
+        store.wallpapers = next;
+        if (scheme)
+            ThemeState.setScheme(scheme);
+    }
+
     function revert() {
         const previous = store.previous;
         if (!previous)

@@ -149,6 +149,12 @@ Singleton {
     }
 
     readonly property QtObject panel: QtObject {
+        readonly property bool apps: root.value("panel.apps")
+        readonly property bool overview: root.value("panel.overview")
+        readonly property bool metrics: root.value("panel.metrics")
+        readonly property bool tray: root.value("panel.tray")
+        readonly property bool batteryPercent: root.value("panel.batteryPercent")
+        readonly property bool unreadCount: root.value("panel.unreadCount")
         readonly property int height: root.value("panel.height")
         readonly property bool workspacePreview: root.value("panel.workspacePreview")
         readonly property int workspacePreviewDelay: root.value("panel.workspacePreviewDelay")
@@ -156,7 +162,29 @@ Singleton {
     }
 
     readonly property QtObject overview: QtObject {
+        readonly property int columns: root.value("overview.columns")
         readonly property int defaultWorkspaces: root.value("overview.defaultWorkspaces")
+    }
+
+    readonly property QtObject profile: QtObject {
+        readonly property string avatar: root.value("profile.avatar")
+    }
+
+    readonly property QtObject battery: QtObject {
+        readonly property int low: root.value("battery.low")
+        readonly property int critical: root.value("battery.critical")
+        readonly property bool fullAlert: root.value("battery.fullAlert")
+    }
+
+    readonly property QtObject audio: QtObject {
+        readonly property bool protection: root.value("audio.protection")
+        readonly property int maxVolume: root.value("audio.maxVolume")
+        readonly property int maxStep: root.value("audio.maxStep")
+    }
+
+    readonly property QtObject osd: QtObject {
+        readonly property bool enabled: root.value("osd.enabled")
+        readonly property int timeout: root.value("osd.timeout")
     }
 
     readonly property QtObject island: QtObject {
@@ -167,6 +195,7 @@ Singleton {
     }
 
     readonly property QtObject wallpaper: QtObject {
+        readonly property int slideshowMinutes: root.value("wallpaper.slideshowMinutes")
         readonly property bool draw: root.value("wallpaper.draw")
         readonly property var folders: root.value("wallpaper.folders")
         readonly property string schemeType: root.value("wallpaper.schemeType")
@@ -189,10 +218,14 @@ Singleton {
     }
 
     readonly property QtObject controlCenter: QtObject {
+        readonly property int tileColumns: root.value("controlCenter.tileColumns")
+        readonly property bool brightnessSlider: root.value("controlCenter.brightnessSlider")
+        readonly property bool volumeSlider: root.value("controlCenter.volumeSlider")
         readonly property int width: root.value("controlCenter.width")
     }
 
     readonly property QtObject notifications: QtObject {
+        readonly property string monitor: root.value("notifications.monitor")
         readonly property int maxKept: root.value("notifications.maxKept")
         readonly property bool popups: root.value("notifications.popups")
         readonly property int popupTimeout: root.value("notifications.popupTimeout")

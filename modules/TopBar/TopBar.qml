@@ -170,6 +170,7 @@ PanelWindow {
             id: launcherButton
             icon: "apps"
             label: "Apps"
+            visible: Config.panel.apps
             toggled: ShellState.launcherMonitor === root.screen?.name
             onClicked: ShellState.toggleLauncher(root.screen.name)
         }
@@ -183,6 +184,7 @@ PanelWindow {
             id: overviewButton
             icon: "grid_view"
             label: "Overview"
+            visible: Config.panel.overview
             toggled: ShellState.overviewMonitor === root.screen?.name
             onClicked: ShellState.toggleOverview(root.screen.name)
         }
@@ -194,7 +196,7 @@ PanelWindow {
             height: Theme.barPill.height
             radius: Theme.shape.pill
             color: Theme.glass(Theme.color.surfaceContainerHigh)
-            visible: MediaService.mediaMode && SystemStatsService.cpu !== null && leftZone.x + x + width + Theme.spacing.x3 < root.islandLeft
+            visible: Config.panel.metrics && MediaService.mediaMode && SystemStatsService.cpu !== null && leftZone.x + x + width + Theme.spacing.x3 < root.islandLeft
 
             AmbientCompact {
                 id: metrics
@@ -211,7 +213,7 @@ PanelWindow {
         anchors.verticalCenter: bar.verticalCenter
         window: root
         // Only as many as fit between the Island and the status pill.
-        maxItems: Math.max(0, Math.min(6, Math.floor((status.x - (root.width - root.islandLeft) - 4 * Theme.spacing.x3) / Theme.barPill.inner)))
+        maxItems: !Config.panel.tray ? 0 : Math.max(0, Math.min(6, Math.floor((status.x - (root.width - root.islandLeft) - 4 * Theme.spacing.x3) / Theme.barPill.inner)))
     }
 
     StatusArea {
