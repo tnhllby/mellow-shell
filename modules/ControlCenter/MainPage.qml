@@ -105,7 +105,8 @@ FocusScope {
             readonly property int tileCount: 3 + [NetworkService.available, BluetoothService.available, AudioService.sourceAvailable, PowerService.profilesAvailable].filter(v => v).length
 
             width: parent.width
-            columns: 2
+            columns: 4
+            uniformCellWidths: true
             columnSpacing: Theme.spacing.x2
             rowSpacing: Theme.spacing.x2
 
@@ -115,6 +116,7 @@ FocusScope {
                 icon: NetworkService.icon
                 title: "Internet"
                 subtitle: NetworkService.label
+                label: NetworkService.connected ? NetworkService.label : title
                 active: NetworkService.connected || NetworkService.wifiEnabled
                 hasDetails: NetworkService.wifiAvailable
                 onActivated: NetworkService.wifiAvailable ? NetworkService.setWifiEnabled(!NetworkService.wifiEnabled) : root.pageRequested("wifi")
@@ -149,6 +151,7 @@ FocusScope {
                 icon: PowerService.profileIcon(PowerService.profile)
                 title: "Power mode"
                 subtitle: PowerService.profileName(PowerService.profile)
+                label: subtitle
                 active: !PowerService.balanced
                 onActivated: PowerService.cycleProfile()
             }
@@ -167,6 +170,7 @@ FocusScope {
                 enabled: NotificationService.active
                 icon: NotificationService.doNotDisturb ? "notifications_off" : "notifications"
                 title: "Do Not Disturb"
+                label: "Silent"
                 subtitle: !NotificationService.active ? "Another program notifies" : NotificationService.doNotDisturb ? "On" : "Off"
                 active: enabled && NotificationService.doNotDisturb
                 onActivated: NotificationService.toggleDoNotDisturb()
@@ -181,10 +185,10 @@ FocusScope {
                 onActivated: KeepAwakeService.toggle()
             }
 
-            // Wallpaper Studio; spans the row when no tile is left beside it.
+            // Wallpaper Studio; fills the rest of its row.
             QuickTile {
                 Layout.fillWidth: true
-                Layout.columnSpan: grid.tileCount % 2 === 0 ? 2 : 1
+                Layout.columnSpan: 4 - grid.tileCount % 4
                 icon: "palette"
                 title: "Wallpaper"
                 subtitle: "Style and colors"

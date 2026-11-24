@@ -1,15 +1,18 @@
 import QtQuick
 import qs.core
 
-// Pixel-style Quick Settings tile: icon, title and status. Clicking (or
-// Return/Space) runs the main action; tiles with details show a chevron that
-// opens them (also Right arrow).
+// Compact Quick Settings tile: icon above a short label (the status where it
+// says more than the name). Clicking (or Return/Space) runs the main action;
+// on tiles with details the label row has a chevron and opens them (also
+// right click or the Right arrow).
 Rectangle {
     id: root
 
     property string icon
     property string title
     property string subtitle
+    // Shown under the icon.
+    property string label: title
     property bool active: false
     property bool hasDetails: false
 
@@ -18,8 +21,8 @@ Rectangle {
 
     readonly property color contentColor: active ? Theme.color.contentPrimaryContainer : Theme.color.contentSurface
 
-    implicitHeight: 64
-    radius: active ? Theme.shape.lg : Theme.shape.xl
+    implicitHeight: 72
+    radius: active ? Theme.shape.md : Theme.shape.lg
     color: active ? Theme.color.primaryContainer : Theme.color.surfaceContainerHighest
 
     activeFocusOnTab: enabled
@@ -53,71 +56,64 @@ Rectangle {
         id: main
         anchors.fill: parent
         hoverEnabled: true
+        acceptedButtons: root.hasDetails ? Qt.LeftButton | Qt.RightButton : Qt.LeftButton
         cursorShape: Qt.PointingHandCursor
-        onClicked: root.activated()
+        onClicked: event => event.button === Qt.RightButton ? root.detailsRequested() : root.activated()
     }
 
     IconBadge {
-        id: badge
-        x: Theme.spacing.x3
-        anchors.verticalCenter: parent.verticalCenter
+        anchors.horizontalCenter: parent.horizontalCenter
+        y: Theme.spacing.x2
+        implicitWidth: 44
+        implicitHeight: 32
         icon: root.icon
         active: root.active
         color: root.active ? Theme.color.primary : Theme.color.surfaceContainerHigh
         iconColor: root.active ? Theme.color.contentPrimary : Theme.color.contentSurfaceVariant
     }
 
-    Column {
-        anchors.left: badge.right
-        anchors.leftMargin: Theme.spacing.x3
-        anchors.right: chevron.visible ? chevron.left : parent.right
-        anchors.rightMargin: Theme.spacing.x2
-        anchors.verticalCenter: parent.verticalCenter
-
-        MText {
-            width: parent.width
-            role: Typography.labelLarge
-            color: root.contentColor
-            text: root.title
-        }
-
-        MText {
-            width: parent.width
-            role: Typography.labelMedium
-            color: root.contentColor
-            opacity: 0.8
-            text: root.subtitle
-            visible: text !== ""
-        }
-    }
-
     Rectangle {
-        id: chevron
-        anchors.right: parent.right
-        anchors.rightMargin: Theme.spacing.x2
-        anchors.verticalCenter: parent.verticalCenter
-        width: 28
-        height: 40
+        id: details
+        anchors.horizontalCenter: parent.horizontalCenter
+        y: 42
+        width: parent.width - 2 * Theme.spacing.x1
+        height: 26
         radius: Theme.shape.sm
         color: "transparent"
-        visible: root.hasDetails
 
         StateLayer {
             color: root.contentColor
-            hovered: chevronMouse.containsMouse
-            pressed: chevronMouse.pressed
+            hovered: detailsMouse.containsMouse
+            pressed: detailsMouse.pressed
         }
 
-        MaterialIcon {
+        Row {
             anchors.centerIn: parent
-            icon: "chevron_right"
-            size: Theme.icon.control
-            color: root.contentColor
+
+            MText {
+                id: name
+                width: Math.min(implicitWidth, details.width - (chevron.visible ? chevron.width : 0) - Theme.spacing.x1)
+                anchors.verticalCenter: parent.verticalCenter
+                role: Typography.labelMedium
+                color: root.contentColor
+                textFormat: Text.PlainText
+                text: root.label
+            }
+
+            MaterialIcon {
+                id: chevron
+                anchors.verticalCenter: parent.verticalCenter
+                icon: "chevron_right"
+                size: Theme.icon.inline
+                color: root.contentColor
+                visible: root.hasDetails
+            }
         }
 
         MouseArea {
-            id: chevronMouse
+            id: detailsMouse
             anchors.fill: parent
+            enabled: root.hasDetails
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
             onClicked: root.detailsRequested()
