@@ -82,7 +82,7 @@ Rectangle {
         anchors.margins: Theme.spacing.x1
         implicitWidth: 32
         implicitHeight: 32
-        iconSize: 18
+        iconSize: Theme.icon.inline
         icon: "close"
         label: "Dismiss"
         // Delete does the same; keeps Tab moving from card to card.

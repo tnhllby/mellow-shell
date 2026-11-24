@@ -29,7 +29,7 @@ Rectangle {
         x: Theme.spacing.x3
         anchors.verticalCenter: parent.verticalCenter
         icon: root.icon
-        size: 22
+        size: Theme.icon.control
         color: Theme.color.contentSurfaceVariant
         visible: root.icon !== ""
     }

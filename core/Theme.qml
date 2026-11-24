@@ -86,6 +86,13 @@ Singleton {
         readonly property int pill: 999
     }
 
+    // Icon sizes: beside text, in a control, as the main thing.
+    readonly property QtObject icon: QtObject {
+        readonly property int inline: 18
+        readonly property int control: 22
+        readonly property int hero: 28
+    }
+
     // 4 px base unit.
     readonly property QtObject spacing: QtObject {
         readonly property int x1: 4

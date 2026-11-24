@@ -15,9 +15,9 @@ keyboard use, fractional scaling, Wi-Fi password form. Counts are text matches.
 
 | # | Finding | Evidence | Severity |
 |---|---|---|---|
-| A1 | Floating cards have no shared shape rule | Launcher xl + organic top-left; Control Center xl + md top-right; Dock lg + organic top-right; Island two organic corners; pop-ups and preview mostly lg; Studio plain xl | High |
+| A1 | Floating cards have no shared shape rule | Launcher xl + organic top-left; Control Center xl + md top-right; Dock lg + organic top-right; Island two organic corners; pop-ups and preview mostly lg; Studio xl + organic top-left | High |
 | A2 | Same-level cards use different fills and edges | Control Center, Launcher, preview: `surfaceContainer`; Dock, pop-ups, Island: `surfaceContainerHigh`. Edge: 2 px band everywhere except the Launcher's 1 px outline (chosen by the user) | Medium |
-| A3 | Wallpaper Studio looks like a plain dialog | No organic corner or edge band, small labels in an empty right column, gallery row cut at the bottom | High |
+| A3 | Wallpaper Studio looks like a plain dialog | No edge band, small labels in an empty right column, gallery row cut at the bottom | High |
 | A4 | Motion has durations but no grammar | 22 `{ duration }` animations in 17 files set no easing (linear); Launcher slides 220 ms with fade, Control Center 320 ms without; Control Center uses the decelerate curve for closing too | High |
 | A5 | Colour hierarchy is narrow | `contentSurfaceVariant` 42 uses, `tertiary` 1, `primaryContainer` 2: most surfaces read as grey plus one accent | Medium |
 | A6 | Type hierarchy is flat | `labelLarge` 17 uses, `headlineMedium` 1, display roles 0; no emphasised weight | Medium |

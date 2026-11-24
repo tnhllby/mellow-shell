@@ -132,7 +132,7 @@ Scope {
 
                 Behavior on x {
                     NumberAnimation {
-                        duration: Motion.module
+                        duration: root.shown ? Motion.module : Motion.exit
                         easing.type: Easing.BezierSpline
                         easing.bezierCurve: root.shown ? Motion.emphasizedDecelerate : Motion.emphasizedAccelerate
                     }

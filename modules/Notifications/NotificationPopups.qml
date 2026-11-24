@@ -90,6 +90,7 @@ PanelWindow {
                 now: clock.date
                 activeFocusOnTab: false
                 color: Theme.glass(Theme.color.surfaceContainerHigh)
+                topRightRadius: Theme.shape.md
                 border.width: Theme.cardEdgeWidth
                 border.color: Theme.cardEdge(color)
 
@@ -104,7 +105,7 @@ PanelWindow {
 
                 Behavior on x {
                     NumberAnimation {
-                        duration: Motion.module
+                        duration: card.leaving ? Motion.exit : Motion.module
                         easing.type: Easing.BezierSpline
                         easing.bezierCurve: card.leaving ? Motion.emphasizedAccelerate : Motion.emphasizedDecelerate
                     }

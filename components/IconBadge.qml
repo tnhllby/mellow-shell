@@ -8,7 +8,7 @@ Rectangle {
     id: root
 
     property string icon
-    property int iconSize: 22
+    property int iconSize: Theme.icon.control
     property bool active: false
     property color iconColor: Theme.color.contentSurfaceVariant
 
@@ -19,7 +19,7 @@ Rectangle {
 
     Behavior on color {
         enabled: !Theme.transitioning
-        ColorAnimation { duration: Motion.hover }
+        MotionColor { duration: Motion.hover }
     }
 
     Rectangle {

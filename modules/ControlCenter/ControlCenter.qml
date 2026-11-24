@@ -79,7 +79,9 @@ PanelWindow {
         width: Config.controlCenter.width
         height: root.height - 2 * Theme.spacing.x2
         radius: Theme.shape.xl
+        // Anchored at the trigger; the organic corner is diagonally opposite.
         topRightRadius: Theme.shape.md
+        bottomLeftRadius: Theme.shape.organic
         color: Theme.glass(Theme.color.surfaceContainer)
         border.width: Theme.cardEdgeWidth
         border.color: Theme.cardEdge(color)
@@ -89,9 +91,9 @@ PanelWindow {
 
         Behavior on x {
             NumberAnimation {
-                duration: Motion.module
+                duration: root.open ? Motion.module : Motion.exit
                 easing.type: Easing.BezierSpline
-                easing.bezierCurve: Motion.emphasizedDecelerate
+                easing.bezierCurve: root.open ? Motion.emphasizedDecelerate : Motion.emphasizedAccelerate
             }
         }
 

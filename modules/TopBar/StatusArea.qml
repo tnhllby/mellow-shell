@@ -59,7 +59,7 @@ Surface {
             Accessible.name: "Control Center"
 
             Behavior on radius {
-                NumberAnimation { duration: Motion.card }
+                MotionNumber { duration: Motion.card }
             }
 
             StateLayer {
@@ -75,28 +75,28 @@ Surface {
 
                 MaterialIcon {
                     icon: NetworkService.icon
-                    size: 18
+                    size: Theme.icon.inline
                     color: trigger.contentColor
                     visible: NetworkService.available
                 }
 
                 MaterialIcon {
                     icon: "bluetooth_connected"
-                    size: 18
+                    size: Theme.icon.inline
                     color: trigger.contentColor
                     visible: BluetoothService.connectedDevices.length > 0
                 }
 
                 MaterialIcon {
                     icon: "volume_off"
-                    size: 18
+                    size: Theme.icon.inline
                     color: trigger.contentColor
                     visible: AudioService.sinkAvailable && AudioService.muted
                 }
 
                 MaterialIcon {
                     icon: PowerService.batteryIcon
-                    size: 18
+                    size: Theme.icon.inline
                     color: PowerService.percent <= 15 && !PowerService.charging ? Theme.color.error : trigger.contentColor
                     visible: PowerService.hasBattery
                 }
@@ -104,7 +104,7 @@ Surface {
                 // Shown when no indicator applies, so the trigger never looks empty.
                 MaterialIcon {
                     icon: "tune"
-                    size: 18
+                    size: Theme.icon.inline
                     color: trigger.contentColor
                     visible: !NetworkService.available && !PowerService.hasBattery
                 }

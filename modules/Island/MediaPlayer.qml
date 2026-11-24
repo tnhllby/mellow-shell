@@ -154,7 +154,7 @@ FocusScope {
                 anchors.verticalCenter: parent.verticalCenter
                 icon: "skip_previous"
                 label: "Previous track"
-                iconSize: 28
+                iconSize: Theme.icon.hero
                 implicitWidth: 48
                 implicitHeight: 48
                 enabled: MediaService.activePlayer?.canGoPrevious ?? false
@@ -168,7 +168,7 @@ FocusScope {
                 label: MediaService.playing ? "Pause" : "Play"
                 variant: "filled"
                 toggled: true
-                iconSize: 32
+                iconSize: Theme.icon.hero
                 implicitWidth: 72
                 implicitHeight: 56
                 // Expressive shape morph: rounder while paused, squarer while playing.
@@ -181,7 +181,7 @@ FocusScope {
                 anchors.verticalCenter: parent.verticalCenter
                 icon: "skip_next"
                 label: "Next track"
-                iconSize: 28
+                iconSize: Theme.icon.hero
                 implicitWidth: 48
                 implicitHeight: 48
                 enabled: MediaService.activePlayer?.canGoNext ?? false

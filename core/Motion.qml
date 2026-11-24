@@ -16,6 +16,8 @@ Singleton {
     readonly property int press: d(100)
     readonly property int card: d(220)
     readonly property int module: d(320)
+    // Leaving is quicker than arriving.
+    readonly property int exit: d(180)
     readonly property int workspace: d(360)
     readonly property int theme: d(450)
 

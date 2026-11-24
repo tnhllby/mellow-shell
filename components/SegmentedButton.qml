@@ -45,7 +45,7 @@ Row {
 
             Behavior on color {
                 enabled: !Theme.transitioning
-                ColorAnimation { duration: Motion.hover }
+                MotionColor { duration: Motion.hover }
             }
 
             StateLayer {

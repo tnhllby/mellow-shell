@@ -10,7 +10,7 @@ Rectangle {
     property string label: ""
     property string variant: "standard"
     property bool toggled: false
-    property int iconSize: 22
+    property int iconSize: Theme.icon.control
 
     signal clicked
 

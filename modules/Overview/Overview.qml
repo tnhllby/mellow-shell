@@ -3,6 +3,7 @@ import Quickshell
 import Quickshell.Wayland
 import Quickshell.Hyprland
 import qs.core
+import qs.components
 import qs.integrations.hyprland
 
 // Workspace / window Overview (Meta+Tab) for one monitor. The surface stays
@@ -77,7 +78,7 @@ PanelWindow {
         visible: opacity > 0
 
         Behavior on opacity {
-            NumberAnimation { duration: Motion.workspace }
+            MotionNumber { duration: Motion.workspace }
         }
 
         MouseArea {

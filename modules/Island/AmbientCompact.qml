@@ -22,7 +22,7 @@ Row {
         MaterialIcon {
             anchors.verticalCenter: parent.verticalCenter
             icon: parent.icon
-            size: 18
+            size: Theme.icon.inline
             color: Theme.color.tertiary
         }
 
@@ -37,7 +37,7 @@ Row {
     MaterialIcon {
         anchors.verticalCenter: parent.verticalCenter
         icon: "music_note"
-        size: 18
+        size: Theme.icon.inline
         color: Theme.color.primary
         visible: MediaService.activePlayer !== null
         Accessible.name: "Media paused — click to open the player"

@@ -81,7 +81,7 @@ Column {
         MaterialIcon {
             anchors.horizontalCenter: parent.horizontalCenter
             icon: NotificationService.active ? "notifications" : "notifications_off"
-            size: 28
+            size: Theme.icon.hero
             color: Theme.color.contentSurfaceVariant
         }
 

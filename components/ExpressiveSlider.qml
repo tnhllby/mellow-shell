@@ -42,7 +42,7 @@ Item {
 
             Behavior on width {
                 enabled: !drag.pressed
-                NumberAnimation { duration: Motion.hover }
+                MotionNumber { duration: Motion.hover }
             }
         }
 
@@ -50,7 +50,7 @@ Item {
             x: (root.height - width) / 2
             anchors.verticalCenter: parent.verticalCenter
             icon: root.icon
-            size: 22
+            size: Theme.icon.control
             filled: true
             color: Theme.color.contentPrimary
 

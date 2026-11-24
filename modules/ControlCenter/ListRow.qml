@@ -43,7 +43,7 @@ Rectangle {
         implicitHeight: 36
         radius: Theme.shape.sm
         icon: root.icon
-        iconSize: 20
+        iconSize: Theme.icon.inline
         active: root.highlighted
         color: root.highlighted ? Theme.color.secondary : Theme.color.surfaceContainerHigh
         iconColor: root.highlighted ? Theme.color.contentSecondary : Theme.color.contentSurfaceVariant
@@ -78,7 +78,7 @@ Rectangle {
         anchors.rightMargin: Theme.spacing.x3
         anchors.verticalCenter: parent.verticalCenter
         icon: root.trailingIcon
-        size: 18
+        size: Theme.icon.inline
         color: Theme.color.contentSurfaceVariant
         visible: root.trailingIcon !== ""
     }

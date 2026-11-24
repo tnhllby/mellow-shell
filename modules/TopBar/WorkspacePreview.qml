@@ -97,7 +97,7 @@ PanelWindow {
         onVisibleChanged: if (!visible) root.workspace = null
 
         Behavior on opacity {
-            NumberAnimation { duration: Motion.card }
+            MotionNumber { duration: Motion.card }
         }
         Behavior on scale {
             NumberAnimation {

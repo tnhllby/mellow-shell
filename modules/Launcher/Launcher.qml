@@ -81,13 +81,13 @@ PanelWindow {
 
         Behavior on y {
             NumberAnimation {
-                duration: Motion.card
+                duration: root.open ? Motion.module : Motion.exit
                 easing.type: Easing.BezierSpline
                 easing.bezierCurve: root.open ? Motion.emphasizedDecelerate : Motion.emphasizedAccelerate
             }
         }
         Behavior on opacity {
-            NumberAnimation { duration: Motion.hover }
+            MotionNumber { duration: Motion.hover }
         }
 
         FocusScope {
@@ -126,7 +126,9 @@ PanelWindow {
 
                 anchors.top: search.bottom
                 anchors.topMargin: Theme.spacing.x4
-                anchors.bottom: parent.bottom
+                // Whole rows only, so labels are never cut.
+                height: Math.max(1, Math.floor((parent.height - y) / cellHeight)) * cellHeight
+                snapMode: GridView.SnapToRow
                 width: parent.width
                 clip: true
                 cellWidth: width / columns
@@ -156,7 +158,7 @@ PanelWindow {
                         color: cell.selected ? Theme.color.secondaryContainer : "transparent"
 
                         Behavior on radius {
-                            NumberAnimation { duration: Motion.hover }
+                            MotionNumber { duration: Motion.hover }
                         }
 
                         StateLayer {

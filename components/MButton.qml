@@ -45,7 +45,7 @@ Rectangle {
         MaterialIcon {
             anchors.verticalCenter: parent.verticalCenter
             icon: root.icon
-            size: 18
+            size: Theme.icon.inline
             color: root.contentColor
             visible: root.icon !== ""
         }

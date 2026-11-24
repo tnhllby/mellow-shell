@@ -60,7 +60,7 @@ Singleton {
 
     // Scheme from an image's dominant colour. callback(scheme | null, error)
     function schemeFromImage(path, callback) {
-        request("image:" + path, ["image", path], "wallpaper", callback);
+        request(Config.wallpaper.schemeType + ":image:" + path, ["image", path], "wallpaper", callback);
     }
 
     // Scheme from a seed colour ("#rrggbb"). callback(scheme | null, error)
@@ -69,7 +69,7 @@ Singleton {
             callback(null, "Invalid colour");
             return;
         }
-        request("seed:" + hex.toLowerCase(), ["color", "hex", hex], "seed", callback);
+        request(Config.wallpaper.schemeType + ":seed:" + hex.toLowerCase(), ["color", "hex", hex], "seed", callback);
     }
 
     function request(key, args, source, callback) {

@@ -72,7 +72,7 @@ FocusScope {
                     border.color: Theme.color.primary
 
                     Behavior on radius {
-                        NumberAnimation { duration: Motion.card }
+                        MotionNumber { duration: Motion.card }
                     }
 
                     ClippingRectangle {
@@ -91,12 +91,20 @@ FocusScope {
                         }
                     }
 
+                    StateLayer {
+                        radius: parent.radius
+                        hovered: cellMouse.containsMouse
+                        pressed: cellMouse.pressed
+                    }
+
                     FocusRing {
                         shown: cell.GridView.isCurrentItem && grid.activeFocus
                     }
 
                     MouseArea {
+                        id: cellMouse
                         anchors.fill: parent
+                        hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
                         onClicked: {
                             grid.currentIndex = cell.index;

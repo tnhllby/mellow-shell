@@ -97,7 +97,7 @@ PanelWindow {
             visible: opacity > 0
 
             Behavior on opacity {
-                NumberAnimation { duration: Motion.card }
+                MotionNumber { duration: Motion.card }
             }
         }
 
@@ -108,7 +108,7 @@ PanelWindow {
             visible: opacity > 0
 
             Behavior on opacity {
-                NumberAnimation { duration: Motion.card }
+                MotionNumber { duration: Motion.card }
             }
         }
 
@@ -122,7 +122,7 @@ PanelWindow {
             onCloseRequested: root.close()
 
             Behavior on opacity {
-                NumberAnimation { duration: Motion.card }
+                MotionNumber { duration: Motion.card }
             }
         }
     }

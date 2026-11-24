@@ -26,12 +26,14 @@ Item {
         anchors.fill: parent
         radius: Theme.shape.lg
         topLeftRadius: root.active ? Theme.shape.organic : Theme.shape.lg
-        color: root.isNew ? Qt.alpha(Theme.color.surfaceContainerLow, 0.85) : Theme.color.surfaceContainerLow
+        // Empty slots recede, so workspaces with windows lead.
+        color: root.isNew ? Qt.alpha(Theme.color.surfaceContainerLow, 0.85)
+            : root.workspace && windowsLayer.children.length > 1 ? Theme.color.surfaceContainerLow : Qt.alpha(Theme.color.surfaceDim, 0.6)
         border.width: root.dropTarget ? 3 : root.active ? 2 : root.isNew ? 2 : 1
         border.color: root.dropTarget || root.active ? Theme.color.primary : Theme.color.outlineVariant
 
         Behavior on border.width {
-            NumberAnimation { duration: Motion.hover }
+            MotionNumber { duration: Motion.hover }
         }
 
         MouseArea {
@@ -48,7 +50,7 @@ Item {
             MaterialIcon {
                 anchors.horizontalCenter: parent.horizontalCenter
                 icon: "add"
-                size: 28
+                size: Theme.icon.hero
                 color: Theme.color.contentSurfaceVariant
             }
 

@@ -31,10 +31,10 @@ Rectangle {
 
     Behavior on color {
         enabled: !Theme.transitioning
-        ColorAnimation { duration: Motion.hover }
+        MotionColor { duration: Motion.hover }
     }
     Behavior on radius {
-        NumberAnimation { duration: Motion.card }
+        MotionNumber { duration: Motion.card }
     }
 
     StateLayer {
@@ -110,7 +110,7 @@ Rectangle {
         MaterialIcon {
             anchors.centerIn: parent
             icon: "chevron_right"
-            size: 20
+            size: Theme.icon.control
             color: root.contentColor
         }
 

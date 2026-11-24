@@ -89,7 +89,7 @@ Rectangle {
         scale: mouse.pressed ? 0.9 : 1
 
         Behavior on scale {
-            NumberAnimation { duration: Motion.press }
+            MotionNumber { duration: Motion.press }
         }
     }
 

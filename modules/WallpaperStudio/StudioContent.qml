@@ -281,7 +281,7 @@ FocusScope {
         Keys.onSpacePressed: clicked()
 
         Behavior on radius {
-            NumberAnimation { duration: Motion.hover }
+            MotionNumber { duration: Motion.hover }
         }
 
         FocusRing {
@@ -297,7 +297,7 @@ FocusScope {
             MaterialIcon {
                 anchors.verticalCenter: parent.verticalCenter
                 icon: chip.icon
-                size: 16
+                size: Theme.icon.inline
                 color: chip.selected ? Theme.color.contentSecondaryContainer : Theme.color.contentSurface
             }
 

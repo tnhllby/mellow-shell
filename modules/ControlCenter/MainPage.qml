@@ -42,7 +42,7 @@ FocusScope {
                 MaterialIcon {
                     anchors.verticalCenter: parent.verticalCenter
                     icon: PowerService.batteryIcon
-                    size: 20
+                    size: Theme.icon.control
                     color: PowerService.percent <= 15 && !PowerService.charging ? Theme.color.error : Theme.color.contentSurfaceVariant
                 }
 

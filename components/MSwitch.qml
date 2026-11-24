@@ -25,7 +25,7 @@ Rectangle {
 
     Behavior on color {
         enabled: !Theme.transitioning
-        ColorAnimation { duration: Motion.hover }
+        MotionColor { duration: Motion.hover }
     }
 
     Rectangle {
@@ -45,7 +45,7 @@ Rectangle {
             }
         }
         Behavior on size {
-            NumberAnimation { duration: Motion.card }
+            MotionNumber { duration: Motion.card }
         }
     }
 
@@ -53,8 +53,16 @@ Rectangle {
         shown: root.activeFocus
     }
 
+    StateLayer {
+        hovered: mouse.containsMouse
+        pressed: mouse.pressed
+        focused: root.activeFocus
+    }
+
     MouseArea {
+        id: mouse
         anchors.fill: parent
+        hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
         onClicked: root.toggled()
     }

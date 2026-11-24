@@ -41,7 +41,7 @@ Item {
     Drag.source: root
 
     Behavior on scale {
-        NumberAnimation { duration: Motion.hover }
+        MotionNumber { duration: Motion.hover }
     }
 
     ClippingRectangle {
@@ -147,14 +147,14 @@ Item {
         anchors.margins: Theme.spacing.x1
         width: 24
         height: 24
-        radius: 12
+        radius: Theme.shape.sm
         color: closeMouse.containsMouse ? Theme.color.error : Theme.color.surfaceContainerHighest
         visible: (root.hovered || root.selected) && !root.dragActive && root.width >= 56
 
         MaterialIcon {
             anchors.centerIn: parent
             icon: "close"
-            size: 16
+            size: Theme.icon.inline
             color: closeMouse.containsMouse ? Theme.color.contentError : Theme.color.contentSurface
         }
 
