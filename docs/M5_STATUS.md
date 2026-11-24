@@ -112,7 +112,7 @@
 - Seen once: after adding a component file, a live reload failed ("X is not a type");
   the next reload worked. Cause unverified.
 
-## Control Center panel (2026-11-24)
+## Control Center panel (2026-11-24; pop-ups followed, see M6_STATUS.md)
 - Full-height panel (420 px, `Config.controlCenter.width`) sliding in from the right;
   all previous controls (Wallpaper & style is now a tile), media card, notification
   center (actions, dismiss, clear all, urgent marking, scrolling).

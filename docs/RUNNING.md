@@ -203,3 +203,11 @@ MELLOW receives notifications only while no other program (dunst, mako, another 
 - [ ] Tab reaches every control, and the list scrolls to the focused card.
 - [ ] Toggling Dark theme cross-fades the whole shell; instant with reduced motion.
 - [ ] Unplug a monitor with the Control Center open on it: it is closed after replugging.
+
+## Configuration
+Optional `~/.config/mellow/config.json`, applied when saved; settings and limits are listed
+in `core/ConfigSchema.qml`. Mistakes are logged (`qs log -c mellow`) and ignored.
+```json
+{ "controlCenter": { "width": 460 }, "notifications": { "popupTimeout": 4000 } }
+```
+- [ ] Pop-ups: hovering keeps one open, X dismisses it, action buttons and clicking work.

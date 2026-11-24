@@ -8,6 +8,7 @@ import qs.modules.ControlCenter
 import qs.modules.Launcher
 import qs.modules.Overview
 import qs.modules.Background
+import qs.modules.Notifications
 import qs.modules.WallpaperStudio
 import qs.modules
 import qs.core
@@ -77,6 +78,10 @@ ShellRoot {
             ControlCenter {
                 screen: perScreen.modelData
                 panel: topBar
+            }
+
+            NotificationPopups {
+                screen: perScreen.modelData
             }
 
             Launcher {

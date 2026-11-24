@@ -26,13 +26,13 @@ Region {
     function corner(r) {
         if (!on)
             return 0;
-        return Math.max(0, Math.min(r, card.width / 2, card.height / 2) - inset);
+        return Math.max(0, Math.min(r, (card?.width ?? 0) / 2, (card?.height ?? 0) / 2) - inset);
     }
 
     x: origin.x + inset
     y: origin.y + inset
-    width: on ? Math.max(0, card.width - 2 * inset) : 0
-    height: on ? Math.max(0, card.height - 2 * inset) : 0
+    width: on ? Math.max(0, (card?.width ?? 0) - 2 * inset) : 0
+    height: on ? Math.max(0, (card?.height ?? 0) - 2 * inset) : 0
     radius: corner(card?.radius ?? 0)
     topLeftRadius: corner(card?.topLeftRadius ?? 0)
     topRightRadius: corner(card?.topRightRadius ?? 0)

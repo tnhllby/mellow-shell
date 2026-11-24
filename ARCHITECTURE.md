@@ -121,7 +121,16 @@ Modules import each other as `qs.<dir>` (Quickshell resolves these from the shel
   session can own `org.freedesktop.Notifications`; the owner is queried (busctl) at
   startup and when the panel opens, and the list says so when it is another program.
   Text is plain, remote images are never loaded, at most `Config.notifications.maxKept`
-  are kept, transient ones are not. There are no popups.
+  are kept, transient ones are not.
+- `modules/Notifications/NotificationPopups`: per-screen, always-mapped, never focused;
+  at most three cards on the monitor focused when the first appeared, none while a
+  Control Center is open. Critical ones stay until dismissed; hovering pauses the rest.
+
+### Configuration (M6)
+- `ConfigSchema` holds every setting's default and limits; `Config` overlays the valid
+  values of `$XDG_CONFIG_HOME/mellow/config.json` and watches it. Wrong values fall back
+  to defaults, broken files keep the last good settings (`Config.problems`). MELLOW does
+  not write this file yet; the settings UI will.
 
 ### Launcher, Dock and Overview (M4)
 - `AppService`: visible desktop entries, ranked search (name, words, generic name,
